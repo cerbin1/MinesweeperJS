@@ -8,39 +8,39 @@
 <body onload="plantBombs()">
 <table>
     <tr>
-        <td onclick="playerMove(this)" id="0">1</td>
-        <td onclick="playerMove(this)" id="1">2</td>
-        <td onclick="playerMove(this)" id="2">3</td>
-        <td onclick="playerMove(this)" id="3">4</td>
-        <td onclick="playerMove(this)" id="4">5</td>
+        <td onclick="playerMove(this)" id="0">0</td>
+        <td onclick="playerMove(this)" id="1">1</td>
+        <td onclick="playerMove(this)" id="2">2</td>
+        <td onclick="playerMove(this)" id="3">3</td>
+        <td onclick="playerMove(this)" id="4">4</td>
     </tr>
     <tr>
-        <td onclick="playerMove(this)" id="5">6</td>
-        <td onclick="playerMove(this)" id="6">7</td>
-        <td onclick="playerMove(this)" id="7">8</td>
-        <td onclick="playerMove(this)" id="8">9</td>
-        <td onclick="playerMove(this)" id="9">10</td>
+        <td onclick="playerMove(this)" id="5">5</td>
+        <td onclick="playerMove(this)" id="6">6</td>
+        <td onclick="playerMove(this)" id="7">7</td>
+        <td onclick="playerMove(this)" id="8">8</td>
+        <td onclick="playerMove(this)" id="9">9</td>
     </tr>
     <tr>
-        <td onclick="playerMove(this)" id="10">11</td>
-        <td onclick="playerMove(this)" id="11">12</td>
-        <td onclick="playerMove(this)" id="12">13</td>
-        <td onclick="playerMove(this)" id="13">14</td>
-        <td onclick="playerMove(this)" id="14">15</td>
+        <td onclick="playerMove(this)" id="10">10</td>
+        <td onclick="playerMove(this)" id="11">11</td>
+        <td onclick="playerMove(this)" id="12">12</td>
+        <td onclick="playerMove(this)" id="13">13</td>
+        <td onclick="playerMove(this)" id="14">14</td>
     </tr>
     <tr>
-        <td onclick="playerMove(this)" id="15">16</td>
-        <td onclick="playerMove(this)" id="16">17</td>
-        <td onclick="playerMove(this)" id="17">18</td>
-        <td onclick="playerMove(this)" id="18">19</td>
-        <td onclick="playerMove(this)" id="19">20</td>
+        <td onclick="playerMove(this)" id="15">15</td>
+        <td onclick="playerMove(this)" id="16">16</td>
+        <td onclick="playerMove(this)" id="17">17</td>
+        <td onclick="playerMove(this)" id="18">18</td>
+        <td onclick="playerMove(this)" id="19">19</td>
     </tr>
     <tr>
-        <td onclick="playerMove(this)" id="20">21</td>
-        <td onclick="playerMove(this)" id="21">22</td>
-        <td onclick="playerMove(this)" id="22">23</td>
-        <td onclick="playerMove(this)" id="23">24</td>
-        <td onclick="playerMove(this)" id="24">25</td>
+        <td onclick="playerMove(this)" id="20">20</td>
+        <td onclick="playerMove(this)" id="21">21</td>
+        <td onclick="playerMove(this)" id="22">22</td>
+        <td onclick="playerMove(this)" id="23">23</td>
+        <td onclick="playerMove(this)" id="24">24</td>
     </tr>
 </table>
 
@@ -50,6 +50,7 @@
     var board = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
     var numberOfBombs = 5;
     var remainingBombs = board.length - numberOfBombs;
+    var numberOfBombsToDisplay;
 
     function plantBombs() {
         for (var i = 0; i < numberOfBombs; i++) {
@@ -57,7 +58,7 @@
                 var randomNumber = Math.floor(Math.random() * board.length);
                 if (!board[randomNumber]) {
                     board[randomNumber] = true;
-                    console.log(randomNumber + 1);
+                    console.log(randomNumber);
                     break;
                 }
             }
@@ -66,18 +67,207 @@
     }
 
     function playerMove(object) {
+        numberOfBombsToDisplay = 0;
         if (board[object.id]) {
             console.log("trafiles na bombe");
             displayAllBombs();
         }
-        else if () {
+        else if (object.id == 0) {
             console.log("Uff, to nie bomba");
-//            document.getElementById(object.id).style.backgroundColor = "green";
-            document.getElementById(object.id).innerHTML
+            if (board[1]) {
+                numberOfBombsToDisplay++;
+            }
+            if (board[5]) {
+                numberOfBombsToDisplay++;
+            }
+            if (board[6]) {
+                numberOfBombsToDisplay++;
+            }
+            document.getElementById(object.id).innerHTML = numberOfBombsToDisplay.toString();
             remainingBombs--;
             displayRemainingBombs();
         }
-        console.log(object.id);
+        else if (object.id == 4) {
+            console.log("Uff, to nie bomba");
+            if (board[3]) {
+                numberOfBombsToDisplay++;
+            }
+            if (board[8]) {
+                numberOfBombsToDisplay++;
+            }
+            if (board[9]) {
+                numberOfBombsToDisplay++;
+            }
+            document.getElementById(object.id).innerHTML = numberOfBombsToDisplay.toString();
+            remainingBombs--;
+            displayRemainingBombs();
+        }
+        else if (object.id == 20) {
+            console.log("Uff, to nie bomba");
+            if (board[15]) {
+                numberOfBombsToDisplay++;
+            }
+            if (board[16]) {
+                numberOfBombsToDisplay++;
+            }
+            if (board[21]) {
+                numberOfBombsToDisplay++;
+            }
+            document.getElementById(object.id).innerHTML = numberOfBombsToDisplay.toString();
+            remainingBombs--;
+            displayRemainingBombs();
+        }
+        else if (object.id == 24) {
+            console.log("Uff, to nie bomba");
+            if (board[18]) {
+                numberOfBombsToDisplay++;
+            }
+            if (board[19]) {
+                numberOfBombsToDisplay++;
+            }
+            if (board[23]) {
+                numberOfBombsToDisplay++;
+            }
+            document.getElementById(object.id).innerHTML = numberOfBombsToDisplay.toString();
+            remainingBombs--;
+            displayRemainingBombs();
+        }
+        else if (object.id == 1 || object.id == 2 || object.id == 3) {
+            upperEdge(object.id);
+        }
+        else if (object.id == 6 || object.id == 7 || object.id == 8 || object.id == 11 || object.id == 12 || object.id == 13 || object.id == 16 || object.id == 17 || object.id == 18) {
+            mid(object.id);
+        }
+        else if ((object.id == 5) || (object.id == 10) || (object.id == 15)) {
+            leftEdge(object.id);
+        }
+        else if (object.id == 9 || object.id == 14 || object.id == 19) {
+            rightEdge(object.id);
+        }
+        else if (object.id == 21 || object.id == 22 || object.id == 23) {
+            lowerEdge(object.id);
+        }
+        else
+            console.log(object.id);
+    }
+
+    function upperEdge(index) {
+        if (board[index - 1]) {
+            numberOfBombsToDisplay++;
+            console.log(numberOfBombsToDisplay);
+        }
+        if (board[index + 1]) {
+            numberOfBombsToDisplay++;
+            console.log(numberOfBombsToDisplay);
+        }
+        if (board[index + 4]) {
+            numberOfBombsToDisplay++;
+            console.log(numberOfBombsToDisplay);
+        }
+        if (board[index + 5]) {
+            numberOfBombsToDisplay++;
+            console.log(numberOfBombsToDisplay);
+        }
+        if (board[index + 6]) {
+            numberOfBombsToDisplay++;
+            console.log(numberOfBombsToDisplay);
+        }
+        document.getElementById(index.toString()).innerHTML = numberOfBombsToDisplay.toString();
+        remainingBombs--;
+        displayRemainingBombs();
+    }
+
+    function mid(index) {
+        if (board[index - 6]) {
+            numberOfBombsToDisplay++;
+        }
+        if (board[index - 5]) {
+            numberOfBombsToDisplay++;
+        }
+        if (board[index - 4]) {
+            numberOfBombsToDisplay++;
+        }
+        if (board[index - 1]) {
+            numberOfBombsToDisplay++;
+        }
+        if (board[index + 1]) {
+            numberOfBombsToDisplay++;
+        }
+        if (board[index + 4]) {
+            numberOfBombsToDisplay++;
+        }
+        if (board[index + 5]) {
+            numberOfBombsToDisplay++;
+        }
+        if (board[index + 6]) {
+            numberOfBombsToDisplay++;
+        }
+        document.getElementById(index.toString()).innerHTML = numberOfBombsToDisplay.toString();
+        remainingBombs--;
+        displayRemainingBombs();
+    }
+
+    function leftEdge(index) {
+        if (board[index - 5]) {
+            numberOfBombsToDisplay++;
+        }
+        if (board[index - 4]) {
+            numberOfBombsToDisplay++;
+        }
+        if (board[index + 1]) {
+            numberOfBombsToDisplay++;
+        }
+        if (board[index + 5]) {
+            numberOfBombsToDisplay++;
+        }
+        if (board[index + 6]) {
+            numberOfBombsToDisplay++;
+        }
+        document.getElementById(index.toString()).innerHTML = numberOfBombsToDisplay.toString();
+        remainingBombs--;
+        displayRemainingBombs();
+    }
+
+    function rightEdge(index) {
+        if (board[index - 5]) {
+            numberOfBombsToDisplay++;
+        }
+        if (board[index - 6]) {
+            numberOfBombsToDisplay++;
+        }
+        if (board[index - 1]) {
+            numberOfBombsToDisplay++;
+        }
+        if (board[index + 4]) {
+            numberOfBombsToDisplay++;
+        }
+        if (board[index + 5]) {
+            numberOfBombsToDisplay++;
+        }
+        document.getElementById(index.toString()).innerHTML = numberOfBombsToDisplay.toString();
+        remainingBombs--;
+        displayRemainingBombs();
+    }
+
+    function lowerEdge(index) {
+        if (board[index - 6]) {
+            numberOfBombsToDisplay++;
+        }
+        if (board[index - 5]) {
+            numberOfBombsToDisplay++;
+        }
+        if (board[index - 4]) {
+            numberOfBombsToDisplay++;
+        }
+        if (board[index - 1]) {
+            numberOfBombsToDisplay++;
+        }
+        if (board[index + 1]) {
+            numberOfBombsToDisplay++;
+        }
+        document.getElementById(index.toString()).innerHTML = numberOfBombsToDisplay.toString();
+        remainingBombs--;
+        displayRemainingBombs();
     }
 
     function displayAllBombs() {
