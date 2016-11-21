@@ -1,0 +1,26 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+table {
+    margin: 20px auto;
+}
+
+td{
+    text-align: center;
+    border: 1px solid black;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+.endLineDiv {
+    clear: both;
+}
+
+.field {
+    float: left;
+    margin: 0 auto;
+}
