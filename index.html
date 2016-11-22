@@ -49,6 +49,8 @@
 <script>
     var board = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
     var isFieldClicked = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+    var emptyFields = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+    var howManyBombsNear = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     var numberOfBombs = 5;
     var remainingBombs = board.length - numberOfBombs;
     var numberOfBombsToDisplay;
@@ -80,12 +82,15 @@
                 console.log("Uff, to nie bomba");
                 if (board[1]) {
                     numberOfBombsToDisplay++;
+                    howManyBombsNear[1]++;
                 }
                 if (board[5]) {
                     numberOfBombsToDisplay++;
+                    howManyBombsNear[5]++;
                 }
                 if (board[6]) {
                     numberOfBombsToDisplay++;
+                    howManyBombsNear[6]++;
                 }
                 displayNumberOfBombsNear(numberOfBombsToDisplay, object.id);
                 remainingBombs--;
@@ -95,12 +100,15 @@
                 console.log("Uff, to nie bomba");
                 if (board[3]) {
                     numberOfBombsToDisplay++;
+                    howManyBombsNear[3]++;
                 }
                 if (board[8]) {
                     numberOfBombsToDisplay++;
+                    howManyBombsNear[8]++;
                 }
                 if (board[9]) {
                     numberOfBombsToDisplay++;
+                    howManyBombsNear[9]++;
                 }
                 displayNumberOfBombsNear(numberOfBombsToDisplay, object.id);
                 remainingBombs--;
@@ -110,12 +118,15 @@
                 console.log("Uff, to nie bomba");
                 if (board[15]) {
                     numberOfBombsToDisplay++;
+                    howManyBombsNear[15]++;
                 }
                 if (board[16]) {
                     numberOfBombsToDisplay++;
+                    howManyBombsNear[16]++;
                 }
                 if (board[21]) {
                     numberOfBombsToDisplay++;
+                    howManyBombsNear[21]++;
                 }
                 displayNumberOfBombsNear(numberOfBombsToDisplay, object.id);
                 remainingBombs--;
@@ -125,12 +136,15 @@
                 console.log("Uff, to nie bomba");
                 if (board[18]) {
                     numberOfBombsToDisplay++;
+                    howManyBombsNear[18]++;
                 }
                 if (board[19]) {
                     numberOfBombsToDisplay++;
+                    howManyBombsNear[19]++;
                 }
                 if (board[23]) {
                     numberOfBombsToDisplay++;
+                    howManyBombsNear[23]++;
                 }
                 displayNumberOfBombsNear(numberOfBombsToDisplay, object.id);
                 remainingBombs--;
@@ -159,22 +173,27 @@
     function upperEdge(index) {
         if (board[parseInt(index) - 1]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[parseInt(index) - 1]++;
             console.log("bomby " + numberOfBombsToDisplay);
         }
         if (board[parseInt(index) + 1]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[parseInt(index) + 1]++;
             console.log("bomby " + numberOfBombsToDisplay);
         }
         if (board[parseInt(index) + 4]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[parseInt(index) + 4]++;
             console.log("bomby " + numberOfBombsToDisplay);
         }
         if (board[parseInt(index) + 5]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[parseInt(index) + 5]++;
             console.log("bomby " + numberOfBombsToDisplay);
         }
         if (board[parseInt(index) + 6]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[parseInt(index) + 6]++;
             console.log("bomby " + numberOfBombsToDisplay);
         }
         displayNumberOfBombsNear(numberOfBombsToDisplay, index);
@@ -186,33 +205,41 @@
         if (board[parseInt(index) - 6]) {
             console.log(index - 6);
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
         }
         if (board[parseInt(index) - 5]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
             console.log(index - 5);
         }
         if (board[parseInt(index) - 4]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
             console.log(index - 4);
         }
         if (board[parseInt(index) - 1]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
             console.log(index - 1);
         }
         if (board[parseInt(index) + 1]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
             console.log(index + 1);
         }
         if (board[parseInt(index) + 4]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
             console.log(index + 4);
         }
         if (board[parseInt(index) + 5]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
             console.log(index + 5);
         }
         if (board[parseInt(index) + 6]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
             console.log(index + 6);
         }
         displayNumberOfBombsNear(numberOfBombsToDisplay, index);
@@ -223,18 +250,23 @@
     function leftEdge(index) {
         if (board[parseInt(index) - 5]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
         }
         if (board[parseInt(index) - 4]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
         }
         if (board[parseInt(index) + 1]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
         }
         if (board[parseInt(index) + 5]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
         }
         if (board[parseInt(index) + 6]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
         }
         displayNumberOfBombsNear(numberOfBombsToDisplay, index);
         remainingBombs--;
@@ -244,18 +276,23 @@
     function rightEdge(index) {
         if (board[parseInt(index) - 5]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
         }
         if (board[parseInt(index) - 6]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
         }
         if (board[parseInt(index) - 1]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
         }
         if (board[parseInt(index) + 4]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
         }
         if (board[parseInt(index) + 5]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
         }
         displayNumberOfBombsNear(numberOfBombsToDisplay, index);
         remainingBombs--;
@@ -265,18 +302,23 @@
     function lowerEdge(index) {
         if (board[parseInt(index) - 6]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
         }
         if (board[parseInt(index) - 5]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
         }
         if (board[parseInt(index) - 4]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
         }
         if (board[parseInt(index) - 1]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
         }
         if (board[parseInt(index) + 1]) {
             numberOfBombsToDisplay++;
+            howManyBombsNear[]++;
         }
         displayNumberOfBombsNear(numberOfBombsToDisplay, index);
         remainingBombs--;
