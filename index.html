@@ -48,6 +48,7 @@
 
 <script>
     var board = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+    var isFieldClicked = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
     var numberOfBombs = 5;
     var remainingBombs = board.length - numberOfBombs;
     var numberOfBombsToDisplay;
@@ -68,87 +69,91 @@
 
     function playerMove(object) {
         numberOfBombsToDisplay = 0;
-        if (board[object.id]) {
-            console.log("trafiles na bombe");
-            displayAllBombs();
+        if (!isFieldClicked[object.id]) {
+
+
+            if (board[object.id]) {
+                console.log("trafiles na bombe");
+                displayAllBombs();
+            }
+            else if (object.id == 0) {
+                console.log("Uff, to nie bomba");
+                if (board[1]) {
+                    numberOfBombsToDisplay++;
+                }
+                if (board[5]) {
+                    numberOfBombsToDisplay++;
+                }
+                if (board[6]) {
+                    numberOfBombsToDisplay++;
+                }
+                displayNumberOfBombsNear(numberOfBombsToDisplay, object.id);
+                remainingBombs--;
+                displayRemainingBombs();
+            }
+            else if (object.id == 4) {
+                console.log("Uff, to nie bomba");
+                if (board[3]) {
+                    numberOfBombsToDisplay++;
+                }
+                if (board[8]) {
+                    numberOfBombsToDisplay++;
+                }
+                if (board[9]) {
+                    numberOfBombsToDisplay++;
+                }
+                displayNumberOfBombsNear(numberOfBombsToDisplay, object.id);
+                remainingBombs--;
+                displayRemainingBombs();
+            }
+            else if (object.id == 20) {
+                console.log("Uff, to nie bomba");
+                if (board[15]) {
+                    numberOfBombsToDisplay++;
+                }
+                if (board[16]) {
+                    numberOfBombsToDisplay++;
+                }
+                if (board[21]) {
+                    numberOfBombsToDisplay++;
+                }
+                displayNumberOfBombsNear(numberOfBombsToDisplay, object.id);
+                remainingBombs--;
+                displayRemainingBombs();
+            }
+            else if (object.id == 24) {
+                console.log("Uff, to nie bomba");
+                if (board[18]) {
+                    numberOfBombsToDisplay++;
+                }
+                if (board[19]) {
+                    numberOfBombsToDisplay++;
+                }
+                if (board[23]) {
+                    numberOfBombsToDisplay++;
+                }
+                displayNumberOfBombsNear(numberOfBombsToDisplay, object.id);
+                remainingBombs--;
+                displayRemainingBombs();
+            }
+            else if (object.id == 1 || object.id == 2 || object.id == 3) {
+                upperEdge(object.id);
+            }
+            else if (object.id == 6 || object.id == 7 || object.id == 8 || object.id == 11 || object.id == 12 || object.id == 13 || object.id == 16 || object.id == 17 || object.id == 18) {
+                mid(object.id);
+            }
+            else if (object.id == 5 || object.id == 10 || object.id == 15) {
+                leftEdge(object.id);
+            }
+            else if (object.id == 9 || object.id == 14 || object.id == 19) {
+                rightEdge(object.id);
+            }
+            else if (object.id == 21 || object.id == 22 || object.id == 23) {
+                lowerEdge(object.id);
+            }
+            else
+                console.log(object.id);
         }
-        else if (object.id == 0) {
-            console.log("Uff, to nie bomba");
-            if (board[1]) {
-                numberOfBombsToDisplay++;
-            }
-            if (board[5]) {
-                numberOfBombsToDisplay++;
-            }
-            if (board[6]) {
-                numberOfBombsToDisplay++;
-            }
-            document.getElementById(object.id).innerHTML = numberOfBombsToDisplay.toString();
-            remainingBombs--;
-            displayRemainingBombs();
-        }
-        else if (object.id == 4) {
-            console.log("Uff, to nie bomba");
-            if (board[3]) {
-                numberOfBombsToDisplay++;
-            }
-            if (board[8]) {
-                numberOfBombsToDisplay++;
-            }
-            if (board[9]) {
-                numberOfBombsToDisplay++;
-            }
-            displayNumberOfBombsNear(numberOfBombsToDisplay, object.id);
-            remainingBombs--;
-            displayRemainingBombs();
-        }
-        else if (object.id == 20) {
-            console.log("Uff, to nie bomba");
-            if (board[15]) {
-                numberOfBombsToDisplay++;
-            }
-            if (board[16]) {
-                numberOfBombsToDisplay++;
-            }
-            if (board[21]) {
-                numberOfBombsToDisplay++;
-            }
-            displayNumberOfBombsNear(numberOfBombsToDisplay, object.id);
-            remainingBombs--;
-            displayRemainingBombs();
-        }
-        else if (object.id == 24) {
-            console.log("Uff, to nie bomba");
-            if (board[18]) {
-                numberOfBombsToDisplay++;
-            }
-            if (board[19]) {
-                numberOfBombsToDisplay++;
-            }
-            if (board[23]) {
-                numberOfBombsToDisplay++;
-            }
-            displayNumberOfBombsNear(numberOfBombsToDisplay, object.id);
-            remainingBombs--;
-            displayRemainingBombs();
-        }
-        else if (object.id == 1 || object.id == 2 || object.id == 3) {
-            upperEdge(object.id);
-        }
-        else if (object.id == 6 || object.id == 7 || object.id == 8 || object.id == 11 || object.id == 12 || object.id == 13 || object.id == 16 || object.id == 17 || object.id == 18) {
-            mid(object.id);
-        }
-        else if (object.id == 5 || object.id == 10 || object.id == 15) {
-            leftEdge(object.id);
-        }
-        else if (object.id == 9 || object.id == 14 || object.id == 19) {
-            rightEdge(object.id);
-        }
-        else if (object.id == 21 || object.id == 22 || object.id == 23) {
-            lowerEdge(object.id);
-        }
-        else
-            console.log(object.id);
     }
 
     function upperEdge(index) {
@@ -291,6 +296,9 @@
         var divToChange = document.getElementById(index.toString());
         if (numberOfBombs > 0) {
             divToChange.innerHTML = numberOfBombs;
+        }
+        else {
+            divToChange.style.backgroundColor = "darkGray";
         }
         switch (numberOfBombs) {
             case 5:
