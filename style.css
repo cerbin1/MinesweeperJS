@@ -28,3 +28,8 @@ td{
 td:hover {
     background-color: darkgrey;
 }
+
+.new-game-button {
+    display: block;
+    margin: 0 auto;
+}
