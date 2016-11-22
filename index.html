@@ -98,7 +98,7 @@
             if (board[9]) {
                 numberOfBombsToDisplay++;
             }
-            document.getElementById(object.id).innerHTML = numberOfBombsToDisplay.toString();
+            displayNumberOfBombsNear(numberOfBombsToDisplay, object.id);
             remainingBombs--;
             displayRemainingBombs();
         }
@@ -113,7 +113,7 @@
             if (board[21]) {
                 numberOfBombsToDisplay++;
             }
-            document.getElementById(object.id).innerHTML = numberOfBombsToDisplay.toString();
+            displayNumberOfBombsNear(numberOfBombsToDisplay, object.id);
             remainingBombs--;
             displayRemainingBombs();
         }
@@ -128,7 +128,7 @@
             if (board[23]) {
                 numberOfBombsToDisplay++;
             }
-            document.getElementById(object.id).innerHTML = numberOfBombsToDisplay.toString();
+            displayNumberOfBombsNear(numberOfBombsToDisplay, object.id);
             remainingBombs--;
             displayRemainingBombs();
         }
@@ -152,7 +152,6 @@
     }
 
     function upperEdge(index) {
-
         if (board[parseInt(index) - 1]) {
             numberOfBombsToDisplay++;
             console.log("bomby " + numberOfBombsToDisplay);
@@ -173,9 +172,7 @@
             numberOfBombsToDisplay++;
             console.log("bomby " + numberOfBombsToDisplay);
         }
-        console.log("index " + typeof index);
-        console.log("bomby " + numberOfBombsToDisplay);
-        document.getElementById(index).innerHTML = numberOfBombsToDisplay.toString();
+        displayNumberOfBombsNear(numberOfBombsToDisplay, index);
         remainingBombs--;
         displayRemainingBombs();
     }
@@ -213,8 +210,7 @@
             numberOfBombsToDisplay++;
             console.log(index + 6);
         }
-        console.log(index + 6);
-        document.getElementById(index.toString()).innerHTML = numberOfBombsToDisplay.toString();
+        displayNumberOfBombsNear(numberOfBombsToDisplay, index);
         remainingBombs--;
         displayRemainingBombs();
     }
@@ -235,7 +231,7 @@
         if (board[parseInt(index) + 6]) {
             numberOfBombsToDisplay++;
         }
-        document.getElementById(index.toString()).innerHTML = numberOfBombsToDisplay.toString();
+        displayNumberOfBombsNear(numberOfBombsToDisplay, index);
         remainingBombs--;
         displayRemainingBombs();
     }
@@ -256,7 +252,7 @@
         if (board[parseInt(index) + 5]) {
             numberOfBombsToDisplay++;
         }
-        document.getElementById(index.toString()).innerHTML = numberOfBombsToDisplay.toString();
+        displayNumberOfBombsNear(numberOfBombsToDisplay, index);
         remainingBombs--;
         displayRemainingBombs();
     }
@@ -277,7 +273,7 @@
         if (board[parseInt(index) + 1]) {
             numberOfBombsToDisplay++;
         }
-        document.getElementById(index.toString()).innerHTML = numberOfBombsToDisplay.toString();
+        displayNumberOfBombsNear(numberOfBombsToDisplay, index);
         remainingBombs--;
         displayRemainingBombs();
     }
@@ -288,6 +284,33 @@
                 document.getElementById(i.toString()).style.backgroundColor = "red";
             }
         }
+    }
+
+
+    function displayNumberOfBombsNear(numberOfBombs, index) {
+        var divToChange = document.getElementById(index.toString());
+        if (numberOfBombs > 0) {
+            divToChange.innerHTML = numberOfBombs;
+        }
+        switch (numberOfBombs) {
+            case 5:
+                divToChange.style.color = "black";
+                break;
+            case 4:
+                divToChange.style.color = "purple";
+                break;
+            case 3:
+                divToChange.style.color = "red";
+                break;
+
+            case 2:
+                divToChange.style.color = "green";
+                break;
+            case 1:
+                divToChange.style.color = "#0040ff";
+                break;
+        }
+
     }
 
     function displayRemainingBombs() {
