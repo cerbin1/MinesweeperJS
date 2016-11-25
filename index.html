@@ -191,8 +191,6 @@
 
     function playerMove(object) {
         numberOfBombsToDisplay = 0;
-        console.log(typeof parseInt(object.id));
-        console.log(object.id);
         if (board[object.id]) {
             displayAllBombs();
         }
@@ -423,6 +421,18 @@
         }
         else {
             divToChange.style.backgroundColor = "darkGray";
+            var counter = parseInt(index);
+            if (counter < 9) {
+                while ((counter) < 20)
+                    if (numberOfBombsAdjacentToField[parseInt(counter) + 1] == 0) {
+                        document.getElementById((parseInt(counter) + 1).toString()).style.backgroundColor = "darkGray";
+                        counter++;
+                    }
+                    else {
+                        console.log(1 + counter);
+                        counter++;
+                    }
+            }
         }
         switch (numberOfBombs) {
             case 4:
