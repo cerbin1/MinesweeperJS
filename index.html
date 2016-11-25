@@ -197,8 +197,7 @@
             displayAllBombs();
         }
         else {
-
-            displayNumberOfBombsNear(numberOfBombsAdjacentToField[object.id], object.id);
+            displayNumberOfBombsNear(object.id);
         }
     }
 
@@ -416,10 +415,11 @@
     }
 
 
-    function displayNumberOfBombsNear(numberOfBombs, index) {
+    function displayNumberOfBombsNear(index) {
+        var numberOfBombs = numberOfBombsAdjacentToField[parseInt(index)];
         var divToChange = document.getElementById(index.toString());
         if (numberOfBombs > 0) {
-            divToChange.innerHTML = numberOfBombs;
+            divToChange.innerHTML = numberOfBombs.toString();
         }
         else {
             divToChange.style.backgroundColor = "darkGray";
