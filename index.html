@@ -425,9 +425,6 @@
             divToChange.style.backgroundColor = "darkGray";
         }
         switch (numberOfBombs) {
-            case 5:
-                divToChange.style.color = "black";
-                break;
             case 4:
                 divToChange.style.color = "purple";
                 break;
@@ -439,6 +436,9 @@
                 break;
             case 1:
                 divToChange.style.color = "#0040ff";
+                break;
+            default:
+                divToChange.style.color = "black";
                 break;
         }
     }
