@@ -123,7 +123,7 @@
         false, false, false, false, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false];
-    var numberOfBombsStickedToField = [
+    var numberOfBombsAdjacentToField = [
         0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -148,253 +148,261 @@
                 }
             }
         }
+        fillBoard();
+    }
+
+    function fillBoard() {
+        for (var i = 0; i < board.length; i++) {
+            if (i == 0) {
+                leftTopCorner(0);
+            }
+            if (i == 8) {
+                rightTopCorner(8);
+            }
+            if (i == 72) {
+                leftBottomCorner(72);
+            }
+            if (i == 80) {
+                rightBottomCorner(80);
+            }
+            if (i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7) {
+                topEdge(i);
+            }
+            if (i == 9 || i == 18 || i == 27 || i == 36 || i == 45 || i == 54 || i == 63) {
+                leftEdge(i);
+            }
+            if (i == 10 || i == 11 || i == 12 || i == 13 || i == 14 || i == 15 || i == 16 ||
+                i == 19 || i == 20 || i == 21 || i == 22 || i == 23 || i == 24 || i == 25 ||
+                i == 28 || i == 29 || i == 30 || i == 31 || i == 32 || i == 33 || i == 34 ||
+                i == 37 || i == 38 || i == 39 || i == 40 || i == 41 || i == 42 || i == 43 ||
+                i == 46 || i == 47 || i == 48 || i == 49 || i == 50 || i == 51 || i == 52 ||
+                i == 55 || i == 56 || i == 57 || i == 58 || i == 59 || i == 60 || i == 61 ||
+                i == 64 || i == 65 || i == 66 || i == 67 || i == 68 || i == 69 || i == 70) {
+                mid(i);
+            }
+            if (i == 17 || i == 26 || i == 35 || i == 44 || i == 53 || i == 62 || i == 71) {
+                rightEdge(i);
+            }
+            if (i == 73 || i == 74 || i == 75 || i == 76 || i == 77 || i == 78 || i == 79) {
+                bottomEdge(i);
+            }
+        }
     }
 
     function playerMove(object) {
         numberOfBombsToDisplay = 0;
+        console.log(typeof parseInt(object.id));
         console.log(object.id);
         if (board[object.id]) {
             displayAllBombs();
         }
-        else if (parseInt(object.id) == 0) {
-            leftTopCorner(object.id);
-        }
-        else if (object.id == 8) {
-            rightTopCorner(object.id);
-        }
-        else if (object.id == 72) {
-            leftBottomCorner(object.id);
-        }
-        else if (object.id == 80) {
-            rightBottomCorner(object.id);
-        }
-        else if (object.id == 1 || object.id == 2 || object.id == 3 || object.id == 4 || object.id == 5 || object.id == 6 || object.id == 7) {
-            topEdge(object.id);
-        }
-        else if (object.id == 9 || object.id == 18 || object.id == 27 || object.id == 36 || object.id == 45 || object.id == 54 || object.id == 63) {
-            leftEdge(object.id);
-        }
-        else if (object.id == 6 || object.id == 7 || object.id == 8 || object.id == 11 || object.id == 12 || object.id == 13 || object.id == 16 || object.id == 17 || object.id == 18) {
-            mid(object.id);
-        }
-        else if (object.id == 17 || object.id == 26 || object.id == 35 || object.id == 44 || object.id == 53 || object.id == 62 || object.id == 71) {
-            rightEdge(object.id);
-        }
-        else if (object.id == 73 || object.id == 74 || object.id == 75 || object.id == 76 || object.id == 77 || object.id == 78 || object.id == 79) {
-            bottomEdge(object.id);
+        else {
+
+            displayNumberOfBombsNear(numberOfBombsAdjacentToField[object.id], object.id);
         }
     }
 
     function leftTopCorner(index) {
         if (board[1]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[9]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[10]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
-        displayNumberOfBombsNear(numberOfBombsToDisplay, index);
         remainingBombs--;
         displayRemainingBombs();
     }
 
     function rightTopCorner(index) {
         if (board[7]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[16]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[17]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
-        displayNumberOfBombsNear(numberOfBombsToDisplay, index);
         remainingBombs--;
         displayRemainingBombs();
     }
 
     function leftBottomCorner(index) {
         if (board[63]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[64]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[73]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
-        displayNumberOfBombsNear(numberOfBombsToDisplay, index);
         remainingBombs--;
         displayRemainingBombs();
     }
 
     function rightBottomCorner(index) {
         if (board[70]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[71]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[79]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
-        displayNumberOfBombsNear(numberOfBombsToDisplay, index);
         remainingBombs--;
         displayRemainingBombs();
     }
 
     function topEdge(index) {
         if (board[parseInt(index) - 1]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) + 1]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) + 8]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) + 9]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) + 10]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
-        displayNumberOfBombsNear(numberOfBombsToDisplay, index);
         remainingBombs--;
         displayRemainingBombs();
     }
 
     function leftEdge(index) {
         if (board[parseInt(index) - 9]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) - 8]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) + 1]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) + 9]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) + 10]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
-        displayNumberOfBombsNear(numberOfBombsToDisplay, index);
         remainingBombs--;
         displayRemainingBombs();
     }
 
     function mid(index) {
         if (board[parseInt(index) - 10]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) - 9]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) - 8]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) - 1]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) + 1]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) + 8]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) + 9]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) + 10]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
-        displayNumberOfBombsNear(numberOfBombsToDisplay, index);
         remainingBombs--;
         displayRemainingBombs();
     }
 
     function rightEdge(index) {
         if (board[parseInt(index) - 10]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) - 9]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) - 1]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) + 8]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) + 9]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
-        displayNumberOfBombsNear(numberOfBombsToDisplay, index);
         remainingBombs--;
         displayRemainingBombs();
     }
 
     function bottomEdge(index) {
         if (board[parseInt(index) - 10]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) - 9]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) - 8]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) - 1]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
         if (board[parseInt(index) + 1]) {
-            numberOfBombsStickedToField[index]++;
+            numberOfBombsAdjacentToField[parseInt(index)]++;
             numberOfBombsToDisplay++;
         }
-        displayNumberOfBombsNear(numberOfBombsToDisplay, index);
         remainingBombs--;
         displayRemainingBombs();
     }
