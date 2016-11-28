@@ -359,6 +359,31 @@
         }
         else {
             divToChange.style.backgroundColor = "darkGray";
+            if(y != 0) {
+                var i;
+                for (i = y; i >= 0; i--) {
+                    if (numberOfBombsAdjacentToField[x][i] == 0) {
+                        document.getElementById((x.toString() + i.toString())).style.backgroundColor = "darkGray";
+                    }
+                    else {
+                        console.log("nie");
+                        break;
+                    }
+                }
+            }
+
+            if(y != 8) {
+                for (i = y; i >= 0; i--) {
+                    if (numberOfBombsAdjacentToField[x][i] == 0) {
+                        document.getElementById((x.toString() + i.toString())).style.backgroundColor = "darkGray";
+                    }
+                    else {
+                        console.log("nie");
+                        break;
+                    }
+                }
+
+            }
         }
         switch (numberOfBombs) {
             case 4:
