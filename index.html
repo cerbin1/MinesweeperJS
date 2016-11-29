@@ -351,6 +351,7 @@
     }
 
     function displayNumberOfBombsNear(x, y) {
+        var i;
         console.log((x.toString() + y.toString()));
         var numberOfBombs = numberOfBombsAdjacentToField[x][y];
         var divToChange = document.getElementById((x.toString() + y.toString()));
@@ -359,8 +360,7 @@
         }
         else {
             divToChange.style.backgroundColor = "darkGray";
-            if(y != 0) {
-                var i;
+            if (y != 0 && y != 8) {
                 for (i = y; i >= 0; i--) {
                     if (numberOfBombsAdjacentToField[x][i] == 0) {
                         document.getElementById((x.toString() + i.toString())).style.backgroundColor = "darkGray";
@@ -370,10 +370,8 @@
                         break;
                     }
                 }
-            }
 
-            if(y != 8) {
-                for (i = y; i >= 0; i--) {
+                for (i = y; i <= 8; i++) {
                     if (numberOfBombsAdjacentToField[x][i] == 0) {
                         document.getElementById((x.toString() + i.toString())).style.backgroundColor = "darkGray";
                     }
