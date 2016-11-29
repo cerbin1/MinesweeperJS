@@ -131,7 +131,7 @@
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0]];
-    var numberOfBombs = 9;
+    var numberOfBombs = 3;
 
     function plantBombs() {
         for (var i = 0; i < numberOfBombs; i++) {
@@ -359,7 +359,7 @@
             divToChange.innerHTML = numberOfBombs.toString();
         }
         else {
-            divToChange.style.backgroundColor = "darkGray";
+
             if (y != 0 && y != 8) {
                 for (i = y; i >= 0; i--) {
                     if (numberOfBombsAdjacentToField[x][i] == 0) {
@@ -380,8 +380,29 @@
                         break;
                     }
                 }
-
             }
+            if(x != 0 && x != 8) {
+                for (i = x; i >= 0; i--) {
+                    if (numberOfBombsAdjacentToField[i][y] == 0) {
+                        document.getElementById((i.toString() + y.toString())).style.backgroundColor = "darkGray";
+                    }
+                    else {
+                        console.log("sufit");
+                        break;
+                    }
+                }
+
+                for (i = x; i <= 8; i++) {
+                    if (numberOfBombsAdjacentToField[i][y] == 0) {
+                        document.getElementById((i.toString() + y.toString())).style.backgroundColor = "darkGray";
+                    }
+                    else {
+                        console.log("podloga");
+                        break;
+                    }
+                }
+            }
+
         }
         switch (numberOfBombs) {
             case 4:
@@ -399,6 +420,14 @@
             default:
                 divToChange.style.color = "black";
                 break;
+        }
+    }
+
+    function isBombLeft(x, y) {
+        if (numberOfBombsAdjacentToField[x][y - 1] == 0) {
+            console.log((x.toString() + (y - 1).toString()));
+            document.getElementById((x.toString() + (y - 1).toString())).style.backgroundColor = "darkGray";
+            return true;
         }
     }
 </script>
