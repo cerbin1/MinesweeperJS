@@ -121,6 +121,15 @@
         [false, false, false, false, false, false, false, false, false],
         [false, false, false, false, false, false, false, false, false],
         [false, false, false, false, false, false, false, false, false]];
+    var booleanBoard = [[false, false, false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false, false, false]];
     var numberOfBombsAdjacentToField =
         [[0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -359,51 +368,56 @@
             divToChange.innerHTML = numberOfBombs.toString();
         }
         else {
-
-            if (y != 0 && y != 8) {
-                for (i = y; i >= 0; i--) {
-                    if (numberOfBombsAdjacentToField[x][i] == 0) {
-                        document.getElementById((x.toString() + i.toString())).style.backgroundColor = "darkGray";
-                    }
-                    else {
-                        console.log("nie");
-                        break;
-                    }
-                }
-
-                for (i = y; i <= 8; i++) {
-                    if (numberOfBombsAdjacentToField[x][i] == 0) {
-                        document.getElementById((x.toString() + i.toString())).style.backgroundColor = "darkGray";
-                    }
-                    else {
-                        console.log("nie");
-                        break;
-                    }
-                }
-            }
-            if(x != 0 && x != 8) {
-                for (i = x; i >= 0; i--) {
-                    if (numberOfBombsAdjacentToField[i][y] == 0) {
-                        document.getElementById((i.toString() + y.toString())).style.backgroundColor = "darkGray";
-                    }
-                    else {
-                        console.log("sufit");
-                        break;
-                    }
-                }
-
-                for (i = x; i <= 8; i++) {
-                    if (numberOfBombsAdjacentToField[i][y] == 0) {
-                        document.getElementById((i.toString() + y.toString())).style.backgroundColor = "darkGray";
-                    }
-                    else {
-                        console.log("podloga");
-                        break;
-                    }
-                }
-            }
-
+            divToChange.style.backgroundColor = "darkGray";
+            checkIfFieldsAreEmpty(x, y);
         }
+
+
+        /*
+         if (y != 0 && y != 8) {
+         for (i = y; i >= 0; i--) {
+         if (numberOfBombsAdjacentToField[x][i] == 0) {
+         document.getElementById((x.toString() + i.toString())).style.backgroundColor = "darkGray";
+         }
+         else {
+         console.log("nie");
+         break;
+         }
+         }
+
+         for (i = y; i <= 8; i++) {
+         if (numberOfBombsAdjacentToField[x][i] == 0) {
+         document.getElementById((x.toString() + i.toString())).style.backgroundColor = "darkGray";
+         }
+         else {
+         console.log("nie");
+         break;
+         }
+         }
+         }
+         if(x != 0 && x != 8) {
+         for (i = x; i >= 0; i--) {
+         if (numberOfBombsAdjacentToField[i][y] == 0) {
+         document.getElementById((i.toString() + y.toString())).style.backgroundColor = "darkGray";
+         }
+         else {
+         console.log("sufit");
+         break;
+         }
+         }
+
+         for (i = x; i <= 8; i++) {
+         if (numberOfBombsAdjacentToField[i][y] == 0) {
+         document.getElementById((i.toString() + y.toString())).style.backgroundColor = "darkGray";
+         }
+         else {
+         console.log("podloga");
+         break;
+         }
+         }
+         }*/
+
+
         switch (numberOfBombs) {
             case 4:
                 divToChange.style.color = "purple";
@@ -423,12 +437,114 @@
         }
     }
 
-    function isBombLeft(x, y) {
-        if (numberOfBombsAdjacentToField[x][y - 1] == 0) {
-            console.log((x.toString() + (y - 1).toString()));
-            document.getElementById((x.toString() + (y - 1).toString())).style.backgroundColor = "darkGray";
-            return true;
+
+    function checkIfFieldsAreEmpty(x, y) {
+        if (y > 0 && y < 9 && x >= 0 && x < 9) {
+            if (numberOfBombsAdjacentToField[x][y - 1] == 0) {
+                //console.log((x.toString() + (y - 1).toString()));
+//                document.getElementById((x.toString() + (y - 1).toString())).style.backgroundColor = "darkGray";
+                booleanBoard[x][y - 1] = true;
+                console.log("lewo");
+                checkIfFieldsAreEmpty(x, y - 1);
+            }
         }
+        else {
+            console.log("wychodze poza lewa krawedz");
+        }
+        if (x > 0 && x < 9 && y > 0 && y < 9) {
+            if (numberOfBombsAdjacentToField[x - 1][y - 1] == 0) {
+                //console.log(((x - 1).toString() + (y - 1).toString()));
+//                document.getElementById((x - 1).toString() + (y - 1).toString()).style.backgroundColor = "darkGray";
+                booleanBoard[x - 1][y - 1] = true;
+                console.log("lewa gora skos");
+                checkIfFieldsAreEmpty(x - 1, y - 1);
+            }
+        }
+        else {
+            console.log("wychodze poza lewa lub gorna krawedz");
+        }
+
+        //if (x != 0) {
+        if (x > 0 && x < 9 && y >= 0 && y < 9) {
+            if (numberOfBombsAdjacentToField[x - 1][y] == 0) {
+                //console.log(((x - 1).toString() + y.toString()));
+//                document.getElementById(((x - 1).toString() + y.toString())).style.backgroundColor = "darkGray";
+                booleanBoard[x - 1][y] = true;
+                console.log("gora");
+                checkIfFieldsAreEmpty(x - 1, y);
+            }
+
+        }
+        else {
+            console.log("Wychodze poza gorna krawedz");
+        }
+//        if (x != 0 && y != 8) {
+        if (x > 0 && x < 9 && y > -1 && y < 8) {
+            if (numberOfBombsAdjacentToField[x - 1][y + 1] == 0) {
+                //console.log(((x - 1).toString() + (y + 1).toString()));
+//                document.getElementById(((x - 1).toString() + (y + 1).toString())).style.backgroundColor = "darkGray";
+                booleanBoard[x - 1][y + 1] = true;
+                console.log("prawo gora skos");
+                checkIfFieldsAreEmpty(x - 1, y + 1);
+            }
+        }
+        else {
+            console.log("Wychodze poza gorna lub prawa krawedz");
+        }
+//        if (y != 8) {
+        if (x > -1 && x < 9 && y > -1 && y < 8) {
+            if (numberOfBombsAdjacentToField[x][y + 1] == 0) {
+                //console.log((x.toString() + (y + 1).toString()));
+//                document.getElementById((x.toString() + (y + 1).toString())).style.backgroundColor = "darkGray";
+                booleanBoard[x][y + 1] = true;
+                console.log("prawo");
+                checkIfFieldsAreEmpty(x, y + 1);
+            }
+        }
+        else {
+            console.log("Wychodze poza prawa krawedz");
+        }
+//        if (x != 8 && y != 8) {
+        if (x >= 0 && x < 8 && y >= 0 && y < 8) {
+            if (numberOfBombsAdjacentToField[x + 1][y - 1] == 0) {
+                //console.log(((x + 1).toString() + (y - 1).toString()));
+//                document.getElementById(((x + 1).toString() + (y - 1).toString())).style.backgroundColor = "darkGray";
+                booleanBoard[x + 1][y - 1] = true;
+                console.log("lewo dol skos");
+                checkIfFieldsAreEmpty(x + 1, y - 1);
+            }
+        }
+        else {
+            console.log("Wychodze poza dolna lub lewa krawedz");
+        }
+//        if(x != 8) {
+        if(x >= 0 && x < 8 && y >= 0 && y <= 8) {
+            if (numberOfBombsAdjacentToField[x + 1][y] == 0) {
+                //console.log((x + 1).toString() + y.toString());
+//                document.getElementById((x + 1).toString() + y.toString()).style.backgroundColor = "darkGray";
+                booleanBoard[x + 1][y] = true;
+                console.log("dol");
+                checkIfFieldsAreEmpty(x + 1, y);
+            }
+        }
+        else {
+            console.log("Wychodze poza dolna krawedz");
+        }
+//        if(x != 8 && y != 8) {
+        if(x >= 0 && x < 8 && y >= 0 && y < 8) {
+            if (numberOfBombsAdjacentToField[x + 1][y + 1] == 0) {
+                //console.log(((x + 1).toString() + (y + 1).toString()));
+//                document.getElementById(((x + 1).toString() + (y + 1).toString())).style.backgroundColor = "darkGray";
+                booleanBoard[x + 1][y + 1] = true;
+                console.log("prawo dol skos");
+                checkIfFieldsAreEmpty(x + 1, y + 1);
+            }
+        }
+        else{
+            console.log("Wychodze poza dolna lub prawa krawedz");
+        }
+
+
     }
 </script>
 </body>
