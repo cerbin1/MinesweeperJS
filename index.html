@@ -121,15 +121,6 @@
         [false, false, false, false, false, false, false, false, false],
         [false, false, false, false, false, false, false, false, false],
         [false, false, false, false, false, false, false, false, false]];
-    var booleanBoard = [[false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false]];
     var numberOfBombsAdjacentToField =
         [[0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -200,19 +191,6 @@
             displayAllBombs();
         }
         else {
-//            booleanBoard[x][y] = true;
-            /*
-             floodFill(x, y);
-             console.log(g);
-             for(var i = 0; i < 9; i++) {
-             for(var j = 0; j < 9; j++) {
-             if(booleanBoard[i][j]) {
-             console.log("gitara siema");
-             document.getElementById((i.toString() + (j).toString())).style.backgroundColor = "darkGray";
-             }
-             }
-             }*/
-//            checkFieldsToDisplay(x, y);
 
 
             var numberOfBombs = numberOfBombsAdjacentToField[x][y];
@@ -221,8 +199,6 @@
                 divToChange.innerHTML = numberOfBombs.toString();
             }
             else {
-//                divToChange.style.backgroundColor = "darkGray";
-//                booleanBoard[x][y] = true;
                 floodFill(x, y);
                 console.log(g);
 
@@ -276,79 +252,6 @@
         floodFill(x + 1, y + 1);
     }
 
-    /*
-     function floodFill(x, y) {
-     //        if(x < 0 || x > 8 || y < 0 || y > 8) {
-     //            return;
-     //        }
-
-     if (numberOfBombsAdjacentToField[x][y - 1] > 0 || booleanBoard[x][y - 1]) {
-     return;
-     }
-     else if (numberOfBombsAdjacentToField[x][y - 1] == 0) {
-     document.getElementById(((x).toString() + (y - 1).toString())).style.backgroundColor = "darkGray";
-     console.log("lewo");
-     booleanBoard[x][y - 1] = true;
-     floodFill(x, y - 1);
-     }
-     else {
-     console.log("nie moge wypelniac dalej na lewo");
-     }
-
-     if (numberOfBombsAdjacentToField[x][y + 1] > 0 || booleanBoard[x][y + 1]) {
-     return;
-     }
-     else if (numberOfBombsAdjacentToField[x][y + 1] == 0) {
-     document.getElementById(((x).toString() + (y + 1).toString())).style.backgroundColor = "darkGray";
-     console.log("prawo");
-     booleanBoard[x][y + 1] = true;
-     floodFill(x, y + 1);
-     }
-     else {
-     console.log("nie moge wypelniac dalej na prawo");
-     }
-
-     if (numberOfBombsAdjacentToField[x - 1][y] > 0 || booleanBoard[x - 1][y]) {
-     return;
-     }
-     else if (numberOfBombsAdjacentToField[x - 1][y] == 0) {
-     document.getElementById(((x - 1).toString() + (y).toString())).style.backgroundColor = "darkGray";
-     console.log("gora");
-     booleanBoard[x - 1][y] = true;
-     floodFill(x - 1, y);
-     }
-     else {
-     console.log("nie moge wypelniac dalej na gore");
-     }
-
-     if (numberOfBombsAdjacentToField[x + 1][y] > 0 || booleanBoard[x + 1][y]) {
-     return;
-     }
-     else if (numberOfBombsAdjacentToField[x + 1][y] == 0) {
-     document.getElementById(((x + 1).toString() + (y).toString())).style.backgroundColor = "darkGray";
-     console.log("dol");
-     booleanBoard[x + 1][y] = true;
-     floodFill(x + 1, y);
-     }
-     else {
-     console.log("nie moge wypelniac dalej na dol");
-     }
-
-     }
-
-
-     /*    if (x >= 0 && x < 8 && y > 0 && y <= 8) {
-     if (numberOfBombsAdjacentToField[x + 1][y - 1] == 0 && booleanBoard[x + 1][y - 1] == false) {
-     //console.log(((x + 1).toString() + (y - 1).toString()));
-     booleanBoard[x + 1][y - 1] = true;
-     console.log("lewo dol skos");
-     checkIfFieldsAreEmpty(x + 1, y - 1);
-     g++;
-     }
-     }
-     else {
-     console.log("Wychodze poza dolna lub lewa krawedz");
-     }*/
 
     function leftTopCorner(x, y) {
         if (board[0][1]) {
@@ -506,194 +409,6 @@
             }
         }
     }
-    /*
-     function checkFieldsToDisplay(x, y) {
-     console.log((x.toString() + y.toString()));
-     var numberOfBombs = numberOfBombsAdjacentToField[x][y];
-     var divToChange = document.getElementById((x.toString() + y.toString()));
-     if (numberOfBombs > 0) {
-     divToChange.innerHTML = numberOfBombs.toString();
-     }
-     else {
-     divToChange.style.backgroundColor = "darkGray";
-     checkIfFieldsAreEmpty(x, y);
-
-     }
-
-
-     switch (numberOfBombs) {
-     case 4:
-     divToChange.style.color = "purple";
-     break;
-     case 3:
-     divToChange.style.color = "red";
-     break;
-     case 2:
-     divToChange.style.color = "green";
-     break;
-     case 1:
-     divToChange.style.color = "#0040ff";
-     break;
-     default:
-     divToChange.style.color = "black";
-     break;
-     }
-     }
-
-     function floodFill(x, y) {
-     if (x < 0 || x > 8 || y < 0 || y > 8) return;
-     if (booleanBoard[x][y]) return;
-     booleanBoard[x][y] = true;
-
-     floodFill(x, y - 1); // wołanie procedury dla punktu powyżej
-     floodFill(x + 1, y); // dla punktu z prawej strony
-     floodFill(x, y + 1); // dla punktu poniżej
-     floodFill(x - 1, y); // dla punktu z lewej strony
-     }
-     //if(booleanBoard[x + 1][y + 1] == checkIfFieldsAreEmpty(x + 1, y + 1);
-
-     function checkIfFieldsAreEmpty(x, y) {
-     if (y > 0 && y < 9 && x >= 0 && x <= 8) {
-     if (numberOfBombsAdjacentToField[x][y - 1] == 0 && booleanBoard [x][y - 1] == false) {
-     //console.log((x.toString() + (y - 1).toString()));
-     document.getElementById((x.toString() + (y - 1).toString())).style.backgroundColor = "darkGray";
-     booleanBoard[x][y - 1] = true;
-     console.log("lewo");
-     checkIfFieldsAreEmpty(x, y - 1);
-     g++;
-     }
-     else {
-     console.log("dd");
-     }
-     }
-
-     else {
-     console.log("wychodze poza lewa krawedz");
-     g++;
-     return;
-     }
-
-     if (x > 0 && x <= 8 && y > 0 && y <= 8) {
-     if (numberOfBombsAdjacentToField[x - 1][y - 1] == 0 && booleanBoard[x - 1][y - 1] == false) {
-     //console.log(((x - 1).toString() + (y - 1).toString()));
-     document.getElementById((x - 1).toString() + (y - 1).toString()).style.backgroundColor = "darkGray";
-     booleanBoard[x - 1][y - 1] = true;
-     console.log("lewa gora skos");
-     checkIfFieldsAreEmpty(x - 1, y - 1);
-     g++;
-     }
-     }
-     else {
-     console.log("wychodze poza lewa lub gorna krawedz");
-     g++;
-     return;
-
-     }
-
-
-     if (x > 0 && x <= 8 && y >= 0 && y <= 8) {
-     if (numberOfBombsAdjacentToField[x - 1][y] == 0 && booleanBoard [x - 1][y] == false) {
-     //console.log(((x - 1).toString() + y.toString()));
-     document.getElementById(((x - 1).toString() + y.toString())).style.backgroundColor = "darkGray";
-     booleanBoard[x - 1][y] = true;
-     console.log("gora");
-     checkIfFieldsAreEmpty(x - 1, y);
-     g++;
-     }
-
-     }
-     else {
-     console.log("Wychodze poza gorna krawedz");
-     g++;
-
-     }
-     if (x > 0 && x <= 8 && y >= 0 && y < 8) {
-     if (numberOfBombsAdjacentToField[x - 1][y + 1] == 0 && booleanBoard[x - 1][y + 1] == false) {
-     //console.log(((x - 1).toString() + (y + 1).toString()));
-     document.getElementById(((x - 1).toString() + (y + 1).toString())).style.backgroundColor = "darkGray";
-     booleanBoard[x - 1][y + 1] = true;
-     console.log("prawo gora skos");
-     checkIfFieldsAreEmpty(x - 1, y + 1);
-     g++;
-     }
-
-     else {
-     console.log("Wychodze poza gorna lub prawa krawedz");
-     g++;
-     return;
-     }
-     }
-     if (x >= 0 && x <= 8 && y >= 0 && y < 8) {
-     if (numberOfBombsAdjacentToField[x][y + 1] == 0 && booleanBoard [x][y + 1] == false) {
-     //console.log((x.toString() + (y + 1).toString()));
-     document.getElementById((x.toString() + (y + 1).toString())).style.backgroundColor = "darkGray";
-     booleanBoard[x][y + 1] = true;
-     console.log("prawo");
-     checkIfFieldsAreEmpty(x, y + 1);
-     g++;
-     }
-
-     else {
-     console.log("Wychodze poza prawa krawedz");
-     g++;
-     return;
-
-     }
-     }
-
-     if (x >= 0 && x < 8 && y >= 0 && y < 8) {
-
-     if (numberOfBombsAdjacentToField[x + 1][y + 1] == 0 && booleanBoard[x + 1][y + 1] == false) {
-     //console.log(((x + 1).toString() + (y + 1).toString()));
-     document.getElementById(((x + 1).toString() + (y + 1).toString())).style.backgroundColor = "darkGray";
-     booleanBoard[x + 1][y + 1] = true;
-     console.log("prawo dol skos");
-     g++;
-
-     }
-
-     else {
-     console.log("Wychodze poza dolna lub prawa krawedz");
-     g++;
-     return;
-     }
-     }
-     if (x >= 0 && x < 8 && y >= 0 && y <= 8) {
-     if (numberOfBombsAdjacentToField[x + 1][y] == 0 && booleanBoard [x + 1][y] == false) {
-     //console.log((x + 1).toString() + y.toString());
-     document.getElementById((x + 1).toString() + y.toString()).style.backgroundColor = "darkGray";
-     booleanBoard[x + 1][y] = true;
-     console.log("dol");
-     checkIfFieldsAreEmpty(x + 1, y);
-     g++;
-     }
-
-     else {
-     console.log("Wychodze poza dolna krawedz");
-     g++;
-     return;
-
-     }
-     }
-
-     if (x >= 0 && x < 8 && y > 0 && y <= 8) {
-     if (numberOfBombsAdjacentToField[x + 1][y - 1] == 0 && booleanBoard[x + 1][y - 1] == false) {
-     //console.log(((x + 1).toString() + (y - 1).toString()));
-     document.getElementById(((x + 1).toString() + (y - 1).toString())).style.backgroundColor = "darkGray";
-     booleanBoard[x + 1][y - 1] = true;
-     console.log("lewo dol skos");
-     checkIfFieldsAreEmpty(x + 1, y - 1);
-     g++;
-     }
-
-     else {
-     console.log("Wychodze poza dolna lub lewa krawedz");
-     g++;
-     return;
-     }
-     }
-     */
-
 
 </script>
 </body>
