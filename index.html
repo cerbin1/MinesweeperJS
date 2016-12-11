@@ -140,7 +140,7 @@
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0]];
-    var numberOfBombs = 6;
+    var numberOfBombs = 10;
 
     function plantBombs() {
         for (var i = 0; i < numberOfBombs; i++) {
@@ -231,6 +231,7 @@
     }
 
     function floodFill(x, y) {
+
         if (y < 0) {
             console.log("left border exceeded");
             return;
@@ -247,15 +248,24 @@
             console.log("bottom border exceeded");
             return;
         }
-        if (numberOfBombsAdjacentToField[x][y] > 0) {
-            console.log("there are bombs nearly");
+        if (board[x][y]) {
+            console.log("bomb!");
             return;
         }
         if (document.getElementById(((x).toString() + (y).toString())).style.backgroundColor == "darkgray") {
             console.log("already clicked");
             return;
         }
-        document.getElementById(((x).toString() + (y).toString())).style.backgroundColor = "darkGray";
+        if (numberOfBombsAdjacentToField[x][y] > 0) {
+            var divToChange = document.getElementById((x.toString() + y.toString()));
+            divToChange.innerHTML = numberOfBombsAdjacentToField[x][y].toString();
+            divToChange.style.backgroundColor = "darkGray";
+            return;
+        }
+        else {
+            document.getElementById(((x).toString() + (y).toString())).style.backgroundColor = "darkGray";
+            document.getElementById(((x).toString() + (y).toString())).innerHTML = "";
+        }
         floodFill(x, y - 1);
         floodFill(x, y + 1);
         floodFill(x + 1, y);
