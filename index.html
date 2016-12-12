@@ -183,7 +183,6 @@
         displayAllBombs();
     }
 
-    var g = 0;
     function playerMove(object) {
         var x = parseInt(object.id.charAt(0));
         var y = parseInt(object.id.charAt(1));
@@ -192,8 +191,6 @@
         }
         else {
 
-
-            var numberOfBombs = numberOfBombsAdjacentToField[x][y];
             var divToChange = document.getElementById((x.toString() + y.toString()));
             if (numberOfBombsAdjacentToField[x][y] > 0) {
                 divToChange.innerText = numberOfBombsAdjacentToField[x][y];
@@ -201,8 +198,6 @@
             }
             else {
                 floodFill(x, y);
-                console.log(g);
-
             }
         }
     }
