@@ -120,7 +120,6 @@
     fillTwoDimensionalBoard(booleanBoard, false);
     fillTwoDimensionalBoard(numberOfBombsAdjacentToField, 0);
 
-
     function fillTwoDimensionalBoard(array, value) {
         for (var i = 0; i < 9; i++) {
             array[i] = new Array(9).fill(value);
@@ -178,7 +177,7 @@
     }
 
     function playerMove(object) {
-        if(!isGameDone) {
+        if (!isGameDone) {
             var x = parseInt(object.id.charAt(0));
             var y = parseInt(object.id.charAt(1));
             if (booleanBoard[x][y]) {
@@ -187,7 +186,6 @@
                 isGameDone = true;
             }
             else {
-
                 var divToChange = document.getElementById((x.toString() + y.toString()));
                 if (numberOfBombsAdjacentToField[x][y] > 0) {
                     divToChange.innerText = numberOfBombsAdjacentToField[x][y];
