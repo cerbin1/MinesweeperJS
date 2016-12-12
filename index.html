@@ -122,16 +122,16 @@
         [false, false, false, false, false, false, false, false, false],
         [false, false, false, false, false, false, false, false, false]];
     var numberOfBombsAdjacentToField =
-        [[0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0]];
-    var numberOfBombs = 10;
+            [[0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0]];
+    var numberOfBombs = 9;
 
     function plantBombs() {
         for (var i = 0; i < numberOfBombs; i++) {
@@ -195,8 +195,9 @@
 
             var numberOfBombs = numberOfBombsAdjacentToField[x][y];
             var divToChange = document.getElementById((x.toString() + y.toString()));
-            if (numberOfBombs > 0) {
-                divToChange.innerHTML = numberOfBombs.toString();
+            if (numberOfBombsAdjacentToField[x][y] > 0) {
+                divToChange.innerText = numberOfBombsAdjacentToField[x][y];
+                colorNumberOfBombs(numberOfBombsAdjacentToField[x][y], divToChange);
             }
             else {
                 floodFill(x, y);
@@ -206,6 +207,29 @@
         }
     }
 
+    function colorNumberOfBombs(numberOfBombs, divToChange) {
+        switch (numberOfBombs) {
+            case 1:
+                divToChange.style.color = "blue";
+                break;
+            case 2:
+                divToChange.style.color = "green";
+                break;
+            case 3:
+                divToChange.style.color = "red";
+                break;
+            case 4:
+                divToChange.style.color = "purple";
+                break;
+            case 5:
+                divToChange.style.color = "orange";
+                break;
+            case 6:
+                divToChange.style.color = "pink";
+                break;
+        }
+        divToChange.style.backgroundColor = "darkGray";
+    }
     function floodFill(x, y) {
 
         if (y < 0) {
@@ -235,7 +259,8 @@
         if (numberOfBombsAdjacentToField[x][y] > 0) {
             var divToChange = document.getElementById((x.toString() + y.toString()));
             divToChange.innerHTML = numberOfBombsAdjacentToField[x][y].toString();
-            divToChange.style.backgroundColor = "darkGray";
+
+            colorNumberOfBombs(numberOfBombsAdjacentToField[x][y], divToChange);
             return;
         }
         else {
