@@ -132,6 +132,7 @@
                 [0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0]];
     var numberOfBombs = 9;
+    var isGameDone = false;
 
     function plantBombs() {
         for (var i = 0; i < numberOfBombs; i++) {
@@ -184,21 +185,28 @@
     }
 
     function playerMove(object) {
-        var x = parseInt(object.id.charAt(0));
-        var y = parseInt(object.id.charAt(1));
-        if (board[x][y]) {
-            displayAllBombs();
-        }
-        else {
-
-            var divToChange = document.getElementById((x.toString() + y.toString()));
-            if (numberOfBombsAdjacentToField[x][y] > 0) {
-                divToChange.innerText = numberOfBombsAdjacentToField[x][y];
-                colorNumberOfBombs(numberOfBombsAdjacentToField[x][y], divToChange);
+        if(!isGameDone) {
+            var x = parseInt(object.id.charAt(0));
+            var y = parseInt(object.id.charAt(1));
+            if (board[x][y]) {
+                displayAllBombs();
+                alert("Przegrales");
+                isGameDone = true;
             }
             else {
-                floodFill(x, y);
+
+                var divToChange = document.getElementById((x.toString() + y.toString()));
+                if (numberOfBombsAdjacentToField[x][y] > 0) {
+                    divToChange.innerText = numberOfBombsAdjacentToField[x][y];
+                    colorNumberOfBombs(numberOfBombsAdjacentToField[x][y], divToChange);
+                }
+                else {
+                    floodFill(x, y);
+                }
             }
+        }
+        else {
+            alert("Gra jest skoncozna. Rozpocznij nowa gre");
         }
     }
 
