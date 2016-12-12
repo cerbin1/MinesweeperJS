@@ -8,7 +8,8 @@
 <body onload="plantBombs()">
 <table>
     <tr>
-        <td onclick="playerMove(this)" id="00">00</td>
+        <!--<td onclick="playerMove(this)" id="00">00</td>-->
+        <td onmousedown="test(event)" id="00">00</td>
         <td onclick="playerMove(this)" id="01">01</td>
         <td onclick="playerMove(this)" id="02">02</td>
         <td onclick="playerMove(this)" id="03">03</td>
@@ -174,6 +175,18 @@
             }
         }
         displayAllBombs();
+    }
+
+    function test(event) {
+        if(event.button == 0) {
+        }
+        if(event.button == 2) {
+            var x = document.getElementById("00");
+            x.innerHTML = "";
+            var img = document.createElement('img');
+            img.src = "flag.png";
+            x.appendChild(img);
+        }
     }
 
     function playerMove(object) {
