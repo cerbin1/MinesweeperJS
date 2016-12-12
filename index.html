@@ -112,35 +112,28 @@
 <button class="new-game-button" onclick="location.reload()">Start new game</button>
 
 <script>
-    var board = [[false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false]];
-    var numberOfBombsAdjacentToField =
-            [[0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0]];
+    var booleanBoard = new Array(9);
+    var numberOfBombsAdjacentToField = new Array(9);
     var numberOfBombs = 9;
     var isGameDone = false;
+
+    fillTwoDimensionalBoard(booleanBoard, false);
+    fillTwoDimensionalBoard(numberOfBombsAdjacentToField, 0);
+
+
+    function fillTwoDimensionalBoard(array, value) {
+        for (var i = 0; i < 9; i++) {
+            array[i] = new Array(9).fill(value);
+        }
+    }
 
     function plantBombs() {
         for (var i = 0; i < numberOfBombs; i++) {
             while (true) {
-                var first = Math.floor(Math.random() * board.length);
-                var second = Math.floor(Math.random() * board.length);
-                if (!board[first][second]) {
-                    board[first][second] = true;
+                var first = Math.floor(Math.random() * booleanBoard.length);
+                var second = Math.floor(Math.random() * booleanBoard.length);
+                if (!booleanBoard[first][second]) {
+                    booleanBoard[first][second] = true;
                     console.log(first, second);
                     break;
                 }
@@ -150,8 +143,8 @@
     }
 
     function fillBoard() {
-        for (var i = 0; i < board.length; i++) {
-            for (var j = 0; j < board.length; j++) {
+        for (var i = 0; i < booleanBoard.length; i++) {
+            for (var j = 0; j < booleanBoard.length; j++) {
                 if (i == 0 && j == 0) {
                     leftTopCorner(0, 0);
                 }
@@ -188,7 +181,7 @@
         if(!isGameDone) {
             var x = parseInt(object.id.charAt(0));
             var y = parseInt(object.id.charAt(1));
-            if (board[x][y]) {
+            if (booleanBoard[x][y]) {
                 displayAllBombs();
                 alert("Przegrales");
                 isGameDone = true;
@@ -251,7 +244,7 @@
             console.log("bottom border exceeded");
             return;
         }
-        if (board[x][y]) {
+        if (booleanBoard[x][y]) {
             console.log("bomb!");
             return;
         }
@@ -282,156 +275,156 @@
 
 
     function leftTopCorner(x, y) {
-        if (board[0][1]) {
+        if (booleanBoard[0][1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[1][0]) {
+        if (booleanBoard[1][0]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[1][1]) {
+        if (booleanBoard[1][1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
     }
 
     function rightTopCorner(x, y) {
-        if (board[0][7]) {
+        if (booleanBoard[0][7]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[1][7]) {
+        if (booleanBoard[1][7]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[1][8]) {
+        if (booleanBoard[1][8]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
     }
 
     function leftBottomCorner(x, y) {
-        if (board[7][0]) {
+        if (booleanBoard[7][0]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[7][1]) {
+        if (booleanBoard[7][1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[8][0]) {
+        if (booleanBoard[8][0]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
     }
 
     function rightBottomCorner(x, y) {
-        if (board[7][7]) {
+        if (booleanBoard[7][7]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[7][8]) {
+        if (booleanBoard[7][8]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[8][7]) {
+        if (booleanBoard[8][7]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
     }
 
     function topEdge(x, y) {
-        if (board[x][y - 1]) {
+        if (booleanBoard[x][y - 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x][y + 1]) {
+        if (booleanBoard[x][y + 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x + 1][y - 1]) {
+        if (booleanBoard[x + 1][y - 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x + 1][y]) {
+        if (booleanBoard[x + 1][y]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x + 1][y + 1]) {
+        if (booleanBoard[x + 1][y + 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
     }
 
     function leftEdge(x, y) {
-        if (board[x - 1][y]) {
+        if (booleanBoard[x - 1][y]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x - 1][y + 1]) {
+        if (booleanBoard[x - 1][y + 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x][y + 1]) {
+        if (booleanBoard[x][y + 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x + 1][y]) {
+        if (booleanBoard[x + 1][y]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x + 1][y + 1]) {
+        if (booleanBoard[x + 1][y + 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
     }
 
     function rightEdge(x, y) {
-        if (board[x - 1][y - 1]) {
+        if (booleanBoard[x - 1][y - 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x - 1][y]) {
+        if (booleanBoard[x - 1][y]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x][y - 1]) {
+        if (booleanBoard[x][y - 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x + 1][y - 1]) {
+        if (booleanBoard[x + 1][y - 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x + 1][y]) {
+        if (booleanBoard[x + 1][y]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
     }
 
     function bottomEdge(x, y) {
-        if (board[x - 1][y - 1]) {
+        if (booleanBoard[x - 1][y - 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x - 1][y]) {
+        if (booleanBoard[x - 1][y]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x - 1][y + 1]) {
+        if (booleanBoard[x - 1][y + 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x][y - 1]) {
+        if (booleanBoard[x][y - 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x][y + 1]) {
+        if (booleanBoard[x][y + 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
     }
 
     function mid(x, y) {
-        if (board[x - 1][y - 1]) {
+        if (booleanBoard[x - 1][y - 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x - 1][y]) {
+        if (booleanBoard[x - 1][y]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x - 1][y + 1]) {
+        if (booleanBoard[x - 1][y + 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x][y - 1]) {
+        if (booleanBoard[x][y - 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x][y + 1]) {
+        if (booleanBoard[x][y + 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x + 1][y - 1]) {
+        if (booleanBoard[x + 1][y - 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x + 1][y]) {
+        if (booleanBoard[x + 1][y]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
-        if (board[x + 1][y + 1]) {
+        if (booleanBoard[x + 1][y + 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
     }
 
     function displayAllBombs() {
-        for (var i = 0; i < board.length; i++) {
-            for (var j = 0; j < board.length; j++) {
-                if (board[i][j]) {
+        for (var i = 0; i < booleanBoard.length; i++) {
+            for (var j = 0; j < booleanBoard.length; j++) {
+                if (booleanBoard[i][j]) {
                     document.getElementById((i.toString() + j.toString())).style.backgroundColor = "red";
                 }
             }
