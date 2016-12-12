@@ -115,11 +115,19 @@
 <script>
     var booleanBoard = new Array(9);
     var numberOfBombsAdjacentToField = new Array(9);
+    var flagsBoard = new Array(9);
     var numberOfBombs = 9;
     var isGameDone = false;
 
+    for(var i = 0; i < 9; i++) {
+        for(var j = 0; j < 9; j++) {
+            document.getElementById(i.toString() + j.toString()).innerHTML = "";
+        }
+    }
+
     fillTwoDimensionalBoard(booleanBoard, false);
     fillTwoDimensionalBoard(numberOfBombsAdjacentToField, 0);
+    fillTwoDimensionalBoard(flagsBoard, 0);
 
     function fillTwoDimensionalBoard(array, value) {
         for (var i = 0; i < 9; i++) {
@@ -184,11 +192,18 @@
         if (event.button == 2) {
 
             var x = document.getElementById(object.id.charAt(0).toString() + object.id.charAt(1).toString());
+            var img = document.createElement('img');
             if (x.style.backgroundColor != "darkgray") {
-                x.innerHTML = "";
-                var img = document.createElement('img');
-                img.src = "flag.png";
-                x.appendChild(img);
+                if (flagsBoard[parseInt(object.id.charAt(0))][object.id.charAt(1)]) {
+                    img.src = "";
+                    x.appendChild(img);
+                    flagsBoard[parseInt(object.id.charAt(0))][object.id.charAt(1)] = false;
+                }
+                else {
+                    img.src = "flag.png";
+                    x.appendChild(img);
+                    flagsBoard[parseInt(object.id.charAt(0))][object.id.charAt(1)] = true;
+                }
             }
         }
     }
@@ -241,6 +256,7 @@
         }
         divToChange.style.backgroundColor = "darkGray";
     }
+
     function floodFill(x, y) {
 
         if (y < 0) {
@@ -286,7 +302,6 @@
         floodFill(x + 1, y - 1);
         floodFill(x + 1, y + 1);
     }
-
 
     function leftTopCorner(x, y) {
         if (booleanBoard[0][1]) {
