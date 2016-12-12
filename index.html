@@ -182,11 +182,14 @@
             playerMove(object);
         }
         if (event.button == 2) {
+
             var x = document.getElementById(object.id.charAt(0).toString() + object.id.charAt(1).toString());
-            x.innerHTML = "";
-            var img = document.createElement('img');
-            img.src = "flag.png";
-            x.appendChild(img);
+            if (x.style.backgroundColor != "darkgray") {
+                x.innerHTML = "";
+                var img = document.createElement('img');
+                img.src = "flag.png";
+                x.appendChild(img);
+            }
         }
     }
 
@@ -267,7 +270,6 @@
         if (numberOfBombsAdjacentToField[x][y] > 0) {
             var divToChange = document.getElementById((x.toString() + y.toString()));
             divToChange.innerHTML = numberOfBombsAdjacentToField[x][y].toString();
-
             colorNumberOfBombs(numberOfBombsAdjacentToField[x][y], divToChange);
             return;
         }
