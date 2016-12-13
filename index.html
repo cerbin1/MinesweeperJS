@@ -285,151 +285,55 @@
     }
 
     function leftTopCorner(x, y) {
-        // TODO to jest jeden wielki copy paste. zrob chociaz żeby był or w ifie
-        if (booleanBoard[0][1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[1][0]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[1][1]) {
+        if (booleanBoard[0][1] || booleanBoard[1][0] || booleanBoard[1][1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
     }
 
     function rightTopCorner(x, y) {
-        // TODO to samo tutaj co wyżej
-        if (booleanBoard[0][7]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[1][7]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[1][8]) {
+        if (booleanBoard[0][7] || booleanBoard[1][7] || booleanBoard[1][8]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
     }
 
     function leftBottomCorner(x, y) {
-        if (booleanBoard[7][0]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[7][1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[8][0]) {
+        if (booleanBoard[7][0] || booleanBoard[7][1] || booleanBoard[8][0]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
     }
 
     function rightBottomCorner(x, y) {
-        if (booleanBoard[7][7]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[7][8]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[8][7]) {
+        if (booleanBoard[7][7] || booleanBoard[7][8] || booleanBoard[8][7]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
     }
 
     function topEdge(x, y) {
-        // TODO wszystko to copy-pasty,
-        if (booleanBoard[x][y - 1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x][y + 1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x + 1][y - 1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x + 1][y]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x + 1][y + 1]) {
+        if (booleanBoard[x][y - 1] || booleanBoard[x][y + 1] || booleanBoard[x + 1][y - 1] || booleanBoard[x + 1][y] || booleanBoard[x + 1][y + 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
     }
 
     function leftEdge(x, y) {
-        if (booleanBoard[x - 1][y]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x - 1][y + 1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x][y + 1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x + 1][y]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x + 1][y + 1]) {
+        if (booleanBoard[x - 1][y] || booleanBoard[x - 1][y + 1] || booleanBoard[x][y + 1] || booleanBoard[x + 1][y] || booleanBoard[x + 1][y + 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
     }
 
     function rightEdge(x, y) {
-        if (booleanBoard[x - 1][y - 1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x - 1][y]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x][y - 1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x + 1][y - 1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x + 1][y]) {
+        if (booleanBoard[x - 1][y - 1] || booleanBoard[x - 1][y] || booleanBoard[x][y - 1] || booleanBoard[x + 1][y - 1] || booleanBoard[x + 1][y]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
     }
 
     function bottomEdge(x, y) {
-        if (booleanBoard[x - 1][y - 1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x - 1][y]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x - 1][y + 1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x][y - 1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x][y + 1]) {
+        if (booleanBoard[x - 1][y - 1] || booleanBoard[x - 1][y] || booleanBoard[x - 1][y + 1] || booleanBoard[x][y - 1] || booleanBoard[x][y + 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
     }
 
     function mid(x, y) {
-        if (booleanBoard[x - 1][y - 1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x - 1][y]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x - 1][y + 1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x][y - 1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x][y + 1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x + 1][y - 1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x + 1][y]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
-        }
-        if (booleanBoard[x + 1][y + 1]) {
+        if (booleanBoard[x - 1][y - 1] || booleanBoard[x - 1][y] || booleanBoard[x - 1][y + 1] || booleanBoard[x][y - 1] || booleanBoard[x][y + 1] || booleanBoard[x + 1][y - 1] || booleanBoard[x + 1][y] || booleanBoard[x + 1][y + 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
     }
