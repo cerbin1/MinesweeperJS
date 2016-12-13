@@ -288,6 +288,9 @@
             console.log("already clicked");
             return;
         }
+        if(flagsBoard[x][y]) {
+            return;
+        }
         if (numberOfBombsAdjacentToField[x][y] > 0) {
             var divToChange = document.getElementById((x.toString() + y.toString()));
             divToChange.innerHTML = numberOfBombsAdjacentToField[x][y].toString();
