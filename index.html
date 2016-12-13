@@ -207,10 +207,52 @@
     function playerMove(event, object) {
         if (event.button == 0) {
             discoverField(object);
+            if ((countPointsFromFieldsReleased()) == 0) {
+                console.log("wygrales");
+            }
+            else {
+                console.log(countPointsFromFieldsReleased());
+                console.log("nie wygrales jeszcze");
+            }
         }
         if (event.button == 2) {
             setFlag(object);
+            checkIfPlayerWins(object.id.charAt(0), object.id.charAt(1));
         }
+    }
+
+    function checkIfPlayerWins() {
+        if (countPointsFromFlag() == numberOfBombs) {
+            console.log("wygrales");
+        }
+        else {
+            console.log(countPointsFromFlag());
+            console.log("nie wygrales jeszcze");
+        }
+    }
+
+    function countPointsFromFlag() {
+        var numberOfPoints = 0;
+        for (var i = 0; i < 9; i++) {
+            for (var j = 0; j < 9; j++) {
+                if (booleanBoard[i][j] && flagsBoard[i][j]) {
+                    numberOfPoints++;
+                }
+            }
+        }
+        return numberOfPoints;
+    }
+
+    function countPointsFromFieldsReleased() {
+        var numberOfPoints = 0;
+        for (var i = 0; i < 9; i++) {
+            for (var j = 0; j < 9; j++) {
+                if (!booleanBoard[i][j] && document.getElementById(i.toString() + j.toString()).style.backgroundColor != "darkgray") {
+                    numberOfPoints++;
+                }
+            }
+        }
+        return numberOfPoints;
     }
 
     function discoverField(object) {
@@ -288,7 +330,7 @@
             console.log("already clicked");
             return;
         }
-        if(flagsBoard[x][y]) {
+        if (flagsBoard[x][y]) {
             return;
         }
         if (numberOfBombsAdjacentToField[x][y] > 0) {
