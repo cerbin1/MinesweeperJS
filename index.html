@@ -5,7 +5,7 @@
     <title>Minesweeper</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body onload="plantBombs()">
+<body onload="startGame()">
 <div id="game" oncontextmenu="return false">
 </div>
 
@@ -19,7 +19,14 @@
     var numberOfBombs = 9;
     var isGameDone = false;
 
-    createBorderTable();
+
+    function startGame() {
+        fillTwoDimensionalBoard(booleanBoard, false);
+        fillTwoDimensionalBoard(numberOfBombsAdjacentToField, 0);
+        fillTwoDimensionalBoard(flagsBoard, 0);
+        createBorderTable();
+        plantBombs();
+    }
 
     function createBorderTable() {
         var table = document.createElement("TABLE");
@@ -41,9 +48,6 @@
         }
     }
 
-    fillTwoDimensionalBoard(booleanBoard, false);
-    fillTwoDimensionalBoard(numberOfBombsAdjacentToField, 0);
-    fillTwoDimensionalBoard(flagsBoard, 0);
 
     function fillTwoDimensionalBoard(array, value) {
         for (var i = 0; i < 9; i++) {
