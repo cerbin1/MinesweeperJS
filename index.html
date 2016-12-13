@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body onload="plantBombs()">
-<div oncontextmenu="return false">
+<div id="game" oncontextmenu="return false">
     <table>
         <tr>
             <td onmousedown="playerMove(event, this)" id="00">00</td>
@@ -111,6 +111,7 @@
 </div>
 
 <button class="new-game-button" onclick="location.reload()">Start new game</button>
+<button class="new-game-button" onclick="createBorderTable()">Start new game</button>
 
 <script>
     var booleanBoard = new Array(9);
@@ -118,6 +119,23 @@
     var flagsBoard = new Array(9);
     var numberOfBombs = 9;
     var isGameDone = false;
+
+    function createBorderTable() {
+        var x = document.createElement("TABLE");
+        x.setAttribute("id", "myTable");
+        document.body.appendChild(x);
+
+        var y = document.createElement("TR");
+        y.setAttribute("id", "myTr");
+        for (var i = 0; i < 9; i++) {
+            document.getElementById("myTable").appendChild(y);
+            for (var j = 0; j < 9; j++) {
+
+                var z = document.createElement("TD");
+                document.getElementById(j.toString() + i.toString()).appendChild(z);
+            }
+        }
+    }
 
     for (var i = 0; i < 9; i++) {
         for (var j = 0; j < 9; j++) {
@@ -149,6 +167,9 @@
         }
         fillBoard();
     }
+
+    var width = 9;
+    var length = 9;
 
     function fillBoard() {
         for (var i = 0; i < booleanBoard.length; i++) {
