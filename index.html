@@ -207,26 +207,18 @@
     function playerMove(event, object) {
         if (event.button == 0) {
             discoverField(object);
-            if ((countPointsFromFieldsReleased()) == 0) {
-                console.log("wygrales");
-            }
-            else {
-                console.log(countPointsFromFieldsReleased());
-                console.log("nie wygrales jeszcze");
-            }
         }
         if (event.button == 2) {
             setFlag(object);
-            checkIfPlayerWins(object.id.charAt(0), object.id.charAt(1));
         }
+        checkIfPlayerWins(object.id.charAt(0), object.id.charAt(1));
     }
 
     function checkIfPlayerWins() {
-        if (countPointsFromFlag() == numberOfBombs) {
+        if (countPointsFromFlag() == numberOfBombs || countPointsFromFieldsReleased() == 0) {
             console.log("wygrales");
         }
         else {
-            console.log(countPointsFromFlag());
             console.log("nie wygrales jeszcze");
         }
     }
