@@ -186,7 +186,7 @@
             var y = parseInt(object.id.charAt(1));
             if (booleanBoard[x][y]) {
                 displayAllBombs();
-                alert("Przegrales");
+                console.log("Przegrales");
                 isGameDone = true;
             }
             else {
@@ -231,34 +231,13 @@
         }
         divToChange.style.backgroundColor = "darkGray";
     }
-
     function floodFill(x, y) {
-
-        if (y < 0) {
-            console.log("left border exceeded");
-            return;
-        }
-        if (y > 8) {
-            console.log("right border exceeded");
-            return;
-        }
-        if (x < 0) {
-            console.log("top border exceeded");
-            return;
-        }
-        if (x > 8) {
-            console.log("bottom border exceeded");
-            return;
-        }
-        if (booleanBoard[x][y]) {
-            console.log("bomb!");
+        if (y < 0 || y > 8 || x < 0 || x > 8 || flagsBoard[x][y]) {
+            console.log("border exceeded");
             return;
         }
         if (document.getElementById((idToString(x, y))).style.backgroundColor == "darkgray") {
             console.log("already clicked");
-            return;
-        }
-        if (flagsBoard[x][y]) {
             return;
         }
 
