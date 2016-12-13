@@ -186,19 +186,21 @@
     }
 
     function setFlag(object) {
-        var x = document.getElementById(object.id.charAt(0).toString() + object.id.charAt(1).toString());
-        var img = document.createElement('img');
-        if (x.style.backgroundColor != "darkgray") {
-            if (flagsBoard[parseInt(object.id.charAt(0))][object.id.charAt(1)]) {
-                x.innerHTML = "";
-                img.src = "";
-                x.appendChild(img);
-                flagsBoard[parseInt(object.id.charAt(0))][object.id.charAt(1)] = false;
+        var x = object.id.charAt(0);
+        var y = object.id.charAt(1);
+        var fieldToSetFlag = document.getElementById(x.toString() + y.toString());
+        var flagImage = document.createElement("img");
+        if (fieldToSetFlag.style.backgroundColor != "darkgray") {
+            if (flagsBoard[x][y]) {
+                fieldToSetFlag.innerHTML = "";
+                flagImage.src = "";
+                fieldToSetFlag.appendChild(flagImage);
+                flagsBoard[x][y] = false;
             }
             else {
-                img.src = "flag.png";
-                x.appendChild(img);
-                flagsBoard[parseInt(object.id.charAt(0))][object.id.charAt(1)] = true;
+                flagImage.src = "flag.png";
+                fieldToSetFlag.appendChild(flagImage);
+                flagsBoard[x][y] = true;
             }
         }
     }
