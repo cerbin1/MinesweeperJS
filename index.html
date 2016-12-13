@@ -18,7 +18,7 @@
     var flagsBoard = new Array(9);
     var numberOfBombs = 9;
     var isGameDone = false;
-
+    var colors = ["blue", "green", "red", "purple", "orange", "pink"];
 
     function startGame() {
         fillTwoDimensionalBoard(booleanBoard, false);
@@ -206,29 +206,25 @@
     }
 
     function colorNumberOfBombs(numberOfBombs, divToChange) {
-        // TODO zrobic tablice z kolorami, i wyciagac
-        // np:
-        // divToChange.style.color = kolory[numberofBombs]
-        switch (numberOfBombs) {
-            case 1:
-                divToChange.style.color = "blue";
-                break;
-            case 2:
-                divToChange.style.color = "green";
-                break;
-            case 3:
-                divToChange.style.color = "red";
-                break;
-            case 4:
-                divToChange.style.color = "purple";
-                break;
-            case 5:
-                divToChange.style.color = "orange";
-                break;
-            case 6:
-                divToChange.style.color = "pink";
-                break;
+        if (numberOfBombs == 1) {
+            divToChange.style.color = colors[0];
         }
+        else if (numberOfBombs == 2) {
+            divToChange.style.color = colors[1];
+        }
+        else if (numberOfBombs == 3) {
+            divToChange.style.color = colors[2];
+        }
+        else if (numberOfBombs == 4) {
+            divToChange.style.color = colors[3];
+        }
+        else if (numberOfBombs == 5) {
+            divToChange.style.color = colors[4];
+        }
+        else if (numberOfBombs == 6) {
+            divToChange.style.color = colors[5];
+        }
+
         divToChange.style.backgroundColor = "darkGray";
     }
     function floodFill(x, y) {
