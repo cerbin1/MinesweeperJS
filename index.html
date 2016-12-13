@@ -272,7 +272,6 @@
         }
         else {
             gameFieldToChange.style.backgroundColor = "darkGray";
-            gameFieldToChange.innerHTML = "";
         }
         floodFill(x, y - 1);
         floodFill(x, y + 1);
@@ -342,7 +341,7 @@
         for (var i = 0; i < booleanBoard.length; i++) {
             for (var j = 0; j < booleanBoard.length; j++) {
                 if (booleanBoard[i][j]) {
-                    document.getElementById((i.toString() + j.toString())).style.backgroundColor = "red";
+                    document.getElementById((idToString(i, j))).style.backgroundColor = "red";
                 }
             }
         }
