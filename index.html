@@ -198,6 +198,9 @@
     }
 
     function colorNumberOfBombs(numberOfBombs, divToChange) {
+        // TODO zrobic tablice z kolorami, i wyciagac
+        // np:
+        // divToChange.style.color = kolory[numberofBombs]
         switch (numberOfBombs) {
             case 1:
                 divToChange.style.color = "blue";
@@ -257,6 +260,9 @@
             return;
         }
         else {
+            // TODO to co jest argumentem getElementById trzeba by wydzielic do innej funkcji
+            // TODO czemu dwa razy robisz document.getElementById() ?
+            // lepiej wyciągnąć do zmiennej raz i na niej robić.
             document.getElementById(((x).toString() + (y).toString())).style.backgroundColor = "darkGray";
             document.getElementById(((x).toString() + (y).toString())).innerHTML = "";
         }
@@ -271,6 +277,7 @@
     }
 
     function leftTopCorner(x, y) {
+        // TODO to jest jeden wielki copy paste. zrob chociaz żeby był or w ifie
         if (booleanBoard[0][1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
@@ -283,6 +290,7 @@
     }
 
     function rightTopCorner(x, y) {
+        // TODO to samo tutaj co wyżej
         if (booleanBoard[0][7]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
@@ -319,6 +327,7 @@
     }
 
     function topEdge(x, y) {
+        // TODO wszystko to copy-pasty,
         if (booleanBoard[x][y - 1]) {
             numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
         }
