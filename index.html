@@ -255,57 +255,60 @@
         floodFill(x + 1, y + 1);
     }
 
+    function incrementNumberOfBombsAdjacentToField(x, y) {
+        numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
+    }
     function leftTopCorner(x, y) {
         if (booleanBoard[0][1] || booleanBoard[1][0] || booleanBoard[1][1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
+            incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function rightTopCorner(x, y) {
         if (booleanBoard[0][7] || booleanBoard[1][7] || booleanBoard[1][8]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
+            incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function leftBottomCorner(x, y) {
         if (booleanBoard[7][0] || booleanBoard[7][1] || booleanBoard[8][0]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
+            incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function rightBottomCorner(x, y) {
         if (booleanBoard[7][7] || booleanBoard[7][8] || booleanBoard[8][7]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
+            incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function topEdge(x, y) {
         if (booleanBoard[x][y - 1] || booleanBoard[x][y + 1] || booleanBoard[x + 1][y - 1] || booleanBoard[x + 1][y] || booleanBoard[x + 1][y + 1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
+            incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function leftEdge(x, y) {
         if (booleanBoard[x - 1][y] || booleanBoard[x - 1][y + 1] || booleanBoard[x][y + 1] || booleanBoard[x + 1][y] || booleanBoard[x + 1][y + 1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
+            incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function rightEdge(x, y) {
         if (booleanBoard[x - 1][y - 1] || booleanBoard[x - 1][y] || booleanBoard[x][y - 1] || booleanBoard[x + 1][y - 1] || booleanBoard[x + 1][y]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
+            incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function bottomEdge(x, y) {
         if (booleanBoard[x - 1][y - 1] || booleanBoard[x - 1][y] || booleanBoard[x - 1][y + 1] || booleanBoard[x][y - 1] || booleanBoard[x][y + 1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
+            incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function mid(x, y) {
         if (booleanBoard[x - 1][y - 1] || booleanBoard[x - 1][y] || booleanBoard[x - 1][y + 1] || booleanBoard[x][y - 1] || booleanBoard[x][y + 1] || booleanBoard[x + 1][y - 1] || booleanBoard[x + 1][y] || booleanBoard[x + 1][y + 1]) {
-            numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
+            incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
