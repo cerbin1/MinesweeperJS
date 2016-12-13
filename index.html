@@ -205,18 +205,24 @@
         }
     }
     function playerMove(event, object) {
-        if (event.button == 0) {
-            discoverField(object);
+        if(!isGameDone) {
+            if (event.button == 0) {
+                discoverField(object);
+            }
+            if (event.button == 2) {
+                setFlag(object);
+            }
+            checkIfPlayerWins(object.id.charAt(0), object.id.charAt(1));
         }
-        if (event.button == 2) {
-            setFlag(object);
+        else {
+            console.log("rozpocznij nowa gre");
         }
-        checkIfPlayerWins(object.id.charAt(0), object.id.charAt(1));
     }
 
     function checkIfPlayerWins() {
         if (countPointsFromFlag() == numberOfBombs || countPointsFromFieldsReleased() == 0) {
             console.log("wygrales");
+            isGameDone = true;
         }
         else {
             console.log("nie wygrales jeszcze");
