@@ -108,10 +108,14 @@
         displayAllBombs();
     }
 
+    function idToString(x, y) {
+        return x.toString() + y.toString();
+    }
+
     function setFlag(object) {
         var x = object.id.charAt(0);
         var y = object.id.charAt(1);
-        var fieldToSetFlag = document.getElementById(x.toString() + y.toString());
+        var fieldToSetFlag = document.getElementById(idToString(x, y));
         var flagImage = document.createElement("img");
         if (fieldToSetFlag.style.backgroundColor != "darkgray") {
             if (flagsBoard[x][y]) {
@@ -186,7 +190,7 @@
                 isGameDone = true;
             }
             else {
-                var divToChange = document.getElementById((x.toString() + y.toString()));
+                var divToChange = document.getElementById((idToString(x, y)));
                 if (numberOfBombsAdjacentToField[x][y] > 0) {
                     divToChange.innerText = numberOfBombsAdjacentToField[x][y];
                     colorNumberOfBombs(numberOfBombsAdjacentToField[x][y], divToChange);
@@ -250,25 +254,25 @@
             console.log("bomb!");
             return;
         }
-        if (document.getElementById(((x).toString() + (y).toString())).style.backgroundColor == "darkgray") {
+        if (document.getElementById((idToString(x, y))).style.backgroundColor == "darkgray") {
             console.log("already clicked");
             return;
         }
         if (flagsBoard[x][y]) {
             return;
         }
+
+        var gameFieldToChange = document.getElementById(idToString(x, y));
+
         if (numberOfBombsAdjacentToField[x][y] > 0) {
-            var divToChange = document.getElementById((x.toString() + y.toString()));
-            divToChange.innerHTML = numberOfBombsAdjacentToField[x][y].toString();
+            var divToChange = document.getElementById((idToString(x, y)));
+            gameFieldToChange.innerHTML = numberOfBombsAdjacentToField[x][y].toString();
             colorNumberOfBombs(numberOfBombsAdjacentToField[x][y], divToChange);
             return;
         }
         else {
-            // TODO to co jest argumentem getElementById trzeba by wydzielic do innej funkcji
-            // TODO czemu dwa razy robisz document.getElementById() ?
-            // lepiej wyciągnąć do zmiennej raz i na niej robić.
-            document.getElementById(((x).toString() + (y).toString())).style.backgroundColor = "darkGray";
-            document.getElementById(((x).toString() + (y).toString())).innerHTML = "";
+            gameFieldToChange.style.backgroundColor = "darkGray";
+            gameFieldToChange.innerHTML = "";
         }
         floodFill(x, y - 1);
         floodFill(x, y + 1);
