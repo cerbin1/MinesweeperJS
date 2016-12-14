@@ -13,7 +13,7 @@
 <button class="new-game-button" onclick="">Start new game</button>
 
 <script>
-    var booleanBoard = new Array(9);
+    var bombs = new Array(9);
     var numberOfBombsAdjacentToField = new Array(9);
     var flagsBoard = new Array(9);
     var numberOfBombs = 9;
@@ -34,7 +34,6 @@
         document.body.appendChild(table);
 
         for (var i = 0; i < 9; i++) {
-
             var row = document.createElement("TR");
             row.setAttribute("id", "row" + i.toString());
             document.getElementById("board").appendChild(row);
@@ -59,10 +58,10 @@
     function plantBombs() {
         for (var i = 0; i < numberOfBombs; i++) {
             while (true) {
-                var first = Math.floor(Math.random() * booleanBoard.length);
-                var second = Math.floor(Math.random() * booleanBoard.length);
-                if (!booleanBoard[first][second]) {
-                    booleanBoard[first][second] = true;
+                var first = Math.floor(Math.random() * bombs.length);
+                var second = Math.floor(Math.random() * bombs.length);
+                if (!bombs[first][second]) {
+                    bombs[first][second] = true;
                     console.log(first, second);
                     break;
                 }
@@ -72,8 +71,8 @@
     }
 
     function fillBoard() {
-        for (var i = 0; i < booleanBoard.length; i++) {
-            for (var j = 0; j < booleanBoard.length; j++) {
+        for (var i = 0; i < bombs.length; i++) {
+            for (var j = 0; j < bombs.length; j++) {
                 if (i == 0 && j == 0) {
                     leftTopCorner(0, 0);
                 }
@@ -158,7 +157,7 @@
         var numberOfPoints = 0;
         for (var i = 0; i < 9; i++) {
             for (var j = 0; j < 9; j++) {
-                if (booleanBoard[i][j] && flagsBoard[i][j]) {
+                if (bombs[i][j] && flagsBoard[i][j]) {
                     numberOfPoints++;
                 }
             }
@@ -170,7 +169,7 @@
         var numberOfPoints = 0;
         for (var i = 0; i < 9; i++) {
             for (var j = 0; j < 9; j++) {
-                if (!booleanBoard[i][j] && document.getElementById(i.toString() + j.toString()).style.backgroundColor != "darkgray") {
+                if (!bombs[i][j] && document.getElementById(i.toString() + j.toString()).style.backgroundColor != "darkgray") {
                     numberOfPoints++;
                 }
             }
@@ -182,7 +181,7 @@
         if (!isGameDone) {
             var x = parseInt(object.id.charAt(0));
             var y = parseInt(object.id.charAt(1));
-            if (booleanBoard[x][y]) {
+            if (bombs[x][y]) {
                 displayAllBombs();
                 console.log("Przegrales");
                 isGameDone = true;
@@ -260,63 +259,63 @@
         numberOfBombsAdjacentToField[parseInt(x)][parseInt(y)]++;
     }
     function leftTopCorner(x, y) {
-        if (booleanBoard[0][1] || booleanBoard[1][0] || booleanBoard[1][1]) {
+        if (bombs[0][1] || bombs[1][0] || bombs[1][1]) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function rightTopCorner(x, y) {
-        if (booleanBoard[0][7] || booleanBoard[1][7] || booleanBoard[1][8]) {
+        if (bombs[0][7] || bombs[1][7] || bombs[1][8]) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function leftBottomCorner(x, y) {
-        if (booleanBoard[7][0] || booleanBoard[7][1] || booleanBoard[8][0]) {
+        if (bombs[7][0] || bombs[7][1] || bombs[8][0]) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function rightBottomCorner(x, y) {
-        if (booleanBoard[7][7] || booleanBoard[7][8] || booleanBoard[8][7]) {
+        if (bombs[7][7] || bombs[7][8] || bombs[8][7]) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function topEdge(x, y) {
-        if (booleanBoard[x][y - 1] || booleanBoard[x][y + 1] || booleanBoard[x + 1][y - 1] || booleanBoard[x + 1][y] || booleanBoard[x + 1][y + 1]) {
+        if (bombs[x][y - 1] || bombs[x][y + 1] || bombs[x + 1][y - 1] || bombs[x + 1][y] || bombs[x + 1][y + 1]) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function leftEdge(x, y) {
-        if (booleanBoard[x - 1][y] || booleanBoard[x - 1][y + 1] || booleanBoard[x][y + 1] || booleanBoard[x + 1][y] || booleanBoard[x + 1][y + 1]) {
+        if (bombs[x - 1][y] || bombs[x - 1][y + 1] || bombs[x][y + 1] || bombs[x + 1][y] || bombs[x + 1][y + 1]) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function rightEdge(x, y) {
-        if (booleanBoard[x - 1][y - 1] || booleanBoard[x - 1][y] || booleanBoard[x][y - 1] || booleanBoard[x + 1][y - 1] || booleanBoard[x + 1][y]) {
+        if (bombs[x - 1][y - 1] || bombs[x - 1][y] || bombs[x][y - 1] || bombs[x + 1][y - 1] || bombs[x + 1][y]) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function bottomEdge(x, y) {
-        if (booleanBoard[x - 1][y - 1] || booleanBoard[x - 1][y] || booleanBoard[x - 1][y + 1] || booleanBoard[x][y - 1] || booleanBoard[x][y + 1]) {
+        if (bombs[x - 1][y - 1] || bombs[x - 1][y] || bombs[x - 1][y + 1] || bombs[x][y - 1] || bombs[x][y + 1]) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function mid(x, y) {
-        if (booleanBoard[x - 1][y - 1] || booleanBoard[x - 1][y] || booleanBoard[x - 1][y + 1] || booleanBoard[x][y - 1] || booleanBoard[x][y + 1] || booleanBoard[x + 1][y - 1] || booleanBoard[x + 1][y] || booleanBoard[x + 1][y + 1]) {
+        if (bombs[x - 1][y - 1] || bombs[x - 1][y] || bombs[x - 1][y + 1] || bombs[x][y - 1] || bombs[x][y + 1] || bombs[x + 1][y - 1] || bombs[x + 1][y] || bombs[x + 1][y + 1]) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function displayAllBombs() {
-        for (var i = 0; i < booleanBoard.length; i++) {
-            for (var j = 0; j < booleanBoard.length; j++) {
-                if (booleanBoard[i][j]) {
+        for (var i = 0; i < bombs.length; i++) {
+            for (var j = 0; j < bombs.length; j++) {
+                if (bombs[i][j]) {
                     document.getElementById((idToString(i, j))).style.backgroundColor = "red";
                 }
             }
