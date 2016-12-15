@@ -12,13 +12,13 @@
 <button class="new-game-button" onclick="location.reload()">Start new game</button>
 
 <script>
-    (function () {
         var bombs = new Array(9);//TODO z bombs i flagsBoard zrobic jednego arraya z polami isFlag i isBomb
         var numberOfBombsAdjacentToField = new Array(9);
         var flagsBoard = new Array(9);
         var numberOfBombs = 9;
         var isGameDone = false;
         var colors = ["blue", "green", "red", "purple", "orange", "pink"];
+
 
         function startGame() {
             bombs = fillTwoDimensionalArray(false);
@@ -327,7 +327,7 @@
                 }
             }
         }
-    })();
+
 </script>
 </body>
 </html>
