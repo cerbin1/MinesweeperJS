@@ -19,6 +19,7 @@
     var bombs = fillTwoDimensionalArray(false);
     var numberOfBombsAdjacentToField = fillTwoDimensionalArray(0);
     var flagsBoard = fillTwoDimensionalArray(0);
+    var gameFields = fillTwoDimensionalArray(null);
     createBorderTable();
     plantBombs();
 
@@ -38,6 +39,7 @@
                 cell.setAttribute("id", i.toString() + j.toString());
                 cell.setAttribute("onmousedown", "playerMove(event, this)");//TODO diva do komorki i pozniej z niego wyciagac wspolrzedne
                 document.getElementById("row" + i.toString()).appendChild(cell);
+                gameFields[i][j] = cell;
             }
         }
     }
