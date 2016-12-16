@@ -6,8 +6,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div id="game" oncontextmenu="return false">
-</div>
 
 <button class="new-game-button" onclick="location.reload()">Start new game</button>
 
@@ -25,14 +23,18 @@
 
 
     function createBorderTable() {
+        var gameDiv = document.createElement("DIV");
+        gameDiv.setAttribute("oncontextmenu", "return false");
+        document.body.appendChild(gameDiv);
+
         var table = document.createElement("TABLE");
-        table.setAttribute("id", "board");
-        document.body.appendChild(table);
+        table.setAttribute("id", "gameBoard");
+        gameDiv.appendChild(table);
 
         for (var i = 0; i < 9; i++) {
             var row = document.createElement("TR");
             row.setAttribute("id", "row" + i.toString());
-            document.getElementById("board").appendChild(row);
+            table.appendChild(row);
 
             for (var j = 0; j < 9; j++) {
                 var cell = document.createElement("TD");
