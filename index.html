@@ -135,7 +135,8 @@
         else {
             if (numberOfBombsAdjacentToField[x][y] > 0) {
                 gameField.innerText = numberOfBombsAdjacentToField[x][y];
-                colorNumberOfBombs(numberOfBombsAdjacentToField[x][y], gameField); // TODO zrobic zeby colorNumberOfBombs() zwracalo kolor a nie ustawialo obiektowi
+                gameField.style.color = colorNumberOfBombs(numberOfBombsAdjacentToField[x][y]);
+                gameField.backgroundColor = "darkGray";
             }
             else {
                 floodFill(x, y);
@@ -199,27 +200,8 @@
         return numberOfPoints;
     }
 
-    function colorNumberOfBombs(numberOfBombs, divToChange) {
-        if (numberOfBombs == 1) {
-            divToChange.style.color = colors[0]; //TODO naprawic raka mózgu
-        }
-        else if (numberOfBombs == 2) {
-            divToChange.style.color = colors[1];
-        }
-        else if (numberOfBombs == 3) {
-            divToChange.style.color = colors[2];
-        }
-        else if (numberOfBombs == 4) {
-            divToChange.style.color = colors[3];
-        }
-        else if (numberOfBombs == 5) {
-            divToChange.style.color = colors[4];
-        }
-        else if (numberOfBombs == 6) {
-            divToChange.style.color = colors[5];
-        }
-
-        divToChange.style.backgroundColor = "darkGray";
+    function colorNumberOfBombs(numberOfBombs) {
+        return colors[numberOfBombs - 1];
     }
 
     function floodFill(x, y) {
