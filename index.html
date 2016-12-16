@@ -127,26 +127,22 @@
     }
 
     function discoverField(x, y, gameField) {
-        if (!isGameDone) {
-            if (bombs[x][y]) {
-                displayAllBombs();
-                console.log("Przegrales");
-                isGameDone = true;
-            }
-            else {
-                if (numberOfBombsAdjacentToField[x][y] > 0) {
-                    gameField.innerText = numberOfBombsAdjacentToField[x][y];
-                    colorNumberOfBombs(numberOfBombsAdjacentToField[x][y], gameField); // TODO zrobic zeby colorNumberOfBombs() zwracalo kolor a nie ustawialo obiektowi
-                }
-                else {
-                    floodFill(x, y);
-                }
-            }
+        if (bombs[x][y]) {
+            displayAllBombs();
+            console.log("Przegrales");
+            isGameDone = true;
         }
         else {
-            alert("Gra jest skoncozna. Rozpocznij nowa gre");
+            if (numberOfBombsAdjacentToField[x][y] > 0) {
+                gameField.innerText = numberOfBombsAdjacentToField[x][y];
+                colorNumberOfBombs(numberOfBombsAdjacentToField[x][y], gameField); // TODO zrobic zeby colorNumberOfBombs() zwracalo kolor a nie ustawialo obiektowi
+            }
+            else {
+                floodFill(x, y);
+            }
         }
     }
+
 
     function setFlag(x, y, fieldToSetFlag) {
         var flagImage = document.createElement("img");
