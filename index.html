@@ -139,7 +139,7 @@
                 gameField.backgroundColor = "darkGray";
             }
             else {
-                floodFill(x, y);
+                floodFill(x, y, gameField);
             }
         }
     }
@@ -209,22 +209,24 @@
             console.log("border exceeded");
             return;
         }
-        if (document.getElementById((idToString(x, y))).style.backgroundColor == "darkgray") {
+
+        var gameFieldToChange = gameFields[x][y];
+
+        if (gameFieldToChange.style.backgroundColor == "darkgray") {
             console.log("already clicked");
             return;
         }
 
-        var gameFieldToChange = document.getElementById(idToString(x, y));
-
         if (numberOfBombsAdjacentToField[x][y] > 0) {
-            var divToChange = document.getElementById((idToString(x, y)));
             gameFieldToChange.innerHTML = numberOfBombsAdjacentToField[x][y].toString();
-            colorNumberOfBombs(numberOfBombsAdjacentToField[x][y], divToChange);
+            gameFieldToChange.style.color = colorNumberOfBombs(numberOfBombsAdjacentToField[x][y]);
+            gameFieldToChange.style.backgroundColor = "darkGray";
             return;
         }
         else {
             gameFieldToChange.style.backgroundColor = "darkGray";
         }
+
         floodFill(x, y - 1);
         floodFill(x, y + 1);
         floodFill(x + 1, y);
