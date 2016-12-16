@@ -37,7 +37,7 @@
             for (var j = 0; j < 9; j++) {
                 var cell = document.createElement("TD");
                 cell.setAttribute("id", i.toString() + j.toString());
-                cell.setAttribute("onmousedown", "playerMove(event, this)");//TODO diva do komorki i pozniej z niego wyciagac wspolrzedne
+                cell.setAttribute("onmousedown", "playerMove(event, this)");
                 document.getElementById("row" + i.toString()).appendChild(cell);
                 gameFields[i][j] = cell;
             }
@@ -107,11 +107,15 @@
 
     function playerMove(event, object) {
         if (!isGameDone) {
+            var x = parseInt(object.id.charAt(0));
+            var y = parseInt(object.id.charAt(1));
+            var divToChange = gameFields[x][y];
+
             if (event.button == 0) {
-                discoverField(object);
+                discoverField(x, y, divToChange);
             }
             if (event.button == 2) {
-                setFlag(object);
+                setFlag(x, y, divToChange);
             }
             checkIfPlayerWins();
         }
@@ -120,12 +124,8 @@
         }
     }
 
-    function discoverField(object) {
+    function discoverField(x, y, gameField) {
         if (!isGameDone) {
-            var x = parseInt(object.id.charAt(0));
-            var y = parseInt(object.id.charAt(1));
-            var divToChange = gameFields[x][y];
-
             if (bombs[x][y]) {
                 displayAllBombs();
                 console.log("Przegrales");
@@ -133,8 +133,8 @@
             }
             else {
                 if (numberOfBombsAdjacentToField[x][y] > 0) {
-                    divToChange.innerText = numberOfBombsAdjacentToField[x][y];
-                    colorNumberOfBombs(numberOfBombsAdjacentToField[x][y], divToChange); // TODO zrobic zeby colorNumberOfBombs() zwracalo kolor a nie ustawialo obiektowi
+                    gameField.innerText = numberOfBombsAdjacentToField[x][y];
+                    colorNumberOfBombs(numberOfBombsAdjacentToField[x][y], gameField); // TODO zrobic zeby colorNumberOfBombs() zwracalo kolor a nie ustawialo obiektowi
                 }
                 else {
                     floodFill(x, y);
@@ -146,10 +146,7 @@
         }
     }
 
-    function setFlag(object) {
-        var x = object.id.charAt(0);
-        var y = object.id.charAt(1);
-        var fieldToSetFlag = document.getElementById(idToString(x, y));
+    function setFlag(x, y, fieldToSetFlag) {
         var flagImage = document.createElement("img");
         if (fieldToSetFlag.style.backgroundColor != "darkgray") {
             if (flagsBoard[x][y]) {
