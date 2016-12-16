@@ -18,19 +18,19 @@
     plantBombs();
 
     function fillTwoDimensionalArray() {
-        var array = new Array(9);
-        for (var i = 0; i < 9; i++) {
-            array[i] = new Array(9);
+        var array = new Array(9); // nie uzywaj new Array tylko []
+        for (var i = 0; i < 9; i++) { // zamiast pisac te 9 wszedzie to powinno byc COLUMNS/ROWS ustawione gdzies
+            array[i] = new Array(9); // same
             for (var j = 0; j < 9; j++) {
-                array[i][j] = {isBomb: false, isFlag: false, numberOfBombsAdjacent: 0, gameField: null};
+                array[i][j] = {isBomb: false, isFlag: false, numberOfBombsAdjacent: 0, gameField: null}; // wjebalbym to w jakies getDefaultObjectYo
             }
         }
         return array;
     }
 
     function createBorderTable() {
-        var gameDiv = document.createElement("DIV");
-        gameDiv.setAttribute("oncontextmenu", "return false");
+        var gameDiv = document.createElement("DIV"); // wielka litera wat
+        gameDiv.setAttribute("oncontextmenu", "return false"); // nie podoba mi sie to
         document.body.appendChild(gameDiv);
 
         var table = document.createElement("TABLE");
@@ -45,7 +45,7 @@
             for (var j = 0; j < 9; j++) {
                 var cell = document.createElement("TD");
                 cell.setAttribute("id", i.toString() + j.toString());
-                cell.setAttribute("onmousedown", "playerMove(event, this)");
+                cell.setAttribute("onmousedown", "playerMove(event, this)"); // cell.onClick a nie jakies setAttribute
                 document.getElementById("row" + i.toString()).appendChild(cell);
                 bombsAndFlags[i][j].gameField = cell;
             }
@@ -68,34 +68,27 @@
         fillBoard();
     }
 
-    function fillBoard() {
+    function fillBoard() { // idk co to jest
         for (var i = 0; i < bombsAndFlags.length; i++) {
             for (var j = 0; j < bombsAndFlags.length; j++) {
+                // nie chce mi sie tego analizowac ale na 100% da sie to napisac duzo prosciej
                 if (i == 0 && j == 0) {
                     leftTopCorner(0, 0);
-                }
-                else if (i == 0 && j == 8) {
+                } else if (i == 0 && j == 8) {
                     rightTopCorner(0, 8);
-                }
-                else if (i == 8 && j == 0) {
+                } else if (i == 8 && j == 0) {
                     leftBottomCorner(8, 0);
-                }
-                else if (i == 8 && j == 8) {
+                } else if (i == 8 && j == 8) {
                     rightBottomCorner(8, 8);
-                }
-                else if (i == 0 && j > 0 && j < 8) {
+                } else if (i == 0 && j > 0 && j < 8) {
                     topEdge(i, j);
-                }
-                else if (i > 0 && i < 8 && j == 0) {
+                } else if (i > 0 && i < 8 && j == 0) {
                     leftEdge(i, j);
-                }
-                else if (i > 0 && i < 8 && j == 8) {
+                } else if (i > 0 && i < 8 && j == 8) {
                     rightEdge(i, j);
-                }
-                else if (i == 8 && j > 0 && j < 8) {
+                } else if (i == 8 && j > 0 && j < 8) {
                     bottomEdge(i, j);
-                }
-                else {
+                } else {
                     mid(i, j);
                 }
             }
@@ -105,8 +98,8 @@
 
     function playerMove(event, object) {
         if (!isGameDone) {
-            var x = parseInt(object.id.charAt(0));
-            var y = parseInt(object.id.charAt(1));
+            var x = parseInt(object.id.charAt(0)); // chujowo troche
+            var y = parseInt(object.id.charAt(1)); // /\
             var divToChange = bombsAndFlags[x][y].gameField;
 
             if (event.button == 0) {
@@ -129,14 +122,12 @@
             displayAllBombs();
             console.log("Przegrales");
             isGameDone = true;
-        }
-        else {
+        } else {
             if (bombsAndFlags[x][y].numberOfBombsAdjacent > 0) {
                 gameField.innerText = bombsAndFlags[x][y].numberOfBombsAdjacent;
                 gameField.style.color = colorNumberOfBombs(bombsAndFlags[x][y].numberOfBombsAdjacent);
                 gameField.backgroundColor = "darkGray";
-            }
-            else {
+            } else {
                 floodFill(x, y, gameField);
             }
         }
@@ -160,8 +151,7 @@
                 flagImage.src = "";
                 fieldToSetFlag.appendChild(flagImage);
                 bombsAndFlags[x][y].isFlag = false;
-            }
-            else {
+            } else {
                 flagImage.src = "flag.png";
                 fieldToSetFlag.appendChild(flagImage);
                 bombsAndFlags[x][y].isFlag = true;
@@ -173,8 +163,7 @@
         if (countPointsFromFlag() == numberOfBombs || countPointsFromFieldsReleased() == 0) {
             console.log("wygrales");
             isGameDone = true;
-        }
-        else {
+        } else {
             console.log("nie wygrales jeszcze");
         }
     }
@@ -195,7 +184,8 @@
         var numberOfPoints = 0;
         for (var i = 0; i < 9; i++) {
             for (var j = 0; j < 9; j++) {
-                if (!bombsAndFlags[i][j].isBomb && document.getElementById(i.toString() + j.toString()).style.backgroundColor != "darkgray") {
+                var isDarkGray = document.getElementById(i.toString() + j.toString()).style.backgroundColor === "darkgray";
+                if (!bombsAndFlags[i][j].isBomb && !isDarkGray) {
                     numberOfPoints++;
                 }
             }
@@ -230,6 +220,7 @@
             gameFieldToChange.style.backgroundColor = "darkGray";
         }
 
+        // are you kidding me bruh? Pani Jolcia chyba petli nie nauczyla
         floodFill(x, y - 1);
         floodFill(x, y + 1);
         floodFill(x + 1, y);
@@ -244,6 +235,8 @@
         bombsAndFlags[x][y].numberOfBombsAdjacent++;
     }
 
+
+    // te wszystkie funkcje ponizej sa zjebane i powinny by przemyslane bo sie da je napisac w 5 linijkach pewnie xD
     function leftTopCorner(x, y) {
         if (bombsAndFlags[0][1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
