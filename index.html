@@ -148,7 +148,7 @@
         for (var i = 0; i < bombs.length; i++) {
             for (var j = 0; j < bombs.length; j++) {
                 if (bombs[i][j]) {
-                    document.getElementById((idToString(i, j))).style.backgroundColor = "red";
+                    gameFields[i][j].style.backgroundColor = "red";
                 }
             }
         }
@@ -169,10 +169,6 @@
                 flagsBoard[x][y] = true;
             }
         }
-    }
-
-    function idToString(x, y) {
-        return x.toString() + y.toString();
     }
 
     function checkIfPlayerWins() {
