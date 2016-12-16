@@ -12,416 +12,419 @@
 <button class="new-game-button" onclick="location.reload()">Start new game</button>
 
 <script>
-    var bombs = new Array(9);//TODO z bombs i flagsBoard zrobic jednego arraya z polami isFlag i isBomb
-    var numberOfBombsAdjacentToField = new Array(9);
-    var flagsBoard = new Array(9);
-    var numberOfBombs = 9;
-    var isGameDone = false;
-    var colors = ["blue", "green", "red", "purple", "orange", "pink"];
+    function gameStart() {
+        var bombs = new Array(9);//TODO z bombs i flagsBoard zrobic jednego arraya z polami isFlag i isBomb
+        var numberOfBombsAdjacentToField = new Array(9);
+        var flagsBoard = new Array(9);
+        var numberOfBombs = 9;
+        var isGameDone = false;
+        var colors = ["blue", "green", "red", "purple", "orange", "pink"];
 
 
-    function startGame() {
-        bombs = fillTwoDimensionalArray(false);
-        numberOfBombsAdjacentToField = fillTwoDimensionalArray(0);
-        flagsBoard = fillTwoDimensionalArray(0);
-        createBorderTable();
-        plantBombs();
-    }
-
-    function createBorderTable() {
-        var table = document.createElement("TABLE");
-        table.setAttribute("id", "board");
-        document.body.appendChild(table);
-
-        for (var i = 0; i < 9; i++) {
-            var row = document.createElement("TR");
-            row.setAttribute("id", "row" + i.toString());
-            document.getElementById("board").appendChild(row);
-
-            for (var j = 0; j < 9; j++) {
-                var cell = document.createElement("TD");
-                cell.setAttribute("id", i.toString() + j.toString());
-                cell.setAttribute("onmousedown", "playerMove(event, this)");//TODO diva do komorki i pozniej z niego wyciagac wspolrzedne
-                document.getElementById("row" + i.toString()).appendChild(cell);
-            }
+        function startGame() {
+            bombs = fillTwoDimensionalArray(false);
+            numberOfBombsAdjacentToField = fillTwoDimensionalArray(0);
+            flagsBoard = fillTwoDimensionalArray(0);
+            createBorderTable();
+            plantBombs();
         }
-    }
 
-    function fillTwoDimensionalArray(value) {
-        var array = new Array(9);
-        for (var i = 0; i < 9; i++) {
-            array[i] = new Array(9);
-            for (var j = 0; j < 9; j++) {
-                array[i][j] = value;
-            }
-        }
-        return array;
-    }
+        function createBorderTable() {
+            var table = document.createElement("TABLE");
+            table.setAttribute("id", "board");
+            document.body.appendChild(table);
 
-    function plantBombs() {
-        for (var i = 0; i < numberOfBombs; i++) {
-            while (true) {
-                var first = Math.floor(Math.random() * bombs.length);
-                var second = Math.floor(Math.random() * bombs.length);
-                if (!bombs[first][second]) {
-                    bombs[first][second] = true;
-                    console.log(first, second);
-                    break;
+            for (var i = 0; i < 9; i++) {
+                var row = document.createElement("TR");
+                row.setAttribute("id", "row" + i.toString());
+                document.getElementById("board").appendChild(row);
+
+                for (var j = 0; j < 9; j++) {
+                    var cell = document.createElement("TD");
+                    cell.setAttribute("id", i.toString() + j.toString());
+                    cell.setAttribute("onmousedown", "playerMove(event, this)");//TODO diva do komorki i pozniej z niego wyciagac wspolrzedne
+                    document.getElementById("row" + i.toString()).appendChild(cell);
                 }
             }
         }
-        fillBoard();
-    }
 
-    function fillBoard() {
-        for (var i = 0; i < bombs.length; i++) {
-            for (var j = 0; j < bombs.length; j++) {
-                if (i == 0 && j == 0) {
-                    leftTopCorner(0, 0);
+        function fillTwoDimensionalArray(value) {
+            var array = new Array(9);
+            for (var i = 0; i < 9; i++) {
+                array[i] = new Array(9);
+                for (var j = 0; j < 9; j++) {
+                    array[i][j] = value;
                 }
-                else if (i == 0 && j == 8) {
-                    rightTopCorner(0, 8);
+            }
+            return array;
+        }
+
+        function plantBombs() {
+            for (var i = 0; i < numberOfBombs; i++) {
+                while (true) {
+                    var first = Math.floor(Math.random() * bombs.length);
+                    var second = Math.floor(Math.random() * bombs.length);
+                    if (!bombs[first][second]) {
+                        bombs[first][second] = true;
+                        console.log(first, second);
+                        break;
+                    }
                 }
-                else if (i == 8 && j == 0) {
-                    leftBottomCorner(8, 0);
+            }
+            fillBoard();
+        }
+
+        function fillBoard() {
+            for (var i = 0; i < bombs.length; i++) {
+                for (var j = 0; j < bombs.length; j++) {
+                    if (i == 0 && j == 0) {
+                        leftTopCorner(0, 0);
+                    }
+                    else if (i == 0 && j == 8) {
+                        rightTopCorner(0, 8);
+                    }
+                    else if (i == 8 && j == 0) {
+                        leftBottomCorner(8, 0);
+                    }
+                    else if (i == 8 && j == 8) {
+                        rightBottomCorner(8, 8);
+                    }
+                    else if (i == 0 && j > 0 && j < 8) {
+                        topEdge(i, j);
+                    }
+                    else if (i > 0 && i < 8 && j == 0) {
+                        leftEdge(i, j);
+                    }
+                    else if (i > 0 && i < 8 && j == 8) {
+                        rightEdge(i, j);
+                    }
+                    else if (i == 8 && j > 0 && j < 8) {
+                        bottomEdge(i, j);
+                    }
+                    else {
+                        mid(i, j);
+                    }
                 }
-                else if (i == 8 && j == 8) {
-                    rightBottomCorner(8, 8);
-                }
-                else if (i == 0 && j > 0 && j < 8) {
-                    topEdge(i, j);
-                }
-                else if (i > 0 && i < 8 && j == 0) {
-                    leftEdge(i, j);
-                }
-                else if (i > 0 && i < 8 && j == 8) {
-                    rightEdge(i, j);
-                }
-                else if (i == 8 && j > 0 && j < 8) {
-                    bottomEdge(i, j);
+            }
+            displayAllBombs();
+        }
+
+        function idToString(x, y) {
+            return x.toString() + y.toString();
+        }
+
+        function setFlag(object) {
+            var x = object.id.charAt(0);
+            var y = object.id.charAt(1);
+            var fieldToSetFlag = document.getElementById(idToString(x, y));
+            var flagImage = document.createElement("img");
+            if (fieldToSetFlag.style.backgroundColor != "darkgray") {
+                if (flagsBoard[x][y]) {
+                    fieldToSetFlag.innerHTML = "";
+                    flagImage.src = "";
+                    fieldToSetFlag.appendChild(flagImage);
+                    flagsBoard[x][y] = false;
                 }
                 else {
-                    mid(i, j);
+                    flagImage.src = "flag.png";
+                    fieldToSetFlag.appendChild(flagImage);
+                    flagsBoard[x][y] = true;
                 }
             }
         }
-        displayAllBombs();
-    }
 
-    function idToString(x, y) {
-        return x.toString() + y.toString();
-    }
-
-    function setFlag(object) {
-        var x = object.id.charAt(0);
-        var y = object.id.charAt(1);
-        var fieldToSetFlag = document.getElementById(idToString(x, y));
-        var flagImage = document.createElement("img");
-        if (fieldToSetFlag.style.backgroundColor != "darkgray") {
-            if (flagsBoard[x][y]) {
-                fieldToSetFlag.innerHTML = "";
-                flagImage.src = "";
-                fieldToSetFlag.appendChild(flagImage);
-                flagsBoard[x][y] = false;
+        function playerMove(event, object) {
+            if (!isGameDone) {
+                if (event.button == 0) {
+                    discoverField(object);
+                }
+                if (event.button == 2) {
+                    setFlag(object);
+                }
+                checkIfPlayerWins(object.id.charAt(0), object.id.charAt(1));
             }
             else {
-                flagImage.src = "flag.png";
-                fieldToSetFlag.appendChild(flagImage);
-                flagsBoard[x][y] = true;
+                console.log("rozpocznij nowa gre");
             }
         }
-    }
 
-    function playerMove(event, object) {
-        if (!isGameDone) {
-            if (event.button == 0) {
-                discoverField(object);
-            }
-            if (event.button == 2) {
-                setFlag(object);
-            }
-            checkIfPlayerWins(object.id.charAt(0), object.id.charAt(1));
-        }
-        else {
-            console.log("rozpocznij nowa gre");
-        }
-    }
-
-    function checkIfPlayerWins() {
-        if (countPointsFromFlag() == numberOfBombs || countPointsFromFieldsReleased() == 0) {
-            console.log("wygrales");
-            isGameDone = true;
-        }
-        else {
-            console.log("nie wygrales jeszcze");
-        }
-    }
-
-    function countPointsFromFlag() {
-        var numberOfPoints = 0;
-        for (var i = 0; i < 9; i++) {
-            for (var j = 0; j < 9; j++) {
-                if (bombs[i][j] && flagsBoard[i][j]) {
-                    numberOfPoints++;
-                }
-            }
-        }
-        return numberOfPoints;
-    }
-
-    function countPointsFromFieldsReleased() {
-        var numberOfPoints = 0;
-        for (var i = 0; i < 9; i++) {
-            for (var j = 0; j < 9; j++) {
-                if (!bombs[i][j] && document.getElementById(i.toString() + j.toString()).style.backgroundColor != "darkgray") {
-                    numberOfPoints++;
-                }
-            }
-        }
-        return numberOfPoints;
-    }
-
-    function discoverField(object) {
-        if (!isGameDone) {
-            var x = parseInt(object.id.charAt(0));
-            var y = parseInt(object.id.charAt(1));
-            if (bombs[x][y]) {
-                displayAllBombs();
-                console.log("Przegrales");
+        function checkIfPlayerWins() {
+            if (countPointsFromFlag() == numberOfBombs || countPointsFromFieldsReleased() == 0) {
+                console.log("wygrales");
                 isGameDone = true;
             }
             else {
-                var divToChange = document.getElementById((idToString(x, y)));
-                if (numberOfBombsAdjacentToField[x][y] > 0) {
-                    divToChange.innerText = numberOfBombsAdjacentToField[x][y];
-                    colorNumberOfBombs(numberOfBombsAdjacentToField[x][y], divToChange); // TODO zrobic zeby colorNumberOfBombs() zwracalo kolor a nie ustawialo obiektowi
+                console.log("nie wygrales jeszcze");
+            }
+        }
+
+        function countPointsFromFlag() {
+            var numberOfPoints = 0;
+            for (var i = 0; i < 9; i++) {
+                for (var j = 0; j < 9; j++) {
+                    if (bombs[i][j] && flagsBoard[i][j]) {
+                        numberOfPoints++;
+                    }
+                }
+            }
+            return numberOfPoints;
+        }
+
+        function countPointsFromFieldsReleased() {
+            var numberOfPoints = 0;
+            for (var i = 0; i < 9; i++) {
+                for (var j = 0; j < 9; j++) {
+                    if (!bombs[i][j] && document.getElementById(i.toString() + j.toString()).style.backgroundColor != "darkgray") {
+                        numberOfPoints++;
+                    }
+                }
+            }
+            return numberOfPoints;
+        }
+
+        function discoverField(object) {
+            if (!isGameDone) {
+                var x = parseInt(object.id.charAt(0));
+                var y = parseInt(object.id.charAt(1));
+                if (bombs[x][y]) {
+                    displayAllBombs();
+                    console.log("Przegrales");
+                    isGameDone = true;
                 }
                 else {
-                    floodFill(x, y);
+                    var divToChange = document.getElementById((idToString(x, y)));
+                    if (numberOfBombsAdjacentToField[x][y] > 0) {
+                        divToChange.innerText = numberOfBombsAdjacentToField[x][y];
+                        colorNumberOfBombs(numberOfBombsAdjacentToField[x][y], divToChange); // TODO zrobic zeby colorNumberOfBombs() zwracalo kolor a nie ustawialo obiektowi
+                    }
+                    else {
+                        floodFill(x, y);
+                    }
+                }
+            }
+            else {
+                alert("Gra jest skoncozna. Rozpocznij nowa gre");
+            }
+        }
+
+        function colorNumberOfBombs(numberOfBombs, divToChange) {
+            if (numberOfBombs == 1) {
+                divToChange.style.color = colors[0]; //TODO naprawic raka mózgu
+            }
+            else if (numberOfBombs == 2) {
+                divToChange.style.color = colors[1];
+            }
+            else if (numberOfBombs == 3) {
+                divToChange.style.color = colors[2];
+            }
+            else if (numberOfBombs == 4) {
+                divToChange.style.color = colors[3];
+            }
+            else if (numberOfBombs == 5) {
+                divToChange.style.color = colors[4];
+            }
+            else if (numberOfBombs == 6) {
+                divToChange.style.color = colors[5];
+            }
+
+            divToChange.style.backgroundColor = "darkGray";
+        }
+
+        function floodFill(x, y) {
+            if (y < 0 || y > 8 || x < 0 || x > 8 || flagsBoard[x][y]) {
+                console.log("border exceeded");
+                return;
+            }
+            if (document.getElementById((idToString(x, y))).style.backgroundColor == "darkgray") {
+                console.log("already clicked");
+                return;
+            }
+
+            var gameFieldToChange = document.getElementById(idToString(x, y));
+
+            if (numberOfBombsAdjacentToField[x][y] > 0) {
+                var divToChange = document.getElementById((idToString(x, y)));
+                gameFieldToChange.innerHTML = numberOfBombsAdjacentToField[x][y].toString();
+                colorNumberOfBombs(numberOfBombsAdjacentToField[x][y], divToChange);
+                return;
+            }
+            else {
+                gameFieldToChange.style.backgroundColor = "darkGray";
+            }
+            floodFill(x, y - 1);
+            floodFill(x, y + 1);
+            floodFill(x + 1, y);
+            floodFill(x - 1, y);
+            floodFill(x - 1, y - 1);
+            floodFill(x - 1, y + 1);
+            floodFill(x + 1, y - 1);
+            floodFill(x + 1, y + 1);
+        }
+
+        function incrementNumberOfBombsAdjacentToField(x, y) {
+            numberOfBombsAdjacentToField[x][y]++;
+        }
+
+        function leftTopCorner(x, y) {
+            if (bombs[0][1]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[1][0]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[1][1]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+        }
+
+        function rightTopCorner(x, y) {
+            if (bombs[0][7]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[1][7]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[1][8]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+        }
+
+        function leftBottomCorner(x, y) {
+            if (bombs[7][0]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[7][1]) {
+                incrementNumberOfBombsAdjacentToField(x, y)
+            }
+            if (bombs[8][0]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+        }
+
+        function rightBottomCorner(x, y) {
+            if (bombs[7][7]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[7][8]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[8][7]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+        }
+
+        function topEdge(x, y) {
+            if (bombs[x][y - 1]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x][y + 1]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x + 1][y - 1]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x + 1][y]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x + 1][y + 1]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+        }
+
+        function leftEdge(x, y) {
+            if (bombs[x - 1][y]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x - 1][y + 1]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x][y + 1]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x + 1][y]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x + 1][y + 1]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+        }
+
+        function rightEdge(x, y) {
+            if (bombs[x - 1][y - 1]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x - 1][y]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x][y - 1]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x + 1][y - 1]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x + 1][y]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+        }
+
+        function bottomEdge(x, y) {
+            if (bombs[x - 1][y - 1]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x - 1][y]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x - 1][y + 1]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x][y - 1]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x][y + 1]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+        }
+
+        function mid(x, y) {
+            if (bombs[x - 1][y - 1]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x - 1][y]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x - 1][y + 1]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x][y - 1]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x][y + 1]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x + 1][y - 1]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x + 1][y]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombs[x + 1][y + 1]) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+        }
+
+
+        function displayAllBombs() {
+            for (var i = 0; i < bombs.length; i++) {
+                for (var j = 0; j < bombs.length; j++) {
+                    if (bombs[i][j]) {
+                        document.getElementById((idToString(i, j))).style.backgroundColor = "red";
+                    }
                 }
             }
         }
-        else {
-            alert("Gra jest skoncozna. Rozpocznij nowa gre");
-        }
     }
 
-    function colorNumberOfBombs(numberOfBombs, divToChange) {
-        if (numberOfBombs == 1) {
-            divToChange.style.color = colors[0]; //TODO naprawic raka mózgu
-        }
-        else if (numberOfBombs == 2) {
-            divToChange.style.color = colors[1];
-        }
-        else if (numberOfBombs == 3) {
-            divToChange.style.color = colors[2];
-        }
-        else if (numberOfBombs == 4) {
-            divToChange.style.color = colors[3];
-        }
-        else if (numberOfBombs == 5) {
-            divToChange.style.color = colors[4];
-        }
-        else if (numberOfBombs == 6) {
-            divToChange.style.color = colors[5];
-        }
-
-        divToChange.style.backgroundColor = "darkGray";
-    }
-
-    function floodFill(x, y) {
-        if (y < 0 || y > 8 || x < 0 || x > 8 || flagsBoard[x][y]) {
-            console.log("border exceeded");
-            return;
-        }
-        if (document.getElementById((idToString(x, y))).style.backgroundColor == "darkgray") {
-            console.log("already clicked");
-            return;
-        }
-
-        var gameFieldToChange = document.getElementById(idToString(x, y));
-
-        if (numberOfBombsAdjacentToField[x][y] > 0) {
-            var divToChange = document.getElementById((idToString(x, y)));
-            gameFieldToChange.innerHTML = numberOfBombsAdjacentToField[x][y].toString();
-            colorNumberOfBombs(numberOfBombsAdjacentToField[x][y], divToChange);
-            return;
-        }
-        else {
-            gameFieldToChange.style.backgroundColor = "darkGray";
-        }
-        floodFill(x, y - 1);
-        floodFill(x, y + 1);
-        floodFill(x + 1, y);
-        floodFill(x - 1, y);
-        floodFill(x - 1, y - 1);
-        floodFill(x - 1, y + 1);
-        floodFill(x + 1, y - 1);
-        floodFill(x + 1, y + 1);
-    }
-
-    function incrementNumberOfBombsAdjacentToField(x, y) {
-        numberOfBombsAdjacentToField[x][y]++;
-    }
-
-    function leftTopCorner(x, y) {
-        if (bombs[0][1]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[1][0]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[1][1]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function rightTopCorner(x, y) {
-        if (bombs[0][7]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[1][7]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[1][8]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function leftBottomCorner(x, y) {
-        if (bombs[7][0]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[7][1]) {
-            incrementNumberOfBombsAdjacentToField(x, y)
-        }
-        if (bombs[8][0]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function rightBottomCorner(x, y) {
-        if (bombs[7][7]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[7][8]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[8][7]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function topEdge(x, y) {
-        if (bombs[x][y - 1]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x][y + 1]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x + 1][y - 1]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x + 1][y]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x + 1][y + 1]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function leftEdge(x, y) {
-        if (bombs[x - 1][y]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x - 1][y + 1]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x][y + 1]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x + 1][y]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x + 1][y + 1]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function rightEdge(x, y) {
-        if (bombs[x - 1][y - 1]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x - 1][y]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x][y - 1]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x + 1][y - 1]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x + 1][y]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function bottomEdge(x, y) {
-        if (bombs[x - 1][y - 1]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x - 1][y]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x - 1][y + 1]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x][y - 1]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x][y + 1]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function mid(x, y) {
-        if (bombs[x - 1][y - 1]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x - 1][y]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x - 1][y + 1]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x][y - 1]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x][y + 1]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x + 1][y - 1]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x + 1][y]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombs[x + 1][y + 1]) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-
-    function displayAllBombs() {
-        for (var i = 0; i < bombs.length; i++) {
-            for (var j = 0; j < bombs.length; j++) {
-                if (bombs[i][j]) {
-                    document.getElementById((idToString(i, j))).style.backgroundColor = "red";
-                }
-            }
-        }
-    }
-
+    gameStart();
 </script>
 </body>
 </html>
