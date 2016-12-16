@@ -10,17 +10,23 @@
 <button class="new-game-button" onclick="location.reload()">Start new game</button>
 
 <script>
-    //TODO z bombs i flagsBoard zrobic jednego arraya z polami isFlag i isBomb
     var numberOfBombs = 9;
     var isGameDone = false;
     var colors = ["blue", "green", "red", "purple", "orange", "pink"];
-    var bombs = fillTwoDimensionalArray(false);
-    var numberOfBombsAdjacentToField = fillTwoDimensionalArray(0);
-    var flagsBoard = fillTwoDimensionalArray(0);
-    var gameFields = fillTwoDimensionalArray(null);
+    var bombsAndFlags = fillTwoDimensionalArray();
     createBorderTable();
     plantBombs();
 
+    function fillTwoDimensionalArray() {
+        var array = new Array(9);
+        for (var i = 0; i < 9; i++) {
+            array[i] = new Array(9);
+            for (var j = 0; j < 9; j++) {
+                array[i][j] = {isBomb: false, isFlag: false, numberOfBombsAdjacent: 0, gameField: null};
+            }
+        }
+        return array;
+    }
 
     function createBorderTable() {
         var gameDiv = document.createElement("DIV");
@@ -41,30 +47,20 @@
                 cell.setAttribute("id", i.toString() + j.toString());
                 cell.setAttribute("onmousedown", "playerMove(event, this)");
                 document.getElementById("row" + i.toString()).appendChild(cell);
-                gameFields[i][j] = cell;
+                bombsAndFlags[i][j].gameField = cell;
             }
         }
-    }
-
-    function fillTwoDimensionalArray(value) {
-        var array = new Array(9);
-        for (var i = 0; i < 9; i++) {
-            array[i] = new Array(9);
-            for (var j = 0; j < 9; j++) {
-                array[i][j] = value;
-            }
-        }
-        return array;
     }
 
     function plantBombs() {
         for (var i = 0; i < numberOfBombs; i++) {
             while (true) {
-                var first = Math.floor(Math.random() * bombs.length);
-                var second = Math.floor(Math.random() * bombs.length);
-                if (!bombs[first][second]) {
-                    bombs[first][second] = true;
+                var first = Math.floor(Math.random() * bombsAndFlags.length);
+                var second = Math.floor(Math.random() * bombsAndFlags.length);
+                if (!bombsAndFlags[first][second].isBomb) {
+                    bombsAndFlags[first][second].isBomb = true;
                     console.log(first, second);
+                    console.log(bombsAndFlags[first][second].isBomb);
                     break;
                 }
             }
@@ -73,8 +69,8 @@
     }
 
     function fillBoard() {
-        for (var i = 0; i < bombs.length; i++) {
-            for (var j = 0; j < bombs.length; j++) {
+        for (var i = 0; i < bombsAndFlags.length; i++) {
+            for (var j = 0; j < bombsAndFlags.length; j++) {
                 if (i == 0 && j == 0) {
                     leftTopCorner(0, 0);
                 }
@@ -111,7 +107,7 @@
         if (!isGameDone) {
             var x = parseInt(object.id.charAt(0));
             var y = parseInt(object.id.charAt(1));
-            var divToChange = gameFields[x][y];
+            var divToChange = bombsAndFlags[x][y].gameField;
 
             if (event.button == 0) {
                 discoverField(x, y, divToChange);
@@ -127,15 +123,17 @@
     }
 
     function discoverField(x, y, gameField) {
-        if (bombs[x][y]) {
+        console.log("x: " + x + " y: " + y);
+        console.log(bombsAndFlags[x][y].isBomb);
+        if (bombsAndFlags[x][y].isBomb == true) {
             displayAllBombs();
             console.log("Przegrales");
             isGameDone = true;
         }
         else {
-            if (numberOfBombsAdjacentToField[x][y] > 0) {
-                gameField.innerText = numberOfBombsAdjacentToField[x][y];
-                gameField.style.color = colorNumberOfBombs(numberOfBombsAdjacentToField[x][y]);
+            if (bombsAndFlags[x][y].numberOfBombsAdjacent > 0) {
+                gameField.innerText = bombsAndFlags[x][y].numberOfBombsAdjacent;
+                gameField.style.color = colorNumberOfBombs(bombsAndFlags[x][y].numberOfBombsAdjacent);
                 gameField.backgroundColor = "darkGray";
             }
             else {
@@ -145,10 +143,10 @@
     }
 
     function displayAllBombs() {
-        for (var i = 0; i < bombs.length; i++) {
-            for (var j = 0; j < bombs.length; j++) {
-                if (bombs[i][j]) {
-                    gameFields[i][j].style.backgroundColor = "red";
+        for (var i = 0; i < bombsAndFlags.length; i++) {
+            for (var j = 0; j < bombsAndFlags.length; j++) {
+                if (bombsAndFlags[i][j].isBomb) {
+                    bombsAndFlags[i][j].gameField.style.backgroundColor = "red";
                 }
             }
         }
@@ -157,16 +155,16 @@
     function setFlag(x, y, fieldToSetFlag) {
         var flagImage = document.createElement("img");
         if (fieldToSetFlag.style.backgroundColor != "darkgray") {
-            if (flagsBoard[x][y]) {
+            if (bombsAndFlags[x][y].isFlag) {
                 fieldToSetFlag.innerHTML = "";
                 flagImage.src = "";
                 fieldToSetFlag.appendChild(flagImage);
-                flagsBoard[x][y] = false;
+                bombsAndFlags[x][y].isFlag = false;
             }
             else {
                 flagImage.src = "flag.png";
                 fieldToSetFlag.appendChild(flagImage);
-                flagsBoard[x][y] = true;
+                bombsAndFlags[x][y].isFlag = true;
             }
         }
     }
@@ -185,7 +183,7 @@
         var numberOfPoints = 0;
         for (var i = 0; i < 9; i++) {
             for (var j = 0; j < 9; j++) {
-                if (bombs[i][j] && flagsBoard[i][j]) {
+                if (bombsAndFlags[i][j].isBomb && bombsAndFlags[i][j].isFlag) {
                     numberOfPoints++;
                 }
             }
@@ -197,7 +195,7 @@
         var numberOfPoints = 0;
         for (var i = 0; i < 9; i++) {
             for (var j = 0; j < 9; j++) {
-                if (!bombs[i][j] && document.getElementById(i.toString() + j.toString()).style.backgroundColor != "darkgray") {
+                if (!bombsAndFlags[i][j].isBomb && document.getElementById(i.toString() + j.toString()).style.backgroundColor != "darkgray") {
                     numberOfPoints++;
                 }
             }
@@ -210,21 +208,21 @@
     }
 
     function floodFill(x, y) {
-        if (y < 0 || y > 8 || x < 0 || x > 8 || flagsBoard[x][y]) {
+        if (y < 0 || y > 8 || x < 0 || x > 8 || bombsAndFlags[x][y].isFlag) {
             console.log("border exceeded");
             return;
         }
 
-        var gameFieldToChange = gameFields[x][y];
+        var gameFieldToChange = bombsAndFlags[x][y].gameField;
 
         if (gameFieldToChange.style.backgroundColor == "darkgray") {
             console.log("already clicked");
             return;
         }
 
-        if (numberOfBombsAdjacentToField[x][y] > 0) {
-            gameFieldToChange.innerHTML = numberOfBombsAdjacentToField[x][y].toString();
-            gameFieldToChange.style.color = colorNumberOfBombs(numberOfBombsAdjacentToField[x][y]);
+        if (bombsAndFlags[x][y].numberOfBombsAdjacent > 0) {
+            gameFieldToChange.innerHTML = bombsAndFlags[x][y].numberOfBombsAdjacent.toString();
+            gameFieldToChange.style.color = colorNumberOfBombs(bombsAndFlags[x][y].numberOfBombsAdjacent);
             gameFieldToChange.style.backgroundColor = "darkGray";
             return;
         }
@@ -243,152 +241,152 @@
     }
 
     function incrementNumberOfBombsAdjacentToField(x, y) {
-        numberOfBombsAdjacentToField[x][y]++;
+        bombsAndFlags[x][y].numberOfBombsAdjacent++;
     }
 
     function leftTopCorner(x, y) {
-        if (bombs[0][1]) {
+        if (bombsAndFlags[0][1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[1][0]) {
+        if (bombsAndFlags[1][0].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[1][1]) {
+        if (bombsAndFlags[1][1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function rightTopCorner(x, y) {
-        if (bombs[0][7]) {
+        if (bombsAndFlags[0][7].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[1][7]) {
+        if (bombsAndFlags[1][7].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[1][8]) {
+        if (bombsAndFlags[1][8].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function leftBottomCorner(x, y) {
-        if (bombs[7][0]) {
+        if (bombsAndFlags[7][0].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[7][1]) {
+        if (bombsAndFlags[7][1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y)
         }
-        if (bombs[8][0]) {
+        if (bombsAndFlags[8][0].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function rightBottomCorner(x, y) {
-        if (bombs[7][7]) {
+        if (bombsAndFlags[7][7].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[7][8]) {
+        if (bombsAndFlags[7][8].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[8][7]) {
+        if (bombsAndFlags[8][7].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function topEdge(x, y) {
-        if (bombs[x][y - 1]) {
+        if (bombsAndFlags[x][y - 1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x][y + 1]) {
+        if (bombsAndFlags[x][y + 1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x + 1][y - 1]) {
+        if (bombsAndFlags[x + 1][y - 1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x + 1][y]) {
+        if (bombsAndFlags[x + 1][y].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x + 1][y + 1]) {
+        if (bombsAndFlags[x + 1][y + 1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function leftEdge(x, y) {
-        if (bombs[x - 1][y]) {
+        if (bombsAndFlags[x - 1][y].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x - 1][y + 1]) {
+        if (bombsAndFlags[x - 1][y + 1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x][y + 1]) {
+        if (bombsAndFlags[x][y + 1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x + 1][y]) {
+        if (bombsAndFlags[x + 1][y].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x + 1][y + 1]) {
+        if (bombsAndFlags[x + 1][y + 1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function rightEdge(x, y) {
-        if (bombs[x - 1][y - 1]) {
+        if (bombsAndFlags[x - 1][y - 1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x - 1][y]) {
+        if (bombsAndFlags[x - 1][y].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x][y - 1]) {
+        if (bombsAndFlags[x][y - 1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x + 1][y - 1]) {
+        if (bombsAndFlags[x + 1][y - 1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x + 1][y]) {
+        if (bombsAndFlags[x + 1][y].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function bottomEdge(x, y) {
-        if (bombs[x - 1][y - 1]) {
+        if (bombsAndFlags[x - 1][y - 1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x - 1][y]) {
+        if (bombsAndFlags[x - 1][y].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x - 1][y + 1]) {
+        if (bombsAndFlags[x - 1][y + 1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x][y - 1]) {
+        if (bombsAndFlags[x][y - 1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x][y + 1]) {
+        if (bombsAndFlags[x][y + 1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
 
     function mid(x, y) {
-        if (bombs[x - 1][y - 1]) {
+        if (bombsAndFlags[x - 1][y - 1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x - 1][y]) {
+        if (bombsAndFlags[x - 1][y].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x - 1][y + 1]) {
+        if (bombsAndFlags[x - 1][y + 1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x][y - 1]) {
+        if (bombsAndFlags[x][y - 1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x][y + 1]) {
+        if (bombsAndFlags[x][y + 1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x + 1][y - 1]) {
+        if (bombsAndFlags[x + 1][y - 1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x + 1][y]) {
+        if (bombsAndFlags[x + 1][y].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
-        if (bombs[x + 1][y + 1]) {
+        if (bombsAndFlags[x + 1][y + 1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
