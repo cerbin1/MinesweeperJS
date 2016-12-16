@@ -137,7 +137,7 @@
             if (event.button == 2) {
                 setFlag(object);
             }
-            checkIfPlayerWins(object.id.charAt(0), object.id.charAt(1));
+            checkIfPlayerWins();
         }
         else {
             console.log("rozpocznij nowa gre");
@@ -182,13 +182,14 @@
         if (!isGameDone) {
             var x = parseInt(object.id.charAt(0));
             var y = parseInt(object.id.charAt(1));
+            var divToChange = gameFields[x][y];
+
             if (bombs[x][y]) {
                 displayAllBombs();
                 console.log("Przegrales");
                 isGameDone = true;
             }
             else {
-                var divToChange = document.getElementById((idToString(x, y)));
                 if (numberOfBombsAdjacentToField[x][y] > 0) {
                     divToChange.innerText = numberOfBombsAdjacentToField[x][y];
                     colorNumberOfBombs(numberOfBombsAdjacentToField[x][y], divToChange); // TODO zrobic zeby colorNumberOfBombs() zwracalo kolor a nie ustawialo obiektowi
