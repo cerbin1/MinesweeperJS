@@ -105,8 +105,45 @@
         displayAllBombs();
     }
 
-    function idToString(x, y) {
-        return x.toString() + y.toString();
+    function playerMove(event, object) {
+        if (!isGameDone) {
+            if (event.button == 0) {
+                discoverField(object);
+            }
+            if (event.button == 2) {
+                setFlag(object);
+            }
+            checkIfPlayerWins();
+        }
+        else {
+            console.log("rozpocznij nowa gre");
+        }
+    }
+
+    function discoverField(object) {
+        if (!isGameDone) {
+            var x = parseInt(object.id.charAt(0));
+            var y = parseInt(object.id.charAt(1));
+            var divToChange = gameFields[x][y];
+
+            if (bombs[x][y]) {
+                displayAllBombs();
+                console.log("Przegrales");
+                isGameDone = true;
+            }
+            else {
+                if (numberOfBombsAdjacentToField[x][y] > 0) {
+                    divToChange.innerText = numberOfBombsAdjacentToField[x][y];
+                    colorNumberOfBombs(numberOfBombsAdjacentToField[x][y], divToChange); // TODO zrobic zeby colorNumberOfBombs() zwracalo kolor a nie ustawialo obiektowi
+                }
+                else {
+                    floodFill(x, y);
+                }
+            }
+        }
+        else {
+            alert("Gra jest skoncozna. Rozpocznij nowa gre");
+        }
     }
 
     function setFlag(object) {
@@ -129,19 +166,8 @@
         }
     }
 
-    function playerMove(event, object) {
-        if (!isGameDone) {
-            if (event.button == 0) {
-                discoverField(object);
-            }
-            if (event.button == 2) {
-                setFlag(object);
-            }
-            checkIfPlayerWins();
-        }
-        else {
-            console.log("rozpocznij nowa gre");
-        }
+    function idToString(x, y) {
+        return x.toString() + y.toString();
     }
 
     function checkIfPlayerWins() {
@@ -176,32 +202,6 @@
             }
         }
         return numberOfPoints;
-    }
-
-    function discoverField(object) {
-        if (!isGameDone) {
-            var x = parseInt(object.id.charAt(0));
-            var y = parseInt(object.id.charAt(1));
-            var divToChange = gameFields[x][y];
-
-            if (bombs[x][y]) {
-                displayAllBombs();
-                console.log("Przegrales");
-                isGameDone = true;
-            }
-            else {
-                if (numberOfBombsAdjacentToField[x][y] > 0) {
-                    divToChange.innerText = numberOfBombsAdjacentToField[x][y];
-                    colorNumberOfBombs(numberOfBombsAdjacentToField[x][y], divToChange); // TODO zrobic zeby colorNumberOfBombs() zwracalo kolor a nie ustawialo obiektowi
-                }
-                else {
-                    floodFill(x, y);
-                }
-            }
-        }
-        else {
-            alert("Gra jest skoncozna. Rozpocznij nowa gre");
-        }
     }
 
     function colorNumberOfBombs(numberOfBombs, divToChange) {
@@ -408,7 +408,6 @@
             incrementNumberOfBombsAdjacentToField(x, y);
         }
     }
-
 
     function displayAllBombs() {
         for (var i = 0; i < bombs.length; i++) {
