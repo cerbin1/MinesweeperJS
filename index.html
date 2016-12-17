@@ -18,7 +18,6 @@
 </script>-->
 
 <script>
-    (function () {
         var numberOfBombs = 9;
         var isGameDone = false;
         var colors = ["blue", "green", "red", "purple", "orange", "pink"];
@@ -27,9 +26,9 @@
         plantBombs();
 
         function fillTwoDimensionalArray() {
-            var array = new Array(9); // nie uzywaj new Array tylko []
+            var array = [];
             for (var i = 0; i < 9; i++) { // zamiast pisac te 9 wszedzie to powinno byc COLUMNS/ROWS ustawione gdzies
-                array[i] = new Array(9); // same
+                array[i] = [];
                 for (var j = 0; j < 9; j++) {
                     array[i][j] = {isBomb: false, isFlag: false, numberOfBombsAdjacent: 0, gameField: null}; // wjebalbym to w jakies getDefaultObjectYo
                 }
@@ -54,11 +53,10 @@
                 for (var j = 0; j < 9; j++) {
                     var cell = document.createElement("TD");
                     cell.setAttribute("id", i.toString() + j.toString());
-//                    cell.setAttribute("onmousedown", "playerMove(event, this)"); // cell.onClick a nie jakies setAttribute
+                    cell.setAttribute("onmousedown", "playerMove(event, this)"); // cell.onClick a nie jakies setAttribute
                     document.getElementById("row" + i.toString()).appendChild(cell);
                     bombsAndFlags[i][j].gameField = cell;
                 }
-                cell.addEventListener("click", playerMove(event, cell));
             }
         }
 
@@ -379,7 +377,7 @@
                 }
             });
         }
-    })();
+
 </script>
 </body>
 </html>
