@@ -83,69 +83,26 @@
     function countBombsAdjacentToFields() {
         for (var i = 0; i < bombsAndFlags.length; i++) {
             for (var j = 0; j < bombsAndFlags.length; j++) {
-                if (i == 0 && j == 0) {
-                    isBombAdjacentToField(0, 1, i, j);
-                    isBombAdjacentToField(1, 0, i, j);
-                    isBombAdjacentToField(1, 1, i, j);
-                } else if (i == 0 && j == 8) {
-                    isBombAdjacentToField(0, 7, i, j);
-                    isBombAdjacentToField(1, 7, i, j);
-                    isBombAdjacentToField(1, 8, i, j);
-                } else if (i == 8 && j == 0) {
-                    isBombAdjacentToField(7, 0, i, j);
-                    isBombAdjacentToField(7, 1, i, j);
-                    isBombAdjacentToField(8, 0, i, j);
-                } else if (i == 8 && j == 8) {
-                    isBombAdjacentToField(7, 7, i, j);
-                    isBombAdjacentToField(7, 8, i, j);
-                    isBombAdjacentToField(8, 7, i, j);
-                } else if (i == 0 && j > 0 && j < 8) {
-                    isBombAdjacentToField(i, j - 1, i, j);
-                    isBombAdjacentToField(i, j + 1, i, j);
-                    isBombAdjacentToField(i + 1, j - 1, i, j);
-                    isBombAdjacentToField(i + 1, j, i, j);
-                    isBombAdjacentToField(i + 1, j + 1, i, j);
-                } else if (i > 0 && i < 8 && j == 0) {
-                    isBombAdjacentToField(i - 1, j, i, j);
-                    isBombAdjacentToField(i - 1, j + 1, i, j);
-                    isBombAdjacentToField(i, j + 1, i, j);
-                    isBombAdjacentToField(i + 1, j, i, j);
-                    isBombAdjacentToField(i + 1, j + 1, i, j);
-                } else if (i > 0 && i < 8 && j == 8) {
-                    isBombAdjacentToField(i - 1, j - 1, i, j);
-                    isBombAdjacentToField(i - 1, j, i, j);
-                    isBombAdjacentToField(i, j - 1, i, j);
-                    isBombAdjacentToField(i + 1, j - 1, i, j);
-                    isBombAdjacentToField(i + 1, j, i, j);
-                } else if (i == 8 && j > 0 && j < 8) {
-                    isBombAdjacentToField(i - 1, j - 1, i, j);
-                    isBombAdjacentToField(i - 1, j, i, j);
-                    isBombAdjacentToField(i - 1, j + 1, i, j);
-                    isBombAdjacentToField(i, j - 1, i, j);
-                    isBombAdjacentToField(i, j + 1, i, j);
-                } else {
-                    isBombAdjacentToField(i - 1, j - 1, i, j);
-                    isBombAdjacentToField(i - 1, j, i, j);
-                    isBombAdjacentToField(i - 1, j + 1, i, j);
-                    isBombAdjacentToField(i, j - 1, i, j);
-                    isBombAdjacentToField(i, j + 1, i, j);
-                    isBombAdjacentToField(i + 1, j - 1, i, j);
-                    isBombAdjacentToField(i + 1, j, i, j);
-                    isBombAdjacentToField(i + 1, j + 1, i, j);
-                }
+                isBombAdjacentToField(i, j);
             }
         }
         displayAllBombs();
     }
 
-    function isBombAdjacentToField(first, second, x, y) {
-        if (bombsAndFlags[first][second].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
+    function isBombAdjacentToField(x, y) {
+        function incrementNumberOfBombsAdjacentToField() {
+            bombsAndFlags[x][y].numberOfBombsAdjacent++;
         }
-    }
 
-    function incrementNumberOfBombsAdjacentToField(x, y) {
-        bombsAndFlags[x][y].numberOfBombsAdjacent++;
+        for (var i = -1; i < 2; i++) {
+            for (var j = -1; j < 2; j++) {
+                if (x + i >= 0 && x + i <= 8 && y + j >= 0 && y + j <= 8) {
+                    if (bombsAndFlags[x + i][y + j].isBomb) {
+                        incrementNumberOfBombsAdjacentToField();
+                    }
+                }
+            }
+        }
     }
 
     function playerMove(event, object) {
@@ -250,7 +207,7 @@
     }
 
     function floodFill(x, y) {
-        if (y < 0 || y > 8 || x < 0 || x > 8 || bombsAndFlags[x][y].isFlag) {
+        if (y < 0 || y > 8 || x < 0 || x > 8 || bombsAndFlags[x][y].isFlag || bombsAndFlags[x][y].isBomb) {
             console.log("border exceeded");
             return;
         }
