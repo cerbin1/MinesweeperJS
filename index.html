@@ -10,12 +10,12 @@
 <button class="new-game-button" onclick="location.reload()">Start new game</button>
 
 <button id="d"></button>
-<script>
+<!--<script>
     var d = document.getElementById("d");
     d.addEventListener("click", function () {
 
     });
-</script>
+</script>-->
 
 <script>
     (function () {
@@ -54,10 +54,11 @@
                 for (var j = 0; j < 9; j++) {
                     var cell = document.createElement("TD");
                     cell.setAttribute("id", i.toString() + j.toString());
-                    cell.setAttribute("onmousedown", "playerMove(event, this)"); // cell.onClick a nie jakies setAttribute
+//                    cell.setAttribute("onmousedown", "playerMove(event, this)"); // cell.onClick a nie jakies setAttribute
                     document.getElementById("row" + i.toString()).appendChild(cell);
                     bombsAndFlags[i][j].gameField = cell;
                 }
+                cell.addEventListener("click", playerMove(event, cell));
             }
         }
 
