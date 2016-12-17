@@ -229,15 +229,11 @@
             gameFieldToChange.style.backgroundColor = "darkGray";
         }
 
-        // are you kidding me bruh? Pani Jolcia chyba petli nie nauczyla
-        floodFill(x, y - 1);
-        floodFill(x, y + 1);
-        floodFill(x + 1, y);
-        floodFill(x - 1, y);
-        floodFill(x - 1, y - 1);
-        floodFill(x - 1, y + 1);
-        floodFill(x + 1, y - 1);
-        floodFill(x + 1, y + 1);
+        for (var i = -1; i < 2; i++) {
+            for (var j = -1; j < 2; j++) {
+                floodFill(x + i, y + j);
+            }
+        }
     }
 
 </script>
