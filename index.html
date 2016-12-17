@@ -84,27 +84,68 @@
         for (var i = 0; i < bombsAndFlags.length; i++) {
             for (var j = 0; j < bombsAndFlags.length; j++) {
                 if (i == 0 && j == 0) {
-                    leftTopCorner(0, 0);
+                    isBombAdjacentToField(0, 1, i, j);
+                    isBombAdjacentToField(1, 0, i, j);
+                    isBombAdjacentToField(1, 1, i, j);
                 } else if (i == 0 && j == 8) {
-                    rightTopCorner(0, 8);
+                    isBombAdjacentToField(0, 7, i, j);
+                    isBombAdjacentToField(1, 7, i, j);
+                    isBombAdjacentToField(1, 8, i, j);
                 } else if (i == 8 && j == 0) {
-                    leftBottomCorner(8, 0);
+                    isBombAdjacentToField(7, 0, i, j);
+                    isBombAdjacentToField(7, 1, i, j);
+                    isBombAdjacentToField(8, 0, i, j);
                 } else if (i == 8 && j == 8) {
-                    rightBottomCorner(8, 8);
+                    isBombAdjacentToField(7, 7, i, j);
+                    isBombAdjacentToField(7, 8, i, j);
+                    isBombAdjacentToField(8, 7, i, j);
                 } else if (i == 0 && j > 0 && j < 8) {
-                    topEdge(i, j);
+                    isBombAdjacentToField(i, j - 1, i, j);
+                    isBombAdjacentToField(i, j + 1, i, j);
+                    isBombAdjacentToField(i + 1, j - 1, i, j);
+                    isBombAdjacentToField(i + 1, j, i, j);
+                    isBombAdjacentToField(i + 1, j + 1, i, j);
                 } else if (i > 0 && i < 8 && j == 0) {
-                    leftEdge(i, j);
+                    isBombAdjacentToField(i - 1, j, i, j);
+                    isBombAdjacentToField(i - 1, j + 1, i, j);
+                    isBombAdjacentToField(i, j + 1, i, j);
+                    isBombAdjacentToField(i + 1, j, i, j);
+                    isBombAdjacentToField(i + 1, j + 1, i, j);
                 } else if (i > 0 && i < 8 && j == 8) {
-                    rightEdge(i, j);
+                    isBombAdjacentToField(i - 1, j - 1, i, j);
+                    isBombAdjacentToField(i - 1, j, i, j);
+                    isBombAdjacentToField(i, j - 1, i, j);
+                    isBombAdjacentToField(i + 1, j - 1, i, j);
+                    isBombAdjacentToField(i + 1, j, i, j);
                 } else if (i == 8 && j > 0 && j < 8) {
-                    bottomEdge(i, j);
+                    isBombAdjacentToField(i - 1, j - 1, i, j);
+                    isBombAdjacentToField(i - 1, j, i, j);
+                    isBombAdjacentToField(i - 1, j + 1, i, j);
+                    isBombAdjacentToField(i, j - 1, i, j);
+                    isBombAdjacentToField(i, j + 1, i, j);
                 } else {
-                    mid(i, j);
+                    isBombAdjacentToField(i - 1, j - 1, i, j);
+                    isBombAdjacentToField(i - 1, j, i, j);
+                    isBombAdjacentToField(i - 1, j + 1, i, j);
+                    isBombAdjacentToField(i, j - 1, i, j);
+                    isBombAdjacentToField(i, j + 1, i, j);
+                    isBombAdjacentToField(i + 1, j - 1, i, j);
+                    isBombAdjacentToField(i + 1, j, i, j);
+                    isBombAdjacentToField(i + 1, j + 1, i, j);
                 }
             }
         }
         displayAllBombs();
+    }
+
+    function isBombAdjacentToField(first, second, x, y) {
+        if (bombsAndFlags[first][second].isBomb) {
+            incrementNumberOfBombsAdjacentToField(x, y);
+        }
+    }
+
+    function incrementNumberOfBombsAdjacentToField(x, y) {
+        bombsAndFlags[x][y].numberOfBombsAdjacent++;
     }
 
     function playerMove(event, object) {
@@ -240,143 +281,6 @@
         floodFill(x - 1, y + 1);
         floodFill(x + 1, y - 1);
         floodFill(x + 1, y + 1);
-    }
-
-    function incrementNumberOfBombsAdjacentToField(x, y) {
-        bombsAndFlags[x][y].numberOfBombsAdjacent++;
-    }
-
-    function leftTopCorner(x, y) {
-        if (bombsAndFlags[0][1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[1][0].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[1][1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function rightTopCorner(x, y) {
-        if (bombsAndFlags[0][7].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[1][7].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[1][8].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function leftBottomCorner(x, y) {
-        if (bombsAndFlags[7][0].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[7][1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y)
-        }
-        if (bombsAndFlags[8][0].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function rightBottomCorner(x, y) {
-        if (bombsAndFlags[7][7].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[7][8].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[8][7].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function topEdge(x, y) {
-        if (bombsAndFlags[x][y - 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x][y + 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x + 1][y - 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x + 1][y].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x + 1][y + 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function leftEdge(x, y) {
-        if (bombsAndFlags[x - 1][y].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x - 1][y + 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x][y + 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x + 1][y].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x + 1][y + 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function rightEdge(x, y) {
-        if (bombsAndFlags[x - 1][y - 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x - 1][y].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x][y - 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x + 1][y - 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x + 1][y].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function bottomEdge(x, y) {
-        if (bombsAndFlags[x - 1][y - 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x - 1][y].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x - 1][y + 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x][y - 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x][y + 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function mid(x, y) {
-        var array = [
-            [-1, -1], [-1, 0], [-1, 1],
-            [0, -1], [0, 0], [0, 1],
-            [1, -1], [1, 0], [1, 1]
-        ];
-        array.forEach(function (coords) {
-            if (bombsAndFlags[x + coords[0]][y + coords[1]].isBomb) {
-                incrementNumberOfBombsAdjacentToField(x, y);
-            }
-        });
     }
 
 </script>
