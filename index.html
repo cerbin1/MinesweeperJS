@@ -169,16 +169,16 @@
     }
 
     function checkIfPlayerWins() {
-        if (countPointsFromFlag() == numberOfBombs || countPointsFromFieldsReleased() == 0) {
+        if (countPointsFromFlags() == numberOfBombs || countPointsFromFieldsReleased() == 0) {
             console.log("wygrales");
             isGameDone = true;
         } else {
             console.log("nie wygrales jeszcze");
-            console.log("punkty z flag: " + countPointsFromFlag() + " punkty z pol " + countPointsFromFieldsReleased());
+            console.log("punkty z flag: " + countPointsFromFlags() + " punkty z pol " + countPointsFromFieldsReleased());
         }
     }
 
-    function countPointsFromFlag() {
+    function countPointsFromFlags() {
         var numberOfPoints = 0;
         for (var i = 0; i < 9; i++) {
             for (var j = 0; j < 9; j++) {
