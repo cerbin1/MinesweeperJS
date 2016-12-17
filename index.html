@@ -26,12 +26,11 @@
     plantBombs();
 
     function fillTwoDimensionalArray() {
-        var array = [];
-
         function getDefaultFieldObject() {
             return {isBomb: false, isFlag: false, numberOfBombsAdjacent: 0, gameField: null};
         }
 
+        var array = [];
         for (var i = 0; i < 9; i++) {
             array[i] = [];
             for (var j = 0; j < 9; j++) {
