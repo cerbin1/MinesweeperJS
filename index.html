@@ -10,380 +10,381 @@
 <button class="new-game-button" onclick="location.reload()">Start new game</button>
 
 <script>
-    var numberOfBombs = 9;
-    var isGameDone = false;
-    var colors = ["blue", "green", "red", "purple", "orange", "pink"];
-    var bombsAndFlags = fillTwoDimensionalArray();
-    createBorderTable();
-    plantBombs();
+    (function () {
+        var numberOfBombs = 9;
+        var isGameDone = false;
+        var colors = ["blue", "green", "red", "purple", "orange", "pink"];
+        var bombsAndFlags = fillTwoDimensionalArray();
+        createBorderTable();
+        plantBombs();
 
-    function fillTwoDimensionalArray() {
-        var array = new Array(9); // nie uzywaj new Array tylko []
-        for (var i = 0; i < 9; i++) { // zamiast pisac te 9 wszedzie to powinno byc COLUMNS/ROWS ustawione gdzies
-            array[i] = new Array(9); // same
-            for (var j = 0; j < 9; j++) {
-                array[i][j] = {isBomb: false, isFlag: false, numberOfBombsAdjacent: 0, gameField: null}; // wjebalbym to w jakies getDefaultObjectYo
+        function fillTwoDimensionalArray() {
+            var array = new Array(9); // nie uzywaj new Array tylko []
+            for (var i = 0; i < 9; i++) { // zamiast pisac te 9 wszedzie to powinno byc COLUMNS/ROWS ustawione gdzies
+                array[i] = new Array(9); // same
+                for (var j = 0; j < 9; j++) {
+                    array[i][j] = {isBomb: false, isFlag: false, numberOfBombsAdjacent: 0, gameField: null}; // wjebalbym to w jakies getDefaultObjectYo
+                }
             }
+            return array;
         }
-        return array;
-    }
 
-    function createBorderTable() {
-        var gameDiv = document.createElement("DIV"); // wielka litera wat
-        gameDiv.setAttribute("oncontextmenu", "return false"); // nie podoba mi sie to
-        document.body.appendChild(gameDiv);
+        function createBorderTable() {
+            var gameDiv = document.createElement("DIV"); // wielka litera wat
+            gameDiv.setAttribute("oncontextmenu", "return false"); // nie podoba mi sie to
+            document.body.appendChild(gameDiv);
 
-        var table = document.createElement("TABLE");
-        table.setAttribute("id", "gameBoard");
-        gameDiv.appendChild(table);
+            var table = document.createElement("TABLE");
+            table.setAttribute("id", "gameBoard");
+            gameDiv.appendChild(table);
 
-        for (var i = 0; i < 9; i++) {
-            var row = document.createElement("TR");
-            row.setAttribute("id", "row" + i.toString());
-            table.appendChild(row);
+            for (var i = 0; i < 9; i++) {
+                var row = document.createElement("TR");
+                row.setAttribute("id", "row" + i.toString());
+                table.appendChild(row);
 
-            for (var j = 0; j < 9; j++) {
-                var cell = document.createElement("TD");
-                cell.setAttribute("id", i.toString() + j.toString());
-                cell.setAttribute("onmousedown", "playerMove(event, this)"); // cell.onClick a nie jakies setAttribute
-                document.getElementById("row" + i.toString()).appendChild(cell);
-                bombsAndFlags[i][j].gameField = cell;
-            }
-        }
-    }
-
-    function plantBombs() {
-        for (var i = 0; i < numberOfBombs; i++) {
-            while (true) {
-                var first = Math.floor(Math.random() * bombsAndFlags.length);
-                var second = Math.floor(Math.random() * bombsAndFlags.length);
-                if (!bombsAndFlags[first][second].isBomb) {
-                    bombsAndFlags[first][second].isBomb = true;
-                    console.log(first, second);
-                    console.log(bombsAndFlags[first][second].isBomb);
-                    break;
+                for (var j = 0; j < 9; j++) {
+                    var cell = document.createElement("TD");
+                    cell.setAttribute("id", i.toString() + j.toString());
+                    cell.setAttribute("onmousedown", "playerMove(event, this)"); // cell.onClick a nie jakies setAttribute
+                    document.getElementById("row" + i.toString()).appendChild(cell);
+                    bombsAndFlags[i][j].gameField = cell;
                 }
             }
         }
-        fillBoard();
-    }
 
-    function fillBoard() { // idk co to jest
-        for (var i = 0; i < bombsAndFlags.length; i++) {
-            for (var j = 0; j < bombsAndFlags.length; j++) {
-                // nie chce mi sie tego analizowac ale na 100% da sie to napisac duzo prosciej
-                if (i == 0 && j == 0) {
-                    leftTopCorner(0, 0);
-                } else if (i == 0 && j == 8) {
-                    rightTopCorner(0, 8);
-                } else if (i == 8 && j == 0) {
-                    leftBottomCorner(8, 0);
-                } else if (i == 8 && j == 8) {
-                    rightBottomCorner(8, 8);
-                } else if (i == 0 && j > 0 && j < 8) {
-                    topEdge(i, j);
-                } else if (i > 0 && i < 8 && j == 0) {
-                    leftEdge(i, j);
-                } else if (i > 0 && i < 8 && j == 8) {
-                    rightEdge(i, j);
-                } else if (i == 8 && j > 0 && j < 8) {
-                    bottomEdge(i, j);
-                } else {
-                    mid(i, j);
+        function plantBombs() {
+            for (var i = 0; i < numberOfBombs; i++) {
+                while (true) {
+                    var first = Math.floor(Math.random() * bombsAndFlags.length);
+                    var second = Math.floor(Math.random() * bombsAndFlags.length);
+                    if (!bombsAndFlags[first][second].isBomb) {
+                        bombsAndFlags[first][second].isBomb = true;
+                        console.log(first, second);
+                        console.log(bombsAndFlags[first][second].isBomb);
+                        break;
+                    }
                 }
             }
+            fillBoard();
         }
-        displayAllBombs();
-    }
 
-    function playerMove(event, object) {
-        if (!isGameDone) {
-            var x = parseInt(object.id.charAt(0)); // zrobić z tego dwa atrybuty data-x oraz data-y
-            var y = parseInt(object.id.charAt(1)); // albo zrobić z tego jednego jsona id="{x:10,y:10}"
-            var divToChange = bombsAndFlags[x][y].gameField;
-
-            if (event.button == 0) {
-                discoverField(x, y, divToChange);
+        function fillBoard() { // idk co to jest
+            for (var i = 0; i < bombsAndFlags.length; i++) {
+                for (var j = 0; j < bombsAndFlags.length; j++) {
+                    // nie chce mi sie tego analizowac ale na 100% da sie to napisac duzo prosciej
+                    if (i == 0 && j == 0) {
+                        leftTopCorner(0, 0);
+                    } else if (i == 0 && j == 8) {
+                        rightTopCorner(0, 8);
+                    } else if (i == 8 && j == 0) {
+                        leftBottomCorner(8, 0);
+                    } else if (i == 8 && j == 8) {
+                        rightBottomCorner(8, 8);
+                    } else if (i == 0 && j > 0 && j < 8) {
+                        topEdge(i, j);
+                    } else if (i > 0 && i < 8 && j == 0) {
+                        leftEdge(i, j);
+                    } else if (i > 0 && i < 8 && j == 8) {
+                        rightEdge(i, j);
+                    } else if (i == 8 && j > 0 && j < 8) {
+                        bottomEdge(i, j);
+                    } else {
+                        mid(i, j);
+                    }
+                }
             }
-            if (event.button == 2) {
-                setFlag(x, y, divToChange);
-            }
-            checkIfPlayerWins();
-        }
-        else {
-            console.log("rozpocznij nowa gre");
-        }
-    }
-
-    function discoverField(x, y, gameField) {
-        console.log("x: " + x + " y: " + y);
-        console.log(bombsAndFlags[x][y].isBomb);
-        if (bombsAndFlags[x][y].isBomb == true) {
             displayAllBombs();
-            console.log("Przegrales");
-            isGameDone = true;
-        } else {
+        }
+
+        function playerMove(event, object) {
+            if (!isGameDone) {
+                var x = parseInt(object.id.charAt(0)); // zrobić z tego dwa atrybuty data-x oraz data-y
+                var y = parseInt(object.id.charAt(1)); // albo zrobić z tego jednego jsona id="{x:10,y:10}"
+                var divToChange = bombsAndFlags[x][y].gameField;
+
+                if (event.button == 0) {
+                    discoverField(x, y, divToChange);
+                }
+                if (event.button == 2) {
+                    setFlag(x, y, divToChange);
+                }
+                checkIfPlayerWins();
+            }
+            else {
+                console.log("rozpocznij nowa gre");
+            }
+        }
+
+        function discoverField(x, y, gameField) {
+            console.log("x: " + x + " y: " + y);
+            console.log(bombsAndFlags[x][y].isBomb);
+            if (bombsAndFlags[x][y].isBomb == true) {
+                displayAllBombs();
+                console.log("Przegrales");
+                isGameDone = true;
+            } else {
+                if (bombsAndFlags[x][y].numberOfBombsAdjacent > 0) {
+                    gameField.innerText = bombsAndFlags[x][y].numberOfBombsAdjacent;
+                    gameField.style.color = colorNumberOfBombs(bombsAndFlags[x][y].numberOfBombsAdjacent);
+                    gameField.backgroundColor = "darkGray";
+                } else {
+                    floodFill(x, y, gameField);
+                }
+            }
+        }
+
+        function displayAllBombs() {
+            for (var i = 0; i < bombsAndFlags.length; i++) {
+                for (var j = 0; j < bombsAndFlags.length; j++) {
+                    if (bombsAndFlags[i][j].isBomb) {
+                        bombsAndFlags[i][j].gameField.style.backgroundColor = "red";
+                    }
+                }
+            }
+        }
+
+        function setFlag(x, y, fieldToSetFlag) {
+            var flagImage = document.createElement("img");
+            if (fieldToSetFlag.style.backgroundColor != "darkgray") {
+                if (bombsAndFlags[x][y].isFlag) {
+                    fieldToSetFlag.innerHTML = "";
+                    flagImage.src = "";
+                    fieldToSetFlag.appendChild(flagImage);
+                    bombsAndFlags[x][y].isFlag = false;
+                } else {
+                    flagImage.src = "flag.png";
+                    fieldToSetFlag.appendChild(flagImage);
+                    bombsAndFlags[x][y].isFlag = true;
+                }
+            }
+        }
+
+        function checkIfPlayerWins() {
+            if (countPointsFromFlag() == numberOfBombs || countPointsFromFieldsReleased() == 0) {
+                console.log("wygrales");
+                isGameDone = true;
+            } else {
+                console.log("nie wygrales jeszcze");
+            }
+        }
+
+        function countPointsFromFlag() {
+            var numberOfPoints = 0;
+            for (var i = 0; i < 9; i++) {
+                for (var j = 0; j < 9; j++) {
+                    if (bombsAndFlags[i][j].isBomb && bombsAndFlags[i][j].isFlag) {
+                        numberOfPoints++;
+                    }
+                }
+            }
+            return numberOfPoints;
+        }
+
+        function countPointsFromFieldsReleased() {
+            var numberOfPoints = 0;
+            for (var i = 0; i < 9; i++) {
+                for (var j = 0; j < 9; j++) {
+                    var isDarkGray = document.getElementById(i.toString() + j.toString()).style.backgroundColor === "darkgray";
+                    if (!bombsAndFlags[i][j].isBomb && !isDarkGray) {
+                        numberOfPoints++;
+                    }
+                }
+            }
+            return numberOfPoints;
+        }
+
+        function colorNumberOfBombs(numberOfBombs) {
+            return colors[numberOfBombs - 1];
+        }
+
+        function floodFill(x, y) {
+            if (y < 0 || y > 8 || x < 0 || x > 8 || bombsAndFlags[x][y].isFlag) {
+                console.log("border exceeded");
+                return;
+            }
+
+            var gameFieldToChange = bombsAndFlags[x][y].gameField;
+
+            if (gameFieldToChange.style.backgroundColor == "darkgray") {
+                console.log("already clicked");
+                return;
+            }
+
             if (bombsAndFlags[x][y].numberOfBombsAdjacent > 0) {
-                gameField.innerText = bombsAndFlags[x][y].numberOfBombsAdjacent;
-                gameField.style.color = colorNumberOfBombs(bombsAndFlags[x][y].numberOfBombsAdjacent);
-                gameField.backgroundColor = "darkGray";
-            } else {
-                floodFill(x, y, gameField);
+                gameFieldToChange.innerHTML = bombsAndFlags[x][y].numberOfBombsAdjacent.toString();
+                gameFieldToChange.style.color = colorNumberOfBombs(bombsAndFlags[x][y].numberOfBombsAdjacent);
+                gameFieldToChange.style.backgroundColor = "darkGray";
+                return;
+            }
+            else {
+                gameFieldToChange.style.backgroundColor = "darkGray";
+            }
+
+            // are you kidding me bruh? Pani Jolcia chyba petli nie nauczyla
+            floodFill(x, y - 1);
+            floodFill(x, y + 1);
+            floodFill(x + 1, y);
+            floodFill(x - 1, y);
+            floodFill(x - 1, y - 1);
+            floodFill(x - 1, y + 1);
+            floodFill(x + 1, y - 1);
+            floodFill(x + 1, y + 1);
+        }
+
+        function incrementNumberOfBombsAdjacentToField(x, y) {
+            bombsAndFlags[x][y].numberOfBombsAdjacent++;
+        }
+
+
+        // te wszystkie funkcje ponizej sa zjebane i powinny by przemyslane bo sie da je napisac w 5 linijkach pewnie xD
+        function leftTopCorner(x, y) {
+            if (bombsAndFlags[0][1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[1][0].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[1][1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
             }
         }
-    }
 
-    function displayAllBombs() {
-        for (var i = 0; i < bombsAndFlags.length; i++) {
-            for (var j = 0; j < bombsAndFlags.length; j++) {
-                if (bombsAndFlags[i][j].isBomb) {
-                    bombsAndFlags[i][j].gameField.style.backgroundColor = "red";
-                }
+        function rightTopCorner(x, y) {
+            if (bombsAndFlags[0][7].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[1][7].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[1][8].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
             }
         }
-    }
 
-    function setFlag(x, y, fieldToSetFlag) {
-        var flagImage = document.createElement("img");
-        if (fieldToSetFlag.style.backgroundColor != "darkgray") {
-            if (bombsAndFlags[x][y].isFlag) {
-                fieldToSetFlag.innerHTML = "";
-                flagImage.src = "";
-                fieldToSetFlag.appendChild(flagImage);
-                bombsAndFlags[x][y].isFlag = false;
-            } else {
-                flagImage.src = "flag.png";
-                fieldToSetFlag.appendChild(flagImage);
-                bombsAndFlags[x][y].isFlag = true;
+        function leftBottomCorner(x, y) {
+            if (bombsAndFlags[7][0].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[7][1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y)
+            }
+            if (bombsAndFlags[8][0].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
             }
         }
-    }
 
-    function checkIfPlayerWins() {
-        if (countPointsFromFlag() == numberOfBombs || countPointsFromFieldsReleased() == 0) {
-            console.log("wygrales");
-            isGameDone = true;
-        } else {
-            console.log("nie wygrales jeszcze");
-        }
-    }
-
-    function countPointsFromFlag() {
-        var numberOfPoints = 0;
-        for (var i = 0; i < 9; i++) {
-            for (var j = 0; j < 9; j++) {
-                if (bombsAndFlags[i][j].isBomb && bombsAndFlags[i][j].isFlag) {
-                    numberOfPoints++;
-                }
+        function rightBottomCorner(x, y) {
+            if (bombsAndFlags[7][7].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[7][8].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[8][7].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
             }
         }
-        return numberOfPoints;
-    }
 
-    function countPointsFromFieldsReleased() {
-        var numberOfPoints = 0;
-        for (var i = 0; i < 9; i++) {
-            for (var j = 0; j < 9; j++) {
-                var isDarkGray = document.getElementById(i.toString() + j.toString()).style.backgroundColor === "darkgray";
-                if (!bombsAndFlags[i][j].isBomb && !isDarkGray) {
-                    numberOfPoints++;
-                }
+        function topEdge(x, y) {
+            if (bombsAndFlags[x][y - 1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x][y + 1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x + 1][y - 1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x + 1][y].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x + 1][y + 1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
             }
         }
-        return numberOfPoints;
-    }
 
-    function colorNumberOfBombs(numberOfBombs) {
-        return colors[numberOfBombs - 1];
-    }
-
-    function floodFill(x, y) {
-        if (y < 0 || y > 8 || x < 0 || x > 8 || bombsAndFlags[x][y].isFlag) {
-            console.log("border exceeded");
-            return;
-        }
-
-        var gameFieldToChange = bombsAndFlags[x][y].gameField;
-
-        if (gameFieldToChange.style.backgroundColor == "darkgray") {
-            console.log("already clicked");
-            return;
-        }
-
-        if (bombsAndFlags[x][y].numberOfBombsAdjacent > 0) {
-            gameFieldToChange.innerHTML = bombsAndFlags[x][y].numberOfBombsAdjacent.toString();
-            gameFieldToChange.style.color = colorNumberOfBombs(bombsAndFlags[x][y].numberOfBombsAdjacent);
-            gameFieldToChange.style.backgroundColor = "darkGray";
-            return;
-        }
-        else {
-            gameFieldToChange.style.backgroundColor = "darkGray";
+        function leftEdge(x, y) {
+            if (bombsAndFlags[x - 1][y].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x - 1][y + 1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x][y + 1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x + 1][y].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x + 1][y + 1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
         }
 
-        // are you kidding me bruh? Pani Jolcia chyba petli nie nauczyla
-        floodFill(x, y - 1);
-        floodFill(x, y + 1);
-        floodFill(x + 1, y);
-        floodFill(x - 1, y);
-        floodFill(x - 1, y - 1);
-        floodFill(x - 1, y + 1);
-        floodFill(x + 1, y - 1);
-        floodFill(x + 1, y + 1);
-    }
+        function rightEdge(x, y) {
+            if (bombsAndFlags[x - 1][y - 1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x - 1][y].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x][y - 1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x + 1][y - 1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x + 1][y].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+        }
 
-    function incrementNumberOfBombsAdjacentToField(x, y) {
-        bombsAndFlags[x][y].numberOfBombsAdjacent++;
-    }
+        function bottomEdge(x, y) {
+            if (bombsAndFlags[x - 1][y - 1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x - 1][y].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x - 1][y + 1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x][y - 1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x][y + 1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+        }
 
-
-    // te wszystkie funkcje ponizej sa zjebane i powinny by przemyslane bo sie da je napisac w 5 linijkach pewnie xD
-    function leftTopCorner(x, y) {
-        if (bombsAndFlags[0][1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
+        function mid(x, y) {
+            if (bombsAndFlags[x - 1][y - 1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x - 1][y].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x - 1][y + 1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x][y - 1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x][y + 1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x + 1][y - 1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x + 1][y].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
+            if (bombsAndFlags[x + 1][y + 1].isBomb) {
+                incrementNumberOfBombsAdjacentToField(x, y);
+            }
         }
-        if (bombsAndFlags[1][0].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[1][1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function rightTopCorner(x, y) {
-        if (bombsAndFlags[0][7].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[1][7].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[1][8].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function leftBottomCorner(x, y) {
-        if (bombsAndFlags[7][0].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[7][1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y)
-        }
-        if (bombsAndFlags[8][0].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function rightBottomCorner(x, y) {
-        if (bombsAndFlags[7][7].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[7][8].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[8][7].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function topEdge(x, y) {
-        if (bombsAndFlags[x][y - 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x][y + 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x + 1][y - 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x + 1][y].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x + 1][y + 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function leftEdge(x, y) {
-        if (bombsAndFlags[x - 1][y].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x - 1][y + 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x][y + 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x + 1][y].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x + 1][y + 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function rightEdge(x, y) {
-        if (bombsAndFlags[x - 1][y - 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x - 1][y].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x][y - 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x + 1][y - 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x + 1][y].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function bottomEdge(x, y) {
-        if (bombsAndFlags[x - 1][y - 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x - 1][y].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x - 1][y + 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x][y - 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x][y + 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
-    function mid(x, y) {
-        if (bombsAndFlags[x - 1][y - 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x - 1][y].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x - 1][y + 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x][y - 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x][y + 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x + 1][y - 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x + 1][y].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-        if (bombsAndFlags[x + 1][y + 1].isBomb) {
-            incrementNumberOfBombsAdjacentToField(x, y);
-        }
-    }
-
+    })();
 </script>
 </body>
 </html>
