@@ -37,21 +37,21 @@
     }
 
     function createBorderTable() {
-        var gameDiv = document.createElement("DIV"); // wielka litera wat
+        var gameDiv = document.createElement("div");
         gameDiv.setAttribute("oncontextmenu", "return false"); // nie podoba mi sie to
         document.body.appendChild(gameDiv);
 
-        var table = document.createElement("TABLE");
+        var table = document.createElement("table");
         table.setAttribute("id", "gameBoard");
         gameDiv.appendChild(table);
 
         for (var i = 0; i < 9; i++) {
-            var row = document.createElement("TR");
+            var row = document.createElement("tr");
             row.setAttribute("id", "row" + i.toString());
             table.appendChild(row);
 
             for (var j = 0; j < 9; j++) {
-                var cell = document.createElement("TD");
+                var cell = document.createElement("td");
                 cell.setAttribute("id", i.toString() + j.toString());
                 cell.setAttribute("onmousedown", "playerMove(event, this)"); // cell.onClick a nie jakies setAttribute
                 document.getElementById("row" + i.toString()).appendChild(cell);
