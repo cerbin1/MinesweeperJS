@@ -77,10 +77,10 @@
                 }
             }
         }
-        fillBoard();
+        countBombsAdjacentToFields();
     }
 
-    function fillBoard() { // idk co to jest
+    function countBombsAdjacentToFields() {
         for (var i = 0; i < bombsAndFlags.length; i++) {
             for (var j = 0; j < bombsAndFlags.length; j++) {
                 if (i == 0 && j == 0) {
