@@ -9,6 +9,14 @@
 
 <button class="new-game-button" onclick="location.reload()">Start new game</button>
 
+<button id="d"></button>
+<script>
+    var d = document.getElementById("d");
+    d.addEventListener("click", function () {
+
+    });
+</script>
+
 <script>
     (function () {
         var numberOfBombs = 9;
@@ -359,30 +367,16 @@
         }
 
         function mid(x, y) {
-            if (bombsAndFlags[x - 1][y - 1].isBomb) {
-                incrementNumberOfBombsAdjacentToField(x, y);
-            }
-            if (bombsAndFlags[x - 1][y].isBomb) {
-                incrementNumberOfBombsAdjacentToField(x, y);
-            }
-            if (bombsAndFlags[x - 1][y + 1].isBomb) {
-                incrementNumberOfBombsAdjacentToField(x, y);
-            }
-            if (bombsAndFlags[x][y - 1].isBomb) {
-                incrementNumberOfBombsAdjacentToField(x, y);
-            }
-            if (bombsAndFlags[x][y + 1].isBomb) {
-                incrementNumberOfBombsAdjacentToField(x, y);
-            }
-            if (bombsAndFlags[x + 1][y - 1].isBomb) {
-                incrementNumberOfBombsAdjacentToField(x, y);
-            }
-            if (bombsAndFlags[x + 1][y].isBomb) {
-                incrementNumberOfBombsAdjacentToField(x, y);
-            }
-            if (bombsAndFlags[x + 1][y + 1].isBomb) {
-                incrementNumberOfBombsAdjacentToField(x, y);
-            }
+            var array = [
+                [-1, -1], [-1, 0], [-1, 1],
+                [0, -1], [0, 0], [0, 1],
+                [1, -1], [1, 0], [1, 1]
+            ];
+            array.forEach(function (coords) {
+                if (bombsAndFlags[x + coords[0]][y + coords[1]].isBomb) {
+                    incrementNumberOfBombsAdjacentToField(x, y);
+                }
+            });
         }
     })();
 </script>
