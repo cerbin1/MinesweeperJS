@@ -38,7 +38,7 @@
 
     function createBorderTable() {
         var gameDiv = document.createElement("div");
-        gameDiv.setAttribute("oncontextmenu", "return false"); // nie podoba mi sie to
+        gameDiv.setAttribute("oncontextmenu", "return false");
         document.body.appendChild(gameDiv);
 
         var table = document.createElement("table");
@@ -53,7 +53,7 @@
             for (var j = 0; j < 9; j++) {
                 var cell = document.createElement("td");
                 cell.setAttribute("id", i.toString() + j.toString());
-                cell.setAttribute("onmousedown", "playerMove(event, this)"); // cell.onClick a nie jakies setAttribute
+                cell.setAttribute("onmousedown", "playerMove(event, this)");
                 document.getElementById("row" + i.toString()).appendChild(cell);
                 bombsAndFlags[i][j].gameField = cell;
             }
@@ -79,7 +79,6 @@
     function fillBoard() { // idk co to jest
         for (var i = 0; i < bombsAndFlags.length; i++) {
             for (var j = 0; j < bombsAndFlags.length; j++) {
-                // nie chce mi sie tego analizowac ale na 100% da sie to napisac duzo prosciej
                 if (i == 0 && j == 0) {
                     leftTopCorner(0, 0);
                 } else if (i == 0 && j == 8) {
@@ -107,7 +106,7 @@
     function playerMove(event, object) {
         if (!isGameDone) {
             var x = parseInt(object.id.charAt(0)); // zrobić z tego dwa atrybuty data-x oraz data-y
-            var y = parseInt(object.id.charAt(1)); // albo zrobić z tego jednego jsona id="{x:10,y:10}"
+            var y = parseInt(object.id.charAt(1));
             var divToChange = bombsAndFlags[x][y].gameField;
 
             if (event.button == 0) {
@@ -243,8 +242,6 @@
         bombsAndFlags[x][y].numberOfBombsAdjacent++;
     }
 
-
-    // te wszystkie funkcje ponizej sa zjebane i powinny by przemyslane bo sie da je napisac w 5 linijkach pewnie xD
     function leftTopCorner(x, y) {
         if (bombsAndFlags[0][1].isBomb) {
             incrementNumberOfBombsAdjacentToField(x, y);
