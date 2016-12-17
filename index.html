@@ -135,7 +135,7 @@
             if (bombsAndFlags[x][y].numberOfBombsAdjacent > 0) {
                 gameField.innerText = bombsAndFlags[x][y].numberOfBombsAdjacent;
                 gameField.style.color = colorNumberOfBombs(bombsAndFlags[x][y].numberOfBombsAdjacent);
-                gameField.backgroundColor = "darkGray";
+                gameField.style.backgroundColor = "darkGray";
             } else {
                 floodFill(x, y, gameField);
             }
