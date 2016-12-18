@@ -136,7 +136,7 @@
                     cellToDiscover.gameField.style.color = colorNumberOfBombs(cellToDiscover.numberOfBombsAdjacent);
                     cellToDiscover.gameField.style.backgroundColor = "darkGray";
                 } else {
-                    floodFill(x, y, cellToDiscover);
+                    floodFill(x, y);
                 }
             }
         }
@@ -214,21 +214,21 @@
             return;
         }
 
-        var gameFieldToChange = cells[x][y].gameField;
+        var cell = cells[x][y];
 
-        if (gameFieldToChange.style.backgroundColor == "darkgray") {
+        if (cell.gameField.style.backgroundColor == "darkgray") {
             console.log("already clicked");
             return;
         }
 
-        if (cells[x][y].numberOfBombsAdjacent > 0) {
-            gameFieldToChange.innerHTML = cells[x][y].numberOfBombsAdjacent.toString();
-            gameFieldToChange.style.color = colorNumberOfBombs(cells[x][y].numberOfBombsAdjacent);
-            gameFieldToChange.style.backgroundColor = "darkGray";
+        if (cell.numberOfBombsAdjacent > 0) {
+            cell.gameField.innerHTML = cell.numberOfBombsAdjacent.toString();
+            cell.gameField.style.color = colorNumberOfBombs(cell.numberOfBombsAdjacent);
+            cell.gameField.style.backgroundColor = "darkGray";
             return;
         }
         else {
-            gameFieldToChange.style.backgroundColor = "darkGray";
+            cell.gameField.style.backgroundColor = "darkGray";
         }
 
         for (var i = -1; i < 2; i++) {
