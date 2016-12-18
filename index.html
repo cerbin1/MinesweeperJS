@@ -18,9 +18,9 @@
 </script>-->
 
 <script>
-    var width = 40;
-    var length = 40;
-    var numberOfBombs = 100;
+    var width = 10;
+    var length = 10;
+    var numberOfBombs = 10;
     var isGameDone = false;
     var colors = ["blue", "green", "red", "purple", "orange", "pink"];
     var cells = fillTwoDimensionalArray();
@@ -175,7 +175,6 @@
             console.log("wygrales");
             isGameDone = true;
         } else {
-            console.log("nie wygrales jeszcze");
             console.log("punkty z flag: " + countPointsFromFlags() + " punkty z pol " + countFieldsUndiscovered());
         }
     }
@@ -213,14 +212,12 @@
 
     function floodFill(x, y) {
         if (y < 0 || y > width - 1 || x < 0 || x > length - 1 || cells[x][y].isFlag || cells[x][y].isBomb) {
-            console.log("border exceeded");
             return;
         }
 
         var cell = cells[x][y];
 
         if (cell.isCellDiscovered) {
-            console.log("already clicked");
             return;
         }
 
