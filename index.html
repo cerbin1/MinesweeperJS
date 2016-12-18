@@ -39,7 +39,7 @@
     }
 
     function getDefaultFieldObject() {
-        return {isBomb: false, isFlag: false, numberOfBombsAdjacent: 0, gameField: null};
+        return {isBomb: false, isFlag: false, numberOfBombsAdjacent: 0, gameField: null, isCellDiscovered: false};
     }
 
     function createBorderTable() {
@@ -126,17 +126,20 @@
 
     function discoverField(x, y, cellToDiscover) {
         if (!cellToDiscover.isFlag) {
-            if (cellToDiscover.isBomb) {
-                displayAllBombs();
-                console.log("Przegrales");
-                isGameDone = true;
-            } else {
-                if (cellToDiscover.numberOfBombsAdjacent > 0) {
-                    cellToDiscover.gameField.innerText = cellToDiscover.numberOfBombsAdjacent;
-                    cellToDiscover.gameField.style.color = colorNumberOfBombs(cellToDiscover.numberOfBombsAdjacent);
-                    cellToDiscover.gameField.style.backgroundColor = "darkGray";
+            if (!cellToDiscover.isCellDiscovered) {
+                if (cellToDiscover.isBomb) {
+                    displayAllBombs();
+                    console.log("Przegrales");
+                    isGameDone = true;
                 } else {
-                    floodFill(x, y);
+                    if (cellToDiscover.numberOfBombsAdjacent > 0) {
+                        cellToDiscover.gameField.innerText = cellToDiscover.numberOfBombsAdjacent;
+                        cellToDiscover.gameField.style.color = colorNumberOfBombs(cellToDiscover.numberOfBombsAdjacent);
+                        cellToDiscover.gameField.style.backgroundColor = "darkGray";
+                        cellToDiscover.isCellDiscovered = true;
+                    } else {
+                        floodFill(x, y);
+                    }
                 }
             }
         }
@@ -144,7 +147,7 @@
 
     function setFlag(cellToSetFlag) {
         var flagImage = document.createElement("img");
-        if (cellToSetFlag.gameField.style.backgroundColor != "darkgray") {
+        if (!cellToSetFlag.isCellDiscovered) {
             if (cellToSetFlag.isFlag) {
                 cellToSetFlag.gameField.innerHTML = "";
                 flagImage.src = "";
@@ -196,7 +199,7 @@
         var numberOfUndiscoveredFields = 0;
         for (var i = 0; i < width; i++) {
             for (var j = 0; j < length; j++) {
-                if (!cells[i][j].isBomb && cells[i][j].gameField.style.backgroundColor != "darkgray") {
+                if (!cells[i][j].isBomb && !cells[i][j].isCellDiscovered) {
                     numberOfUndiscoveredFields++;
                 }
             }
@@ -216,7 +219,7 @@
 
         var cell = cells[x][y];
 
-        if (cell.gameField.style.backgroundColor == "darkgray") {
+        if (cell.isCellDiscovered) {
             console.log("already clicked");
             return;
         }
@@ -225,10 +228,12 @@
             cell.gameField.innerHTML = cell.numberOfBombsAdjacent.toString();
             cell.gameField.style.color = colorNumberOfBombs(cell.numberOfBombsAdjacent);
             cell.gameField.style.backgroundColor = "darkGray";
+            cell.isCellDiscovered = true;
             return;
         }
         else {
             cell.gameField.style.backgroundColor = "darkGray";
+            cell.isCellDiscovered = true;
         }
 
         for (var i = -1; i < 2; i++) {
