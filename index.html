@@ -115,7 +115,7 @@
                 discoverField(x, y, cells[x][y]);
             }
             if (event.button == 2) {
-                setFlag(x, y, cells[x][y]);
+                setFlag(cells[x][y]);
             }
             checkIfPlayerWins();
         }
@@ -142,19 +142,18 @@
         }
     }
 
-    function setFlag(x, y, cellToSetFlag) {
+    function setFlag(cellToSetFlag) {
         var flagImage = document.createElement("img");
         if (cellToSetFlag.gameField.style.backgroundColor != "darkgray") {
-            if (cells[x][y].isFlag) {
+            if (cellToSetFlag.isFlag) {
                 cellToSetFlag.gameField.innerHTML = "";
                 flagImage.src = "";
-                cellToSetFlag.gameField.appendChild(flagImage);
-                cells[x][y].isFlag = false;
+                cellToSetFlag.isFlag = false;
             } else {
                 flagImage.src = "flag.png";
-                cellToSetFlag.gameField.appendChild(flagImage);
-                cells[x][y].isFlag = true;
+                cellToSetFlag.isFlag = true;
             }
+            cellToSetFlag.gameField.appendChild(flagImage);
         }
     }
 
