@@ -168,12 +168,12 @@
     }
 
     function checkIfPlayerWins() {
-        if (countPointsFromFlags() == numberOfBombs || countPointsFromFieldsReleased() == 0) {
+        if (countPointsFromFlags() == numberOfBombs || countFieldsUndiscovered() == 0) {
             console.log("wygrales");
             isGameDone = true;
         } else {
             console.log("nie wygrales jeszcze");
-            console.log("punkty z flag: " + countPointsFromFlags() + " punkty z pol " + countPointsFromFieldsReleased());
+            console.log("punkty z flag: " + countPointsFromFlags() + " punkty z pol " + countFieldsUndiscovered());
         }
     }
 
@@ -192,16 +192,16 @@
         return numberOfPoints;
     }
 
-    function countPointsFromFieldsReleased() {
-        var numberOfPoints = 0;
+    function countFieldsUndiscovered() {
+        var numberOfUndiscoveredFields = 0;
         for (var i = 0; i < width; i++) {
             for (var j = 0; j < length; j++) {
                 if (!cells[i][j].isBomb && cells[i][j].gameField.style.backgroundColor != "darkgray") {
-                    numberOfPoints++;
+                    numberOfUndiscoveredFields++;
                 }
             }
         }
-        return numberOfPoints;
+        return numberOfUndiscoveredFields;
     }
 
     function colorNumberOfBombs(numberOfBombs) {
