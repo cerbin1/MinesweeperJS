@@ -75,7 +75,6 @@
                 if (!bombsAndFlags[first][second].isBomb) {
                     bombsAndFlags[first][second].isBomb = true;
                     console.log(first, second);
-                    console.log(bombsAndFlags[first][second].isBomb);
                     break;
                 }
             }
@@ -109,7 +108,6 @@
     }
 
     function playerMove(event, object) {
-        console.log("id pola: " + object.getAttribute("data-x") + object.getAttribute("data-y"));
         if (!isGameDone) {
             var x = parseInt(object.getAttribute("data-x"));
             var y = parseInt(object.getAttribute("data-y"));
@@ -129,8 +127,6 @@
     }
 
     function discoverField(x, y, gameField) {
-        console.log("x: " + x + " y: " + y);
-        console.log(bombsAndFlags[x][y].isBomb);
         if (!bombsAndFlags[x][y].isFlag) {
             if (bombsAndFlags[x][y].isBomb == true) {
                 displayAllBombs();
