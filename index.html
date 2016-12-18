@@ -61,7 +61,7 @@
                 cell.setAttribute("onmousedown", "playerMove(event, this)");
                 cell.setAttribute("data-x", i.toString());
                 cell.setAttribute("data-y", j.toString());
-                document.getElementById("row" + i.toString()).appendChild(cell);
+                row.appendChild(cell);
                 bombsAndFlags[i][j].gameField = cell;
             }
         }
