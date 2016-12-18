@@ -18,7 +18,9 @@
 </script>-->
 
 <script>
-    var numberOfBombs = 9;
+    var width = 40;
+    var length = 40;
+    var numberOfBombs = 100;
     var isGameDone = false;
     var colors = ["blue", "green", "red", "purple", "orange", "pink"];
     var bombsAndFlags = fillTwoDimensionalArray();
@@ -31,9 +33,9 @@
         }
 
         var array = [];
-        for (var i = 0; i < 9; i++) {
+        for (var i = 0; i < width; i++) {
             array[i] = [];
-            for (var j = 0; j < 9; j++) {
+            for (var j = 0; j < length; j++) {
                 array[i][j] = getDefaultFieldObject();
             }
         }
@@ -49,15 +51,16 @@
         table.setAttribute("id", "gameBoard");
         gameDiv.appendChild(table);
 
-        for (var i = 0; i < 9; i++) {
+        for (var i = 0; i < width; i++) {
             var row = document.createElement("tr");
             row.setAttribute("id", "row" + i.toString());
             table.appendChild(row);
 
-            for (var j = 0; j < 9; j++) {
+            for (var j = 0; j < length; j++) {
                 var cell = document.createElement("td");
-                cell.setAttribute("id", i.toString() + j.toString());
                 cell.setAttribute("onmousedown", "playerMove(event, this)");
+                cell.setAttribute("data-x", i.toString());
+                cell.setAttribute("data-y", j.toString());
                 document.getElementById("row" + i.toString()).appendChild(cell);
                 bombsAndFlags[i][j].gameField = cell;
             }
@@ -82,7 +85,7 @@
 
     function countBombsAdjacentToFields() {
         for (var i = 0; i < bombsAndFlags.length; i++) {
-            for (var j = 0; j < bombsAndFlags.length; j++) {
+            for (var j = 0; j < bombsAndFlags[i].length; j++) {
                 isBombAdjacentToField(i, j);
             }
         }
@@ -96,7 +99,7 @@
 
         for (var i = -1; i < 2; i++) {
             for (var j = -1; j < 2; j++) {
-                if (x + i >= 0 && x + i <= 8 && y + j >= 0 && y + j <= 8) {
+                if (x + i >= 0 && x + i <= width - 1 && y + j >= 0 && y + j <= length - 1) {
                     if (bombsAndFlags[x + i][y + j].isBomb) {
                         incrementNumberOfBombsAdjacentToField();
                     }
@@ -106,9 +109,10 @@
     }
 
     function playerMove(event, object) {
+        console.log("id pola: " + object.getAttribute("data-x") + object.getAttribute("data-y"));
         if (!isGameDone) {
-            var x = parseInt(object.id.charAt(0)); // zrobić z tego dwa atrybuty data-x oraz data-y
-            var y = parseInt(object.id.charAt(1));
+            var x = parseInt(object.getAttribute("data-x"));
+            var y = parseInt(object.getAttribute("data-y"));
             var divToChange = bombsAndFlags[x][y].gameField;
 
             if (event.button == 0) {
@@ -146,7 +150,7 @@
 
     function displayAllBombs() {
         for (var i = 0; i < bombsAndFlags.length; i++) {
-            for (var j = 0; j < bombsAndFlags.length; j++) {
+            for (var j = 0; j < bombsAndFlags[i].length; j++) {
                 if (bombsAndFlags[i][j].isBomb) {
                     bombsAndFlags[i][j].gameField.style.backgroundColor = "red";
                 }
@@ -182,8 +186,8 @@
 
     function countPointsFromFlags() {
         var numberOfPoints = 0;
-        for (var i = 0; i < 9; i++) {
-            for (var j = 0; j < 9; j++) {
+        for (var i = 0; i < width; i++) {
+            for (var j = 0; j < length; j++) {
                 if (bombsAndFlags[i][j].isBomb && bombsAndFlags[i][j].isFlag) {
                     numberOfPoints++;
                 }
@@ -197,10 +201,9 @@
 
     function countPointsFromFieldsReleased() {
         var numberOfPoints = 0;
-        for (var i = 0; i < 9; i++) {
-            for (var j = 0; j < 9; j++) {
-                var isDarkGray = document.getElementById(i.toString() + j.toString()).style.backgroundColor === "darkgray";
-                if (!bombsAndFlags[i][j].isBomb && !isDarkGray) {
+        for (var i = 0; i < width; i++) {
+            for (var j = 0; j < length; j++) {
+                if (!bombsAndFlags[i][j].isBomb && bombsAndFlags[i][j].gameField.style.backgroundColor != "darkgray") {
                     numberOfPoints++;
                 }
             }
@@ -213,7 +216,7 @@
     }
 
     function floodFill(x, y) {
-        if (y < 0 || y > 8 || x < 0 || x > 8 || bombsAndFlags[x][y].isFlag || bombsAndFlags[x][y].isBomb) {
+        if (y < 0 || y > width - 1 || x < 0 || x > length - 1 || bombsAndFlags[x][y].isFlag || bombsAndFlags[x][y].isBomb) {
             console.log("border exceeded");
             return;
         }
