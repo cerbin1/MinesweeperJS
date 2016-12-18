@@ -127,7 +127,7 @@
 
     function discoverField(x, y, cellGame) {
         if (!bombsAndFlags[x][y].isFlag) {
-            if (bombsAndFlags[x][y].isBomb == true) {
+            if (bombsAndFlags[x][y].isBomb) {
                 displayAllBombs();
                 console.log("Przegrales");
                 isGameDone = true;
@@ -138,16 +138,6 @@
                     cellGame.style.backgroundColor = "darkGray";
                 } else {
                     floodFill(x, y, cellGame);
-                }
-            }
-        }
-    }
-
-    function displayAllBombs() {
-        for (var i = 0; i < bombsAndFlags.length; i++) {
-            for (var j = 0; j < bombsAndFlags[i].length; j++) {
-                if (bombsAndFlags[i][j].isBomb) {
-                    bombsAndFlags[i][j].gameField.style.backgroundColor = "red";
                 }
             }
         }
@@ -168,6 +158,18 @@
             }
         }
     }
+
+    function displayAllBombs() {
+        for (var i = 0; i < bombsAndFlags.length; i++) {
+            for (var j = 0; j < bombsAndFlags[i].length; j++) {
+                if (bombsAndFlags[i][j].isBomb) {
+                    bombsAndFlags[i][j].gameField.style.backgroundColor = "red";
+                }
+            }
+        }
+    }
+
+
 
     function checkIfPlayerWins() {
         if (countPointsFromFlags() == numberOfBombs || countPointsFromFieldsReleased() == 0) {
