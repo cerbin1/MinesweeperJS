@@ -127,17 +127,19 @@
     function discoverField(x, y, gameField) {
         console.log("x: " + x + " y: " + y);
         console.log(bombsAndFlags[x][y].isBomb);
-        if (bombsAndFlags[x][y].isBomb == true) {
-            displayAllBombs();
-            console.log("Przegrales");
-            isGameDone = true;
-        } else {
-            if (bombsAndFlags[x][y].numberOfBombsAdjacent > 0) {
-                gameField.innerText = bombsAndFlags[x][y].numberOfBombsAdjacent;
-                gameField.style.color = colorNumberOfBombs(bombsAndFlags[x][y].numberOfBombsAdjacent);
-                gameField.style.backgroundColor = "darkGray";
+        if (!bombsAndFlags[x][y].isFlag) {
+            if (bombsAndFlags[x][y].isBomb == true) {
+                displayAllBombs();
+                console.log("Przegrales");
+                isGameDone = true;
             } else {
-                floodFill(x, y, gameField);
+                if (bombsAndFlags[x][y].numberOfBombsAdjacent > 0) {
+                    gameField.innerText = bombsAndFlags[x][y].numberOfBombsAdjacent;
+                    gameField.style.color = colorNumberOfBombs(bombsAndFlags[x][y].numberOfBombsAdjacent);
+                    gameField.style.backgroundColor = "darkGray";
+                } else {
+                    floodFill(x, y, gameField);
+                }
             }
         }
     }
@@ -185,7 +187,7 @@
                 if (bombsAndFlags[i][j].isBomb && bombsAndFlags[i][j].isFlag) {
                     numberOfPoints++;
                 }
-                if(!bombsAndFlags[i][j].isBomb && bombsAndFlags[i][j].isFlag) {
+                if (!bombsAndFlags[i][j].isBomb && bombsAndFlags[i][j].isFlag) {
                     numberOfPoints--;
                 }
             }
