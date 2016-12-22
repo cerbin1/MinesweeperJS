@@ -38,6 +38,8 @@
     var colors = ["blue", "green", "red", "purple", "orange", "pink"];
     var cells;
     var isBoardGenerated = false;
+    var messageBox;
+    var numberOfFlaggedFields = 0;
     startGame();
 
     function startGame() {
@@ -53,6 +55,15 @@
         createBorderTable();
         plantBombs();
         isBoardGenerated = true;
+
+        createMessageBox();
+    }
+
+    function createMessageBox() {
+        var divToDisplayMessages = document.createElement("div");
+        divToDisplayMessages.setAttribute("id", "messageBox");
+        document.getElementById("gameDiv").appendChild(divToDisplayMessages);
+        messageBox = document.getElementById("messageBox");
     }
 
     function fillTwoDimensionalArray() {
@@ -149,7 +160,7 @@
             checkIfPlayerWins();
         }
         else {
-            console.log("rozpocznij nowa gre");
+            messageBox.innerHTML = "Rozpocznij nowa gre";
         }
     }
 
@@ -158,7 +169,7 @@
             if (!cellToDiscover.isCellDiscovered) {
                 if (cellToDiscover.isBomb) {
                     displayAllBombs();
-                    console.log("Przegrales");
+                    messageBox.innerHTML = "przegrales";
                     isGameDone = true;
                 } else {
                     if (cellToDiscover.numberOfBombsAdjacent > 0) {
@@ -181,10 +192,13 @@
                 cellToSetFlag.gameField.innerHTML = "";
                 flagImage.src = "";
                 cellToSetFlag.isFlag = false;
+                numberOfFlaggedFields--;
             } else {
                 flagImage.src = "flag.png";
                 cellToSetFlag.isFlag = true;
+                numberOfFlaggedFields++;
             }
+            messageBox.innerHTML = "Pozostalo bomb: " + (numberOfBombs - numberOfFlaggedFields);
             cellToSetFlag.gameField.appendChild(flagImage);
         }
     }
@@ -201,10 +215,9 @@
 
     function checkIfPlayerWins() {
         if (countPointsFromFlags() == numberOfBombs || countFieldsUndiscovered() == 0) {
-            console.log("wygrales");
+            messageBox.innerHTML = "wygrales";
             isGameDone = true;
         } else {
-            console.log("punkty z flag: " + countPointsFromFlags() + " punkty z pol " + countFieldsUndiscovered());
         }
     }
 
