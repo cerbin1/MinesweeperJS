@@ -6,10 +6,23 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div style="width: 50%; margin: 0 auto; text-align: center">
+    <label>
+        Bomby<input type="number">
+    </label>
 
-<button class="new-game-button" onclick="location.reload()">Start new game</button>
+    <label>
+        Szerokość<input type="number">
+    </label>
 
-<button id="d"></button>
+    <label>
+        Wysokość<input type="number">
+    </label>
+
+    <button style="display: inline-block" class="new-game-button" onclick="location.reload()">Start new game</button>
+
+</div>
+
 <!--<script>
     var d = document.getElementById("d");
     d.addEventListener("click", function () {
@@ -44,6 +57,7 @@
 
     function createBorderTable() {
         var gameDiv = document.createElement("div");
+        gameDiv.setAttribute("id", "gameDiv");
         gameDiv.setAttribute("oncontextmenu", "return false");
         document.body.appendChild(gameDiv);
 
