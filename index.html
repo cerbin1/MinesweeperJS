@@ -12,14 +12,14 @@
     </label>
 
     <label>
-        Szerokość<input type="number" value="9">
+        Szerokość<input id="width" type="number" value="9">
     </label>
 
     <label>
-        Wysokość<input type="number" value="9">
+        Wysokość<input id="length" type="number" value="9">
     </label>
 
-    <button style="display: inline-block" class="new-game-button" onclick="location.reload()">Start new game</button>
+    <button style="display: inline-block" class="new-game-button" onclick="startGame()">Start new game</button>
 
 </div>
 
@@ -31,14 +31,29 @@
 </script>-->
 
 <script>
-    var width = 10;
-    var length = 10;
-    var numberOfBombs = 10;
-    var isGameDone = false;
+    var width;
+    var length;
+    var numberOfBombs;
+    var isGameDone;
     var colors = ["blue", "green", "red", "purple", "orange", "pink"];
-    var cells = fillTwoDimensionalArray();
-    createBorderTable();
-    plantBombs();
+    var cells;
+    var isBoardGenerated = false;
+    startGame();
+
+    function startGame() {
+        if(isBoardGenerated) {
+            var gameDiv = document.getElementById("gameDiv");
+            gameDiv.parentNode.removeChild(gameDiv);
+        }
+        numberOfBombs = document.getElementById("bombs").value;
+        width = document.getElementById("width").value;
+        length = document.getElementById("length").value;
+        isGameDone = false;
+        cells = fillTwoDimensionalArray();
+        createBorderTable();
+        plantBombs();
+        isBoardGenerated = true;
+    }
 
     function fillTwoDimensionalArray() {
         var array = [];
