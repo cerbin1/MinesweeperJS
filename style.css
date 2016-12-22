@@ -4,7 +4,7 @@
 }
 
 table {
-    margin: 20px auto;
+    margin: 0 auto;
 }
 
 td{
@@ -31,4 +31,14 @@ td:hover {
 .new-game-button {
     display: block;
     margin: 0 auto;
+}
+
+#gameDiv {
+    margin: 0 auto;
+}
+
+input {
+    width: 40px;
+    height: 30px;
+    margin: 5px 5px;
 }
