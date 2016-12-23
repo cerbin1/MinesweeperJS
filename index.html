@@ -31,6 +31,7 @@
 </script>-->
 
 <script>
+    // TODO od tąd
     var width;
     var length;
     var numberOfBombs;
@@ -40,6 +41,7 @@
     var isBoardGenerated = false;
     var messageBox;
     var numberOfFlaggedFields = 0;
+    // TODO do tąd, takie rzeczy jak width, height, cells itp powinny być w jednym obiekcie.
     startGame();
 
     function startGame() {
@@ -133,7 +135,7 @@
     function isBombAdjacentToField(x, y) {
         for (var i = -1; i < 2; i++) {
             for (var j = -1; j < 2; j++) {
-                if (x + i >= 0 && x + i <= width - 1 && y + j >= 0 && y + j <= length - 1) {
+                if (x + i >= 0 && x + i <= width - 1 && y + j >= 0 && y + j <= length - 1) { // TODO if do wydzielenia
                     if (cells[x + i][y + j].isBomb) {
                         incrementNumberOfBombsAdjacentToField(x, y);
                     }
@@ -147,7 +149,7 @@
     }
 
     function playerMove(event, object) {
-        if (!isGameDone) {
+        if (!isGameDone) { // TODO if do odwrocenia (jest if i jest else, wiec w warunku nie powinno być negacji)
             var x = parseInt(object.getAttribute("data-x"));
             var y = parseInt(object.getAttribute("data-y"));
 
@@ -165,7 +167,7 @@
     }
 
     function discoverField(x, y, cellToDiscover) {
-        if (!cellToDiscover.isFlag) {
+        if (!cellToDiscover.isFlag) { // TODO jak if jest taki duży to lepiej zrobić na początku if (cell.isFlag) return;
             if (!cellToDiscover.isCellDiscovered) {
                 if (cellToDiscover.isBomb) {
                     displayAllBombs();
@@ -207,7 +209,7 @@
         for (var i = 0; i < cells.length; i++) {
             for (var j = 0; j < cells[i].length; j++) {
                 if (cells[i][j].isBomb) {
-                    cells[i][j].gameField.style.backgroundColor = "red";
+                    cells[i][j].gameField.style.backgroundColor = "red"; // TODO to powinna być jakaś metoda (typu "markAsExploded" czy coś)
                 }
             }
         }
@@ -253,7 +255,7 @@
     }
 
     function floodFill(x, y) {
-        if (y < 0 || y > width - 1 || x < 0 || x > length - 1 || cells[x][y].isFlag || cells[x][y].isBomb) {
+        if (y < 0 || y > width - 1 || x < 0 || x > length - 1 || cells[x][y].isFlag || cells[x][y].isBomb) { // TODO if do wydzielenia
             return;
         }
 
