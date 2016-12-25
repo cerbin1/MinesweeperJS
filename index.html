@@ -153,7 +153,9 @@
     }
 
     function playerMove(event, object) {
-        if (!isGameDone) { // TODO if do odwrocenia (jest if i jest else, wiec w warunku nie powinno być negacji)
+        if (isGameDone) {
+            messageBox.innerHTML = "Rozpocznij nowa gre";
+        } else {
             var x = parseInt(object.getAttribute("data-x"));
             var y = parseInt(object.getAttribute("data-y"));
 
@@ -164,9 +166,6 @@
                 setFlag(cells[x][y]);
             }
             checkIfPlayerWins();
-        }
-        else {
-            messageBox.innerHTML = "Rozpocznij nowa gre";
         }
     }
 
