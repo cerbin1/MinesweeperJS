@@ -162,7 +162,7 @@
     }
 
     function discoverField(x, y, cellToDiscover) {
-        if (!cellToDiscover.isFlag) { // TODO jak if jest taki duży to lepiej zrobić na początku if (cell.isFlag) return;
+        if (!cellToDiscover.isFlag) {
             if (!cellToDiscover.isCellDiscovered) {
                 if (cellToDiscover.isBomb) {
                     displayAllBombs();
