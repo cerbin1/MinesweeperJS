@@ -33,8 +33,7 @@
 <script>
     // TODO od tąd
     var gameBoard = {width: 0, height: 0};
-    var numberOfBombs;
-    var isGameDone;
+    var game = {numberOfBombs: 0, isGameDone: false};
     var colors = ["blue", "green", "red", "purple", "orange", "pink"];
     var cells;
     var isBoardGenerated = false;
@@ -48,10 +47,10 @@
             var gameDiv = document.getElementById("gameDiv");
             gameDiv.parentNode.removeChild(gameDiv);
         }
-        numberOfBombs = document.getElementById("bombs").value;
+        game.numberOfBombs = document.getElementById("bombs").value;
         gameBoard.width = document.getElementById("width").value;
         gameBoard.height = document.getElementById("height").value;
-        isGameDone = false;
+        game.isGameDone = false;
         cells = fillTwoDimensionalArray();
         createBorderTable();
         plantBombs();
@@ -109,7 +108,7 @@
     }
 
     function plantBombs() {
-        for (var i = 0; i < numberOfBombs; i++) {
+        for (var i = 0; i < game.numberOfBombs; i++) {
             while (true) {
                 var x = Math.floor(Math.random() * gameBoard.height);
                 var y = Math.floor(Math.random() * gameBoard.width);
@@ -152,7 +151,7 @@
     }
 
     function playerMove(event, object) {
-        if (isGameDone) {
+        if (game.isGameDone) {
             messageBox.innerHTML = "Rozpocznij nowa gre";
         } else {
             var x = parseInt(object.getAttribute("data-x"));
@@ -174,7 +173,7 @@
                 if (cellToDiscover.isBomb) {
                     displayAllBombs();
                     messageBox.innerHTML = "przegrales";
-                    isGameDone = true;
+                    game.isGameDone = true;
                 } else {
                     if (cellToDiscover.numberOfBombsAdjacent > 0) {
                         cellToDiscover.gameField.innerText = cellToDiscover.numberOfBombsAdjacent;
@@ -202,7 +201,7 @@
                 cellToSetFlag.isFlag = true;
                 numberOfFlaggedFields++;
             }
-            messageBox.innerHTML = "Pozostalo bomb: " + (numberOfBombs - numberOfFlaggedFields);
+            messageBox.innerHTML = "Pozostalo bomb: " + (game.numberOfBombs - numberOfFlaggedFields);
             cellToSetFlag.gameField.appendChild(flagImage);
         }
     }
@@ -222,9 +221,9 @@
     }
 
     function checkIfPlayerWins() {
-        if (countPointsFromFlags() == numberOfBombs || countFieldsUndiscovered() == 0) {
+        if (countPointsFromFlags() == game.numberOfBombs || countFieldsUndiscovered() == 0) {
             messageBox.innerHTML = "wygrales";
-            isGameDone = true;
+            game.isGameDone = true;
         } else {
         }
     }
