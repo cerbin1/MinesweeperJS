@@ -135,13 +135,17 @@
     function isBombAdjacentToField(x, y) {
         for (var i = -1; i < 2; i++) {
             for (var j = -1; j < 2; j++) {
-                if (x + i >= 0 && x + i <= height - 1 && y + j >= 0 && y + j <= width - 1) { // TODO if do wydzielenia
+                if (isFieldInBoard(x, y, i, j)) {
                     if (cells[x + i][y + j].isBomb) {
                         incrementNumberOfBombsAdjacentToField(x, y);
                     }
                 }
             }
         }
+    }
+
+    function isFieldInBoard(x, y, i, j) {
+        return x + i >= 0 && x + i <= height - 1 && y + j >= 0 && y + j <= width - 1;
     }
 
     function incrementNumberOfBombsAdjacentToField(x, y) {
