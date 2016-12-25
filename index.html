@@ -170,16 +170,20 @@
                     game.isGameDone = true;
                 } else {
                     if (cellToDiscover.numberOfBombsAdjacent > 0) {
-                        cellToDiscover.gameField.innerText = cellToDiscover.numberOfBombsAdjacent;
-                        cellToDiscover.gameField.style.color = colorNumberOfBombs(cellToDiscover.numberOfBombsAdjacent);
-                        cellToDiscover.gameField.style.backgroundColor = "darkGray";
-                        cellToDiscover.isCellDiscovered = true;
+                        displayAndColorField(cellToDiscover);
                     } else {
                         floodFill(x, y);
                     }
                 }
             }
         }
+    }
+
+    function displayAndColorField(cellToDiscover) {
+        cellToDiscover.gameField.innerText = cellToDiscover.numberOfBombsAdjacent;
+        cellToDiscover.gameField.style.color = colorNumberOfBombs(cellToDiscover.numberOfBombsAdjacent);
+        cellToDiscover.gameField.style.backgroundColor = "darkGray";
+        cellToDiscover.isCellDiscovered = true;
     }
 
     function setFlag(cellToSetFlag) {
