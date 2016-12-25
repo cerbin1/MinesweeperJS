@@ -135,7 +135,7 @@
     function isBombAdjacentToField(x, y) {
         for (var i = -1; i < 2; i++) {
             for (var j = -1; j < 2; j++) {
-                if (isFieldInBoard(x, y, i, j)) {
+                if (isFieldInBoard(x + i, y + j)) {
                     if (cells[x + i][y + j].isBomb) {
                         incrementNumberOfBombsAdjacentToField(x, y);
                     }
@@ -144,8 +144,12 @@
         }
     }
 
-    function isFieldInBoard(x, y, i, j) {
-        return x + i >= 0 && x + i <= height - 1 && y + j >= 0 && y + j <= width - 1;
+    function isFieldInBoard(x, y) {
+        var isTopEdgeNotExceeded = x >= 0;
+        var isBottomEdgeNotExceeded = x <= height - 1;
+        var isLeftEdgeNotExceeded = y >= 0;
+        var isRightEdgeNotExceeded = y <= width - 1;
+        return isTopEdgeNotExceeded && isBottomEdgeNotExceeded && isLeftEdgeNotExceeded && isRightEdgeNotExceeded;
     }
 
     function incrementNumberOfBombsAdjacentToField(x, y) {
