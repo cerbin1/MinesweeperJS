@@ -16,7 +16,7 @@
     </label>
 
     <label>
-        Wysokość<input id="length" type="number" value="9">
+        Wysokość<input id="height" type="number" value="9">
     </label>
 
     <button style="display: inline-block" class="new-game-button" onclick="startGame()">Start new game</button>
@@ -33,7 +33,7 @@
 <script>
     // TODO od tąd
     var width;
-    var length;
+    var height;
     var numberOfBombs;
     var isGameDone;
     var colors = ["blue", "green", "red", "purple", "orange", "pink"];
@@ -51,7 +51,7 @@
         }
         numberOfBombs = document.getElementById("bombs").value;
         width = document.getElementById("width").value;
-        length = document.getElementById("length").value;
+        height = document.getElementById("height").value;
         isGameDone = false;
         cells = fillTwoDimensionalArray();
         createBorderTable();
@@ -70,9 +70,9 @@
 
     function fillTwoDimensionalArray() {
         var array = [];
-        for (var i = 0; i < width; i++) {
+        for (var i = 0; i < height; i++) {
             array[i] = [];
-            for (var j = 0; j < length; j++) {
+            for (var j = 0; j < width; j++) {
                 array[i][j] = getDefaultFieldObject();
             }
         }
@@ -93,12 +93,12 @@
         table.setAttribute("id", "gameBoard");
         gameDiv.appendChild(table);
 
-        for (var i = 0; i < width; i++) {
+        for (var i = 0; i < height; i++) {
             var row = document.createElement("tr");
             row.setAttribute("id", "row" + i.toString());
             table.appendChild(row);
 
-            for (var j = 0; j < length; j++) {
+            for (var j = 0; j < width; j++) {
                 var cell = document.createElement("td");
                 cell.setAttribute("onmousedown", "playerMove(event, this)");
                 cell.setAttribute("data-x", i.toString());
@@ -112,8 +112,8 @@
     function plantBombs() {
         for (var i = 0; i < numberOfBombs; i++) {
             while (true) {
-                var x = Math.floor(Math.random() * cells.length);
-                var y = Math.floor(Math.random() * cells.length);
+                var x = Math.floor(Math.random() * height);
+                var y = Math.floor(Math.random() * width);
                 if (!cells[x][y].isBomb) {
                     cells[x][y].isBomb = true;
                     break;
@@ -124,8 +124,8 @@
     }
 
     function countBombsAdjacentToFields() {
-        for (var i = 0; i < cells.length; i++) {
-            for (var j = 0; j < cells[i].length; j++) {
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
                 isBombAdjacentToField(i, j);
             }
         }
@@ -135,7 +135,7 @@
     function isBombAdjacentToField(x, y) {
         for (var i = -1; i < 2; i++) {
             for (var j = -1; j < 2; j++) {
-                if (x + i >= 0 && x + i <= width - 1 && y + j >= 0 && y + j <= length - 1) { // TODO if do wydzielenia
+                if (x + i >= 0 && x + i <= height - 1 && y + j >= 0 && y + j <= width - 1) { // TODO if do wydzielenia
                     if (cells[x + i][y + j].isBomb) {
                         incrementNumberOfBombsAdjacentToField(x, y);
                     }
@@ -206,8 +206,8 @@
     }
 
     function displayAllBombs() {
-        for (var i = 0; i < cells.length; i++) {
-            for (var j = 0; j < cells[i].length; j++) {
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
                 if (cells[i][j].isBomb) {
                     cells[i][j].gameField.style.backgroundColor = "red"; // TODO to powinna być jakaś metoda (typu "markAsExploded" czy coś)
                 }
@@ -225,8 +225,8 @@
 
     function countPointsFromFlags() {
         var numberOfPoints = 0;
-        for (var i = 0; i < width; i++) {
-            for (var j = 0; j < length; j++) {
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
                 if (cells[i][j].isBomb && cells[i][j].isFlag) {
                     numberOfPoints++;
                 }
@@ -240,8 +240,8 @@
 
     function countFieldsUndiscovered() {
         var numberOfUndiscoveredFields = 0;
-        for (var i = 0; i < width; i++) {
-            for (var j = 0; j < length; j++) {
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
                 if (!cells[i][j].isBomb && !cells[i][j].isCellDiscovered) {
                     numberOfUndiscoveredFields++;
                 }
@@ -255,7 +255,7 @@
     }
 
     function floodFill(x, y) {
-        if (y < 0 || y > width - 1 || x < 0 || x > length - 1 || cells[x][y].isFlag || cells[x][y].isBomb) { // TODO if do wydzielenia
+        if (y < 0 || y > width - 1 || x < 0 || x > height - 1 || cells[x][y].isFlag || cells[x][y].isBomb) { // TODO if do wydzielenia
             return;
         }
 
