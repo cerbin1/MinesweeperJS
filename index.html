@@ -145,16 +145,7 @@
     }
 
     function isFieldInBoard(x, y) {
-        if (0 > x) {
-            return false;
-        }
-        if (x >= height) {
-            return false;
-        }
-        if (0 > y) {
-            return false;
-        }
-        return y >= width;
+        return (0 <= x && x < height) && (0 <= y && y < width);
     }
 
     function incrementNumberOfBombsAdjacentToField(x, y) {
