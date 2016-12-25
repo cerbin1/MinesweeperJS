@@ -262,7 +262,7 @@
     }
 
     function floodFill(x, y) {
-        if (y < 0 || y > width - 1 || x < 0 || x > height - 1 || cells[x][y].isFlag || cells[x][y].isBomb) { // TODO if do wydzielenia
+        if (isFieldOutsideBoard(y, x) || isFieldEmpty(x, y)) {
             return;
         }
 
@@ -291,6 +291,13 @@
         }
     }
 
+    function isFieldOutsideBoard(y, x) {
+        return y < 0 || y > width - 1 || x < 0 || x > height - 1;
+    }
+
+    function isFieldEmpty(x, y) {
+        return cells[x][y].isFlag || cells[x][y].isBomb;
+    }
 </script>
 </body>
 </html>
