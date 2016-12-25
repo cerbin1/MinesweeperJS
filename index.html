@@ -45,7 +45,7 @@
     startGame();
 
     function startGame() {
-        if(isBoardGenerated) {
+        if (isBoardGenerated) {
             var gameDiv = document.getElementById("gameDiv");
             gameDiv.parentNode.removeChild(gameDiv);
         }
@@ -145,11 +145,16 @@
     }
 
     function isFieldInBoard(x, y) {
-        var isTopEdgeNotExceeded = x >= 0;
-        var isBottomEdgeNotExceeded = x <= height - 1;
-        var isLeftEdgeNotExceeded = y >= 0;
-        var isRightEdgeNotExceeded = y <= width - 1;
-        return isTopEdgeNotExceeded && isBottomEdgeNotExceeded && isLeftEdgeNotExceeded && isRightEdgeNotExceeded;
+        if (0 > x) {
+            return false;
+        }
+        if (x >= height) {
+            return false;
+        }
+        if (0 > y) {
+            return false;
+        }
+        return y >= width;
     }
 
     function incrementNumberOfBombsAdjacentToField(x, y) {
