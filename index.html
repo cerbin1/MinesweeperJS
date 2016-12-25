@@ -212,10 +212,14 @@
         for (var i = 0; i < height; i++) {
             for (var j = 0; j < width; j++) {
                 if (cells[i][j].isBomb) {
-                    cells[i][j].gameField.style.backgroundColor = "red"; // TODO to powinna być jakaś metoda (typu "markAsExploded" czy coś)
+                    changeFieldToBomb(i, j);
                 }
             }
         }
+    }
+
+    function changeFieldToBomb(i, j) {
+        cells[i][j].gameField.style.backgroundColor = "red";
     }
 
     function checkIfPlayerWins() {
