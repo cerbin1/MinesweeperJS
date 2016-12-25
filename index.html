@@ -72,7 +72,16 @@
     }
 
     function getDefaultFieldObject() {
-        return {isBomb: false, isFlag: false, numberOfBombsAdjacent: 0, gameField: null, isCellDiscovered: false};
+        return {
+            isBomb: false,
+            isFlag: false,
+            numberOfBombsAdjacent: 0,
+            gameField: null,
+            isCellDiscovered: false,
+            changeFieldToBomb: function () {
+                this.gameField.style.backgroundColor = "red";
+            }
+        };
     }
 
     function createBorderTable() {
@@ -208,14 +217,10 @@
         for (var i = 0; i < gameBoard.height; i++) {
             for (var j = 0; j < gameBoard.width; j++) {
                 if (gameBoard.cells[i][j].isBomb) {
-                    changeFieldToBomb(i, j);
+                    gameBoard.cells[i][j].changeFieldToBomb();
                 }
             }
         }
-    }
-
-    function changeFieldToBomb(i, j) {
-        gameBoard.cells[i][j].gameField.style.backgroundColor = "red";
     }
 
     function checkIfPlayerWins() {
