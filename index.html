@@ -20,15 +20,7 @@
     </label>
 
     <button style="display: inline-block" class="new-game-button" onclick="startGame()">Start new game</button>
-
 </div>
-
-<!--<script>
-    var d = document.getElementById("d");
-    d.addEventListener("click", function () {
-
-    });
-</script>-->
 
 <script>
     var gameBoard = {width: 0, height: 0, cells: null, numberOfFlaggedFields: 0};
@@ -134,7 +126,7 @@
                 isBombAdjacentToField(i, j);
             }
         }
-        displayAllBombs();
+     //   displayAllBombs();
     }
 
     function isBombAdjacentToField(x, y) {
