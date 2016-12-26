@@ -167,8 +167,8 @@
     }
 
     function discoverField(x, y, cellToDiscover) {
-        if (!cellToDiscover.isFlag) {
-            if (!cellToDiscover.isCellDiscovered) {
+        if (!cellToDiscover.isFlag) { // zamien na if(isFlag) return;
+            if (!cellToDiscover.isCellDiscovered) {  // zamien na if(isDicovered) return
                 if (cellToDiscover.isBomb) {
                     displayAllBombs();
                     game.messageBox.innerHTML = "przegrales";
