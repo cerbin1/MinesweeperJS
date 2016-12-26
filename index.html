@@ -44,6 +44,7 @@
         game.numberOfBombs = document.getElementById("bombs").value;
         gameBoard.width = document.getElementById("width").value;
         gameBoard.height = document.getElementById("height").value;
+        gameBoard.numberOfFlaggedFields = 0;
         game.isGameDone = false;
         gameBoard.cells = fillTwoDimensionalArray();
         createBorderTable();
