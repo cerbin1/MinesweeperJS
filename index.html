@@ -97,9 +97,9 @@
 
             for (var j = 0; j < gameBoard.width; j++) {
                 var cell = document.createElement("td");
-                cell.setAttribute("onmousedown", "playerMove(event, this)");
-                cell.setAttribute("data-x", i.toString());
-                cell.setAttribute("data-y", j.toString());
+                cell.setAttribute("onmousedown", "playerMove(event, this)"); // zamiast tego użyj addEventListener i przekaż funkcje JavaScriptową
+                cell.setAttribute("data-x", i.toString()); // użyj właściwości "dataset"
+                cell.setAttribute("data-y", j.toString()); // użyj właściwości "dataset"
                 row.appendChild(cell);
                 gameBoard.cells[i][j].gameField = cell;
             }
