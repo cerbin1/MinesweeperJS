@@ -192,7 +192,7 @@
     }
 
     function setFlag(cellToSetFlag) {
-        if (!cellToSetFlag.isCellDiscovered) {
+        if (!cellToSetFlag.isCellDiscovered) { // zamien na if(cellDicovered) return;
             if (cellToSetFlag.isFlag) {
                 cellToSetFlag.gameField.innerHTML = "";
                 cellToSetFlag.isFlag = false;
