@@ -81,7 +81,7 @@
             isCellDiscovered: false,
             changeFieldToBomb: function () {
                 var bombImage = document.createElement("img");
-                bombImage.setAttribute("class", "imageOfBomb");
+                bombImage.setAttribute("class", "sizeOfImage");
                 bombImage.src = "bomb.png";
                 this.gameField.appendChild(bombImage);
             }
@@ -200,20 +200,20 @@
     }
 
     function setFlag(cellToSetFlag) {
-        var flagImage = document.createElement("img");
         if (!cellToSetFlag.isCellDiscovered) {
             if (cellToSetFlag.isFlag) {
                 cellToSetFlag.gameField.innerHTML = "";
-                flagImage.src = "";
                 cellToSetFlag.isFlag = false;
                 gameBoard.numberOfFlaggedFields--;
             } else {
+                var flagImage = document.createElement("img");
+                flagImage.setAttribute("class", "sizeOfImage");
                 flagImage.src = "flag.png";
                 cellToSetFlag.isFlag = true;
                 gameBoard.numberOfFlaggedFields++;
+                cellToSetFlag.gameField.appendChild(flagImage);
             }
             game.messageBox.innerHTML = "Pozostalo bomb: " + (game.numberOfBombs - gameBoard.numberOfFlaggedFields);
-            cellToSetFlag.gameField.appendChild(flagImage);
         }
     }
 
