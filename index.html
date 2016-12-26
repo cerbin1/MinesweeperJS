@@ -80,7 +80,10 @@
             gameField: null,
             isCellDiscovered: false,
             changeFieldToBomb: function () {
-                this.gameField.style.backgroundColor = "red";
+                var bombImage = document.createElement("img");
+                bombImage.setAttribute("class", "imageOfBomb");
+                bombImage.src = "bomb.png";
+                this.gameField.appendChild(bombImage);
             }
         };
     }
