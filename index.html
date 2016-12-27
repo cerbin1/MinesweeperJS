@@ -100,7 +100,7 @@
                 cell.addEventListener("click", leftMouseClick);
                 cell.addEventListener("contextmenu", rightMouseClick);
                 cell.dataset.x = i.toString();
-                cell.dataset.y =  j.toString();
+                cell.dataset.y = j.toString();
                 row.appendChild(cell);
                 gameBoard.cells[i][j].gameField = cell;
             }
@@ -175,19 +175,21 @@
     }
 
     function discoverField(x, y, cellToDiscover) {
-        if (!cellToDiscover.isFlag) { // zamien na if(isFlag) return;
-            if (!cellToDiscover.isCellDiscovered) {  // zamien na if(isDicovered) return
-                if (cellToDiscover.isBomb) {
-                    displayAllBombs();
-                    game.messageBox.innerHTML = "przegrales";
-                    game.isGameDone = true;
-                } else {
-                    if (cellToDiscover.numberOfBombsAdjacent > 0) {
-                        displayAndColorField(cellToDiscover);
-                    } else {
-                        floodFill(x, y);
-                    }
-                }
+        if (cellToDiscover.isFlag) {
+            return;
+        }
+        if (cellToDiscover.isCellDiscovered) {
+            return;
+        }
+        if (cellToDiscover.isBomb) {
+            displayAllBombs();
+            game.messageBox.innerHTML = "przegrales";
+            game.isGameDone = true;
+        } else {
+            if (cellToDiscover.numberOfBombsAdjacent > 0) {
+                displayAndColorField(cellToDiscover);
+            } else {
+                floodFill(x, y);
             }
         }
     }
