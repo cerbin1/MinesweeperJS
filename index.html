@@ -23,9 +23,19 @@
 </div>
 
 <script>
-    var gameBoard = {width: 0, height: 0, cells: null, numberOfFlaggedFields: 0};
+    var gameBoard = {width: 0, height: 0, cells: null, numberOfFlaggedFields: 0, iterateCells: cellsIterator};
     var game = {numberOfBombs: 0, isGameDone: false, isBoardGenerated: false, messageBox: null};
     var colorsOfNumberOfBombsAdjacentToField = ["blue", "green", "red", "purple", "orange", "yellow", "brown", "pink"];
+
+    function cellsIterator(callback) {
+        for (var i = 0; i < gameBoard.height; i++) {
+            for (var j = 0; j < gameBoard.width; j++) {
+                var cell = gameBoard.cells[i][j];
+                callback(cell);
+            }
+        }
+    }
+
     startGame();
 
     function startGame() {
@@ -275,19 +285,16 @@
 
     function countPointsFromFlags() {
         var numberOfPoints = 0;
-        for (var i = 0; i < gameBoard.height; i++) {
-            for (var j = 0; j < gameBoard.width; j++) {
-                var cell = gameBoard.cells[i][j];
-                if (cell.isFlag) {
-                    if (cell.isBomb) {
-                        numberOfPoints++;
-                    }
-                    else {
-                        numberOfPoints--;
-                    }
+        gameBoard.iterateCells(function (cell) {
+            if (cell.isFlag) {
+                if (cell.isBomb) {
+                    numberOfPoints++;
+                }
+                else {
+                    numberOfPoints--;
                 }
             }
-        }
+        });
         return numberOfPoints;
     }
 
