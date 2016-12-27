@@ -216,29 +216,30 @@
     }
 
     function floodFill(x, y) {
-        if (isFieldOutsideBoard(x, y) || isFieldEmpty(x, y)) {
+        if (isEmptyOrDiscovered(x, y)) {
             return;
         }
-
-        var cell = gameBoard.cells[x][y];
-
-        if (cell.isDiscovered) {
-            return;
-        }
+        var cell = gameField.cells[x][y];
 
         if (cell.numberOfBombsAdjacent > 0) {
             fillFieldWithBombsAdjacent(cell);
             return;
         }
-        else {
-            fillEmptyField(cell);
-        }
+        fillEmptyField(cell);
 
         for (var i = -1; i < 2; i++) {
             for (var j = -1; j < 2; j++) {
                 floodFill(x + i, y + j);
             }
         }
+    }
+
+    function isEmptyOrDiscovered(x, y) {
+        if (isFieldOutsideBoard(x, y) || isFieldEmpty(x, y)) {
+            return true;
+        }
+
+        return gameBoard.cells[x][y].isDiscovered;
     }
 
     function isFieldOutsideBoard(x, y) {
