@@ -231,10 +231,14 @@
     }
 
     function checkIfPlayerWins() {
-        if (countPointsFromFlags() == game.numberOfBombs || countFieldsUndiscovered() == 0) { // if wydzielić do metody
+        if (isThereEnoughPointsForWin()) {
             game.messageBox.innerHTML = "wygrales";
             game.isGameDone = true;
         }
+    }
+
+    function isThereEnoughPointsForWin() {
+        return countPointsFromFlags() == game.numberOfBombs || countFieldsUndiscovered() == 0;
     }
 
     function countPointsFromFlags() {
