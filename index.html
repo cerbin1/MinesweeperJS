@@ -269,7 +269,7 @@
             return;
         }
 
-        if (cell.numberOfBombsAdjacent > 0) {
+        if (cell.numberOfBombsAdjacent > 0) { // od tąd
             cell.gameField.innerHTML = cell.numberOfBombsAdjacent.toString();
             cell.gameField.style.color = colorNumberOfBombs(cell.numberOfBombsAdjacent);
             cell.gameField.style.backgroundColor = "darkGray";
@@ -278,7 +278,7 @@
         }
         else {
             cell.gameField.style.backgroundColor = "darkGray";
-            cell.isCellDiscovered = true;
+            cell.isCellDiscovered = true; // do tąd, wydzielić do innej funkcji
         }
 
         for (var i = -1; i < 2; i++) {
