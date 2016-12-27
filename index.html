@@ -233,14 +233,10 @@
 
         if (cell.numberOfBombsAdjacent > 0) {
             fillFieldWithBombsAdjacent(cell);
-            return;
         }
-        fillEmptyField(cell);
-
-        for (var i = -1; i < 2; i++) {
-            for (var j = -1; j < 2; j++) {
-                floodFill(x + i, y + j);
-            }
+        else {
+            fillEmptyField(cell);
+            recursiveFloodFill(x, y);
         }
     }
 
@@ -270,6 +266,14 @@
     function fillEmptyField(cell) {
         cell.gameField.style.backgroundColor = "darkGray";
         cell.isDiscovered = true;
+    }
+
+    function recursiveFloodFill(x, y) {
+        for (var i = -1; i < 2; i++) {
+            for (var j = -1; j < 2; j++) {
+                floodFill(x + i, y + j);
+            }
+        }
     }
 
     function checkIfPlayerWins() {
