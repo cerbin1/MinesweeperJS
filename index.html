@@ -46,13 +46,6 @@
         createMessageBox();
     }
 
-    function createMessageBox() {
-        var divToDisplayMessages = document.createElement("div");
-        divToDisplayMessages.setAttribute("id", "messageBox");
-        document.getElementById("gameDiv").appendChild(divToDisplayMessages);
-        game.messageBox = document.getElementById("messageBox");
-    }
-
     function fillTwoDimensionalArray() {
         var array = [];
         for (var i = 0; i < gameBoard.height; i++) {
@@ -150,6 +143,23 @@
         gameBoard.cells[x][y].numberOfBombsAdjacent++;
     }
 
+    function displayAllBombs() {
+        for (var i = 0; i < gameBoard.height; i++) {
+            for (var j = 0; j < gameBoard.width; j++) {
+                if (gameBoard.cells[i][j].isBomb) {
+                    gameBoard.cells[i][j].changeFieldToBomb();
+                }
+            }
+        }
+    }
+
+    function createMessageBox() {
+        var divToDisplayMessages = document.createElement("div");
+        divToDisplayMessages.setAttribute("id", "messageBox");
+        document.getElementById("gameDiv").appendChild(divToDisplayMessages);
+        game.messageBox = document.getElementById("messageBox");
+    }
+
     function leftMouseClick() {
         if (game.isGameDone) {
             game.messageBox.innerHTML = "Rozpocznij nowa gre";
@@ -201,33 +211,54 @@
         cellToDiscover.isDiscovered = true;
     }
 
-    function setFlag(cellToSetFlag) {
-        if (cellToSetFlag.isDiscovered) {
+    function floodFill(x, y) {
+        if (isFieldOutsideBoard(x, y) || isFieldEmpty(x, y)) {
             return;
         }
-        if (cellToSetFlag.isFlag) {
-            cellToSetFlag.gameField.innerHTML = "";
-            cellToSetFlag.isFlag = false;
-            gameBoard.numberOfFlaggedFields--;
-        } else {
-            var flagImage = document.createElement("img");
-            flagImage.setAttribute("class", "sizeOfImage");
-            flagImage.src = "flag.png";
-            cellToSetFlag.isFlag = true;
-            gameBoard.numberOfFlaggedFields++;
-            cellToSetFlag.gameField.appendChild(flagImage);
-        }
-        game.messageBox.innerHTML = "Pozostalo bomb: " + (game.numberOfBombs - gameBoard.numberOfFlaggedFields);
-    }
 
-    function displayAllBombs() {
-        for (var i = 0; i < gameBoard.height; i++) {
-            for (var j = 0; j < gameBoard.width; j++) {
-                if (gameBoard.cells[i][j].isBomb) {
-                    gameBoard.cells[i][j].changeFieldToBomb();
-                }
+        var cell = gameBoard.cells[x][y];
+
+        if (cell.isDiscovered) {
+            return;
+        }
+
+        if (cell.numberOfBombsAdjacent > 0) {
+            fillFieldWithBombsAdjacent(cell);
+            return;
+        }
+        else {
+            fillEmptyField(cell);
+        }
+
+        for (var i = -1; i < 2; i++) {
+            for (var j = -1; j < 2; j++) {
+                floodFill(x + i, y + j);
             }
         }
+    }
+
+    function isFieldOutsideBoard(x, y) {
+        return (0 > y || y >= gameBoard.width) || (0 > x || x >= gameBoard.height);
+    }
+
+    function isFieldEmpty(x, y) {
+        return gameBoard.cells[x][y].isFlag || gameBoard.cells[x][y].isBomb;
+    }
+
+    function fillFieldWithBombsAdjacent(cell) {
+        cell.gameField.innerHTML = cell.numberOfBombsAdjacent.toString();
+        cell.gameField.style.color = colorNumberOfBombs(cell.numberOfBombsAdjacent);
+        cell.gameField.style.backgroundColor = "darkGray";
+        cell.isDiscovered = true;
+    }
+
+    function colorNumberOfBombs(numberOfBombs) {
+        return colorsOfNumberOfBombsAdjacentToField[numberOfBombs - 1];
+    }
+
+    function fillEmptyField(cell) {
+        cell.gameField.style.backgroundColor = "darkGray";
+        cell.isDiscovered = true;
     }
 
     function checkIfPlayerWins() {
@@ -268,54 +299,23 @@
         return numberOfUndiscoveredFields;
     }
 
-    function colorNumberOfBombs(numberOfBombs) {
-        return colorsOfNumberOfBombsAdjacentToField[numberOfBombs - 1];
-    }
-
-    function floodFill(x, y) {
-        if (isFieldOutsideBoard(x, y) || isFieldEmpty(x, y)) {
+    function setFlag(cellToSetFlag) {
+        if (cellToSetFlag.isDiscovered) {
             return;
         }
-
-        var cell = gameBoard.cells[x][y];
-
-        if (cell.isDiscovered) {
-            return;
+        if (cellToSetFlag.isFlag) {
+            cellToSetFlag.gameField.innerHTML = "";
+            cellToSetFlag.isFlag = false;
+            gameBoard.numberOfFlaggedFields--;
+        } else {
+            var flagImage = document.createElement("img");
+            flagImage.setAttribute("class", "sizeOfImage");
+            flagImage.src = "flag.png";
+            cellToSetFlag.isFlag = true;
+            gameBoard.numberOfFlaggedFields++;
+            cellToSetFlag.gameField.appendChild(flagImage);
         }
-
-        if (cell.numberOfBombsAdjacent > 0) {
-            fillFieldWithBombsAdjacent(cell);
-            return;
-        }
-        else {
-            fillEmptyField(cell);
-        }
-
-        for (var i = -1; i < 2; i++) {
-            for (var j = -1; j < 2; j++) {
-                floodFill(x + i, y + j);
-            }
-        }
-    }
-
-    function isFieldOutsideBoard(x, y) {
-        return (0 > y || y >= gameBoard.width) || (0 > x || x >= gameBoard.height);
-    }
-
-    function isFieldEmpty(x, y) {
-        return gameBoard.cells[x][y].isFlag || gameBoard.cells[x][y].isBomb;
-    }
-
-
-    function fillFieldWithBombsAdjacent(cell) {
-        cell.gameField.innerHTML = cell.numberOfBombsAdjacent.toString();
-        cell.gameField.style.color = colorNumberOfBombs(cell.numberOfBombsAdjacent);
-        cell.gameField.style.backgroundColor = "darkGray";
-        cell.isDiscovered = true;
-    }
-    function fillEmptyField(cell) {
-        cell.gameField.style.backgroundColor = "darkGray";
-        cell.isDiscovered = true;
+        game.messageBox.innerHTML = "Pozostalo bomb: " + (game.numberOfBombs - gameBoard.numberOfFlaggedFields);
     }
 </script>
 </body>
