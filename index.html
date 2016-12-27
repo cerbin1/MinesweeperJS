@@ -211,6 +211,10 @@
         cellToDiscover.isDiscovered = true;
     }
 
+    function colorNumberOfBombs(numberOfBombs) {
+        return colorsOfNumberOfBombsAdjacentToField[numberOfBombs - 1];
+    }
+
     function floodFill(x, y) {
         if (isFieldOutsideBoard(x, y) || isFieldEmpty(x, y)) {
             return;
@@ -250,10 +254,6 @@
         cell.gameField.style.color = colorNumberOfBombs(cell.numberOfBombsAdjacent);
         cell.gameField.style.backgroundColor = "darkGray";
         cell.isDiscovered = true;
-    }
-
-    function colorNumberOfBombs(numberOfBombs) {
-        return colorsOfNumberOfBombsAdjacentToField[numberOfBombs - 1];
     }
 
     function fillEmptyField(cell) {
