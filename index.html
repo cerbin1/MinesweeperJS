@@ -99,8 +99,8 @@
                 var cell = document.createElement("td");
                 cell.addEventListener("click", leftMouseClick);
                 cell.addEventListener("contextmenu", rightMouseClick);
-                cell.setAttribute("data-x", i.toString()); // użyj właściwości "dataset"
-                cell.setAttribute("data-y", j.toString()); // użyj właściwości "dataset"
+                cell.dataset.x = i.toString();
+                cell.dataset.y =  j.toString();
                 row.appendChild(cell);
                 gameBoard.cells[i][j].gameField = cell;
             }
@@ -154,8 +154,8 @@
         if (game.isGameDone) {
             game.messageBox.innerHTML = "Rozpocznij nowa gre";
         } else {
-            var x = parseInt(this.getAttribute("data-x"));
-            var y = parseInt(this.getAttribute("data-y"));
+            var x = parseInt(this.dataset.x);
+            var y = parseInt(this.dataset.y);
 
             discoverField(x, y, gameBoard.cells[x][y]);
             checkIfPlayerWins();
@@ -166,8 +166,8 @@
         if (game.isGameDone) {
             game.messageBox.innerHTML = "Rozpocznij nowa gre";
         } else {
-            var x = parseInt(this.getAttribute("data-x"));
-            var y = parseInt(this.getAttribute("data-y"));
+            var x = parseInt(this.dataset.x);
+            var y = parseInt(this.dataset.y);
 
             setFlag(gameBoard.cells[x][y]);
             checkIfPlayerWins();
