@@ -97,7 +97,8 @@
 
             for (var j = 0; j < gameBoard.width; j++) {
                 var cell = document.createElement("td");
-                cell.setAttribute("onmousedown", "playerMove(event, this)"); // zamiast tego użyj addEventListener i przekaż funkcje JavaScriptową
+                cell.addEventListener("click", leftMouseClick);
+                cell.addEventListener("contextmenu", rightMouseClick);
                 cell.setAttribute("data-x", i.toString()); // użyj właściwości "dataset"
                 cell.setAttribute("data-y", j.toString()); // użyj właściwości "dataset"
                 row.appendChild(cell);
@@ -149,19 +150,26 @@
         gameBoard.cells[x][y].numberOfBombsAdjacent++;
     }
 
-    function playerMove(event, object) {
+    function leftMouseClick() {
         if (game.isGameDone) {
             game.messageBox.innerHTML = "Rozpocznij nowa gre";
         } else {
-            var x = parseInt(object.getAttribute("data-x"));
-            var y = parseInt(object.getAttribute("data-y"));
+            var x = parseInt(this.getAttribute("data-x"));
+            var y = parseInt(this.getAttribute("data-y"));
 
-            if (event.button == 0) {
-                discoverField(x, y, gameBoard.cells[x][y]);
-            }
-            if (event.button == 2) {
-                setFlag(gameBoard.cells[x][y]);
-            }
+            discoverField(x, y, gameBoard.cells[x][y]);
+            checkIfPlayerWins();
+        }
+    }
+
+    function rightMouseClick() {
+        if (game.isGameDone) {
+            game.messageBox.innerHTML = "Rozpocznij nowa gre";
+        } else {
+            var x = parseInt(this.getAttribute("data-x"));
+            var y = parseInt(this.getAttribute("data-y"));
+
+            setFlag(gameBoard.cells[x][y]);
             checkIfPlayerWins();
         }
     }
