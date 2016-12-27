@@ -202,21 +202,22 @@
     }
 
     function setFlag(cellToSetFlag) {
-        if (!cellToSetFlag.isCellDiscovered) { // zamien na if(cellDicovered) return;
-            if (cellToSetFlag.isFlag) {
-                cellToSetFlag.gameField.innerHTML = "";
-                cellToSetFlag.isFlag = false;
-                gameBoard.numberOfFlaggedFields--;
-            } else {
-                var flagImage = document.createElement("img");
-                flagImage.setAttribute("class", "sizeOfImage");
-                flagImage.src = "flag.png";
-                cellToSetFlag.isFlag = true;
-                gameBoard.numberOfFlaggedFields++;
-                cellToSetFlag.gameField.appendChild(flagImage);
-            }
-            game.messageBox.innerHTML = "Pozostalo bomb: " + (game.numberOfBombs - gameBoard.numberOfFlaggedFields);
+        if (cellToSetFlag.isCellDiscovered) {
+            return;
         }
+        if (cellToSetFlag.isFlag) {
+            cellToSetFlag.gameField.innerHTML = "";
+            cellToSetFlag.isFlag = false;
+            gameBoard.numberOfFlaggedFields--;
+        } else {
+            var flagImage = document.createElement("img");
+            flagImage.setAttribute("class", "sizeOfImage");
+            flagImage.src = "flag.png";
+            cellToSetFlag.isFlag = true;
+            gameBoard.numberOfFlaggedFields++;
+            cellToSetFlag.gameField.appendChild(flagImage);
+        }
+        game.messageBox.innerHTML = "Pozostalo bomb: " + (game.numberOfBombs - gameBoard.numberOfFlaggedFields);
     }
 
     function displayAllBombs() {
