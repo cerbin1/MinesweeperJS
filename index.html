@@ -260,7 +260,8 @@
         var numberOfUndiscoveredFields = 0;
         for (var i = 0; i < gameBoard.height; i++) {
             for (var j = 0; j < gameBoard.width; j++) {
-                if (!gameBoard.cells[i][j].isBomb && !gameBoard.cells[i][j].isDiscovered) {
+                var cell = gameBoard.cells[i][j];
+                if (!cell.isBomb && !cell.isDiscovered) {
                     numberOfUndiscoveredFields++;
                 }
             }
