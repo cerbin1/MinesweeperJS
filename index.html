@@ -219,7 +219,7 @@
         if (isEmptyOrDiscovered(x, y)) {
             return;
         }
-        var cell = gameField.cells[x][y];
+        var cell = gameBoard.cells[x][y];
 
         if (cell.numberOfBombsAdjacent > 0) {
             fillFieldWithBombsAdjacent(cell);
