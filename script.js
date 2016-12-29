@@ -128,8 +128,12 @@ function incrementNumberOfBombsAdjacentToField(x, y) {
 function displayAllBombs() {
     for (var i = 0; i < gameBoard.height; i++) {
         for (var j = 0; j < gameBoard.width; j++) {
-            if (gameBoard.cells[i][j].isBomb) {
-                gameBoard.cells[i][j].changeFieldToBomb();
+            var cellToChange = gameBoard.cells[i][j];
+            if (cellToChange.isBomb) {
+                if(cellToChange.isFlag) {
+                    cellToChange.gameField.innerHTML = "";
+                }
+                    cellToChange.changeFieldToBomb();
             }
         }
     }
