@@ -130,10 +130,10 @@ function displayAllBombs() {
         for (var j = 0; j < gameBoard.width; j++) {
             var cellToChange = gameBoard.cells[i][j];
             if (cellToChange.isBomb) {
-                if(cellToChange.isFlag) {
+                if (cellToChange.isFlag) {
                     cellToChange.gameField.innerHTML = "";
                 }
-                    cellToChange.changeFieldToBomb();
+                cellToChange.changeFieldToBomb();
             }
         }
     }
@@ -202,10 +202,15 @@ function colorNumberOfBombs(numberOfBombs) {
 }
 
 function floodFill(x, y) {
-    if (isEmptyOrDiscovered(x, y)) {//TODO wyciagnac sprawdzanie pola, dac komorke cell jako argument funkcji
+    if (isFieldOutsideBoard(x, y)) {
         return;
     }
+
     var cell = gameBoard.cells[x][y];
+
+    if (isEmptyOrDiscovered(cell)) {
+        return;
+    }
 
     if (cell.numberOfBombsAdjacent > 0) {
         fillFieldWithBombsAdjacent(cell);
@@ -216,20 +221,20 @@ function floodFill(x, y) {
     }
 }
 
-function isEmptyOrDiscovered(x, y) {
-    if (isFieldOutsideBoard(x, y) || isFieldEmpty(x, y)) {
+function isEmptyOrDiscovered(cell) {
+    if (isFieldEmpty(cell)) {
         return true;
     }
 
-    return gameBoard.cells[x][y].isDiscovered;
+    return cell.isDiscovered;
 }
 
 function isFieldOutsideBoard(x, y) {
     return (0 > y || y >= gameBoard.width) || (0 > x || x >= gameBoard.height);
 }
 
-function isFieldEmpty(x, y) {
-    return gameBoard.cells[x][y].isFlag || gameBoard.cells[x][y].isBomb;
+function isFieldEmpty(cell) {
+    return cell.isFlag || cell.isBomb;
 }
 
 function fillFieldWithBombsAdjacent(cell) {
