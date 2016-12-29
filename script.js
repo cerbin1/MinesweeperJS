@@ -251,6 +251,7 @@ function recursiveFloodFill(x, y) {
 
 function checkIfPlayerWins() {
     if (isThereEnoughPointsForWin()) {
+        displayAllBombs();
         game.messageBox.innerHTML = "Wygrałeś!!!";
         game.isGameDone = true;
     }
