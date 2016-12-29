@@ -11,7 +11,6 @@ function cellsIterator(callback) {
     }
 }
 
-
 function startGame() {
     if (game.isBoardGenerated) {
         var gameDiv = document.getElementById("gameDiv");
@@ -45,9 +44,9 @@ function getDefaultFieldObject() {
     return {
         isBomb: false,
         isFlag: false,
+        isDiscovered: false,
         numberOfBombsAdjacent: 0,
         gameField: null,
-        isDiscovered: false,
         changeFieldToBomb: function () {
             var bombImage = document.createElement("img");
             bombImage.setAttribute("class", "sizeOfImage");
