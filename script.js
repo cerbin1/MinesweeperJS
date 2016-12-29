@@ -132,6 +132,10 @@ function displayAllBombs() {
             if (cellToChange.isBomb) {
                 if (cellToChange.isFlag) {
                     cellToChange.gameField.innerHTML = "";
+                    cellToChange.gameField.style.backgroundColor = "lightGreen";
+                }
+                else {
+                    cellToChange.gameField.style.backgroundColor = "	#FF4500";
                 }
                 cellToChange.changeFieldToBomb();
             }
