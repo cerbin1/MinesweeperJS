@@ -226,15 +226,7 @@ function isFieldOutsideBoard(x, y) {
 }
 
 function isEmptyOrDiscovered(cell) {
-    if (isFieldEmpty(cell)) {
-        return true;
-    }
-
-    return cell.isDiscovered;
-}
-
-function isFieldEmpty(cell) {
-    return cell.isFlag || cell.isBomb;
+    return cell.isDiscovered || cell.isFlag || cell.isBomb;
 }
 
 function fillFieldWithBombsAdjacent(cell) {
@@ -280,7 +272,21 @@ function countPointsFromFlags() {
             }
         }
     });
+    if(!areAllFieldsDiscovered()) {
+        return 0;
+    }
     return numberOfPoints;
+}
+
+function areAllFieldsDiscovered() {
+    for (var i = 0; i < gameBoard.height; i++) {
+        for (var j = 0; j < gameBoard.width; j++) {
+            if(!gameBoard.cells[i][j].isDiscovered) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 function countFieldsUndiscovered() {
