@@ -148,7 +148,7 @@ function createMessageBox() {
 
 function leftMouseClick() {
     if (game.isGameDone) {
-        game.messageBox.innerHTML = "Rozpocznij nowa gre";
+        game.messageBox.innerHTML = "Rozpocznij nową grę";
     } else {
         var x = parseInt(this.dataset.x);
         var y = parseInt(this.dataset.y);
@@ -160,7 +160,7 @@ function leftMouseClick() {
 
 function rightMouseClick() {
     if (game.isGameDone) {
-        game.messageBox.innerHTML = "Rozpocznij nowa gre";
+        game.messageBox.innerHTML = "Rozpocznij nową grę";
     } else {
         var x = parseInt(this.dataset.x);
         var y = parseInt(this.dataset.y);
@@ -179,7 +179,7 @@ function discoverField(x, y, cellToDiscover) {
     }
     if (cellToDiscover.isBomb) {
         displayAllBombs();
-        game.messageBox.innerHTML = "przegrales";
+        game.messageBox.innerHTML = "Przegrałeś";
         game.isGameDone = true;
     } else {
         if (cellToDiscover.numberOfBombsAdjacent > 0) {
@@ -221,16 +221,16 @@ function floodFill(x, y) {
     }
 }
 
+function isFieldOutsideBoard(x, y) {
+    return (0 > y || y >= gameBoard.width) || (0 > x || x >= gameBoard.height);
+}
+
 function isEmptyOrDiscovered(cell) {
     if (isFieldEmpty(cell)) {
         return true;
     }
 
     return cell.isDiscovered;
-}
-
-function isFieldOutsideBoard(x, y) {
-    return (0 > y || y >= gameBoard.width) || (0 > x || x >= gameBoard.height);
 }
 
 function isFieldEmpty(cell) {
@@ -259,7 +259,7 @@ function recursiveFloodFill(x, y) {
 
 function checkIfPlayerWins() {
     if (isThereEnoughPointsForWin()) {
-        game.messageBox.innerHTML = "wygrales";
+        game.messageBox.innerHTML = "Wygrałeś!!!";
         game.isGameDone = true;
     }
 }
