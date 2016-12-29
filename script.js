@@ -140,7 +140,7 @@ function displayAllBombs() {
                     cellToChange.gameField.style.backgroundColor = "lightGreen";
                 }
                 else {
-                    cellToChange.gameField.style.backgroundColor = "	#FF4500";
+                    cellToChange.gameField.style.backgroundColor = "#FF4500";
                 }
                 cellToChange.changeFieldToBomb();
             }
