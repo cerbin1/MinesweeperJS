@@ -103,7 +103,6 @@ function countBombsAdjacentToFields() {
             isBombAdjacentToField(i, j);
         }
     }
-    displayAllBombs();
 }
 
 function isBombAdjacentToField(x, y) {
