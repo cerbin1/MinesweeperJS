@@ -16,7 +16,7 @@ function startGame() {
         var gameDiv = document.getElementById("gameDiv");
         gameDiv.parentNode.removeChild(gameDiv);
     }
-    game.numberOfBombs = document.getElementById("bombs").value;
+    game.numberOfBombs = document.getElementById("bombs").value;//TODO add conditions to max and min size and bombs
     gameBoard.width = document.getElementById("width").value;
     gameBoard.height = document.getElementById("height").value;
     gameBoard.numberOfFlaggedFields = 0;
@@ -140,7 +140,7 @@ function displayAllBombs() {
                     cellToChange.gameField.style.backgroundColor = "lightGreen";
                 }
                 else {
-                    cellToChange.gameField.style.backgroundColor = "#FF4500";
+                    cellToChange.gameField.style.backgroundColor = "#FF4500";//TODO add red color only when player lose, otherwise, set all bombs background color on green
                 }
                 cellToChange.changeFieldToBomb();
             }
