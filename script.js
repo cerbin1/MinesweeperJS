@@ -1,5 +1,5 @@
 var gameBoard = {width: 0, height: 0, cells: null, numberOfFlaggedFields: 0, iterateCells: cellsIterator};
-var game = {numberOfBombs: 0, isGameDone: false, isBoardGenerated: false, messageBox: null};
+var game = {numberOfBombs: 0, isGameDone: false, isFirstClick: true, isBoardGenerated: false, messageBox: null};
 var colorsOfNumberOfBombsAdjacentToField = ["blue", "green", "red", "purple", "orange", "yellow", "brown", "pink"];
 
 function cellsIterator(callback) {
@@ -21,6 +21,7 @@ function startGame() {
     gameBoard.height = document.getElementById("height").value;
     gameBoard.numberOfFlaggedFields = 0;
     game.isGameDone = false;
+    game.isFirstClick = true;
     gameBoard.cells = fillTwoDimensionalArray();
     createBorderTable();
     plantBombs();
@@ -85,16 +86,20 @@ function createBorderTable() {
 
 function plantBombs() {
     for (var i = 0; i < game.numberOfBombs; i++) {
-        while (true) {
-            var x = Math.floor(Math.random() * gameBoard.height);
-            var y = Math.floor(Math.random() * gameBoard.width);
-            if (!gameBoard.cells[x][y].isBomb) {
-                gameBoard.cells[x][y].isBomb = true;
-                break;
-            }
-        }
+        plantSingleBomb();
     }
     countBombsAdjacentToFields();
+}
+
+function plantSingleBomb() {
+    while (true) {
+        var x = Math.floor(Math.random() * gameBoard.height);
+        var y = Math.floor(Math.random() * gameBoard.width);
+        if (!gameBoard.cells[x][y].isBomb) {
+            gameBoard.cells[x][y].isBomb = true;
+            break;
+        }
+    }
 }
 
 function countBombsAdjacentToFields() {
@@ -157,12 +162,22 @@ function leftMouseClick() {
         var x = parseInt(this.dataset.x);
         var y = parseInt(this.dataset.y);
 
-        discoverField(x, y, gameBoard.cells[x][y]);
+        var cell = gameBoard.cells[x][y];
+        if (game.isFirstClick) {
+            if (cell.isBomb) {
+                plantSingleBomb();
+                cell.isBomb = false;
+            }
+            game.isFirstClick = false;
+        }
+
+        discoverField(x, y, cell);
         checkIfPlayerWins();
     }
 }
 
 function rightMouseClick() {
+    game.isFirstClick = false;
     if (game.isGameDone) {
         game.messageBox.innerHTML = "Rozpocznij nową grę";
     } else {
@@ -277,21 +292,20 @@ function countPointsFromFlags() {
             }
         }
     });
-    if(!areAllFieldsDiscovered()) {
-        return 0;
+    if (allFieldsDiscovered()) {
+        return numberOfPoints;
     }
-    return numberOfPoints;
+    return 0;
 }
 
-function areAllFieldsDiscovered() {
-    for (var i = 0; i < gameBoard.height; i++) {
-        for (var j = 0; j < gameBoard.width; j++) {
-            if(!gameBoard.cells[i][j].isDiscovered) {
-                return false;
-            }
+function allFieldsDiscovered() {
+    var allDiscovered = true;
+    gameBoard.iterateCells(function (cell) {
+        if (!cell.isDiscovered) {
+            allDiscovered = false;
         }
-    }
-    return true;
+    });
+    return allDiscovered;
 }
 
 function countFieldsUndiscovered() {
