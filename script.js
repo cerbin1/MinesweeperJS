@@ -8,7 +8,7 @@ var gameBoard = {
     isHeightRight: checkHeight,
     isNumberOfBombsRight: checkNumberOfBombs
 };
-var game = {numberOfBombs: 0, isGameDone: false, isFirstClick: true, isBoardGenerated: false, messageBox: null};
+var game = {numberOfBombs: 0, isGameDone: false, isFirstClick: true, isBoardGenerated: false, messageBox: null}; //TODO add gameBoard to game
 var colorsOfNumberOfBombsAdjacentToField = ["blue", "green", "red", "purple", "orange", "yellow", "brown", "pink"];
 
 function cellsIterator(callback) {
