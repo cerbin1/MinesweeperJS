@@ -8,7 +8,7 @@ var gameBoard = {
     isHeightRight: checkHeight,
     isNumberOfBombsRight: checkNumberOfBombs
 };
-var game = {numberOfBombs: 0, isGameDone: false, isFirstClick: true, isBoardGenerated: false, messageBox: null}; //TODO add gameBoard to game
+var game = {numberOfBombs: 0, isGameDone: false, isFirstClick: true, isBoardGenerated: false, messageBox: null, createBoard: generateBoard}; //TODO add gameBoard to game
 var colorsOfNumberOfBombsAdjacentToField = ["blue", "green", "red", "purple", "orange", "yellow", "brown", "pink"];
 
 function cellsIterator(callback) {
@@ -32,6 +32,15 @@ function checkNumberOfBombs() {
     return game.numberOfBombs == Math.round(game.numberOfBombs) && game.numberOfBombs >= 0 && game.numberOfBombs < this.height * this.width;
 }
 
+function generateBoard() {
+    gameBoard.numberOfFlaggedFields = 0;
+    game.isGameDone = false;
+    game.isFirstClick = true;
+    gameBoard.cells = fillTwoDimensionalArray();
+    createBorderTable();
+    plantBombs();
+    game.isBoardGenerated = true;
+}
 function startGame() {
     if (game.isBoardGenerated) {
         var gameDiv = document.getElementById("gameDiv");
@@ -43,14 +52,7 @@ function startGame() {
     if (gameBoard.isWidthRight()) {
         if (gameBoard.isHeightRight()) {
             if (gameBoard.isNumberOfBombsRight()) {
-                gameBoard.numberOfFlaggedFields = 0;
-                game.isGameDone = false;
-                game.isFirstClick = true;
-                gameBoard.cells = fillTwoDimensionalArray();
-                createBorderTable();
-                plantBombs();
-                game.isBoardGenerated = true;
-
+                generateBoard();
                 createMessageBox();
             }
             else {
