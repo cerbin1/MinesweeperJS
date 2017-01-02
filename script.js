@@ -1,4 +1,13 @@
-var gameBoard = {width: 0, height: 0, cells: null, numberOfFlaggedFields: 0, iterateCells: cellsIterator};
+var gameBoard = {
+    width: 0,
+    height: 0,
+    cells: null,
+    numberOfFlaggedFields: 0,
+    iterateCells: cellsIterator,
+    isWidthRight: checkWidth,
+    isHeightRight: checkHeight,
+    isNumberOfBombsRight: checkNumberOfBombs
+};
 var game = {numberOfBombs: 0, isGameDone: false, isFirstClick: true, isBoardGenerated: false, messageBox: null};
 var colorsOfNumberOfBombsAdjacentToField = ["blue", "green", "red", "purple", "orange", "yellow", "brown", "pink"];
 
@@ -11,23 +20,53 @@ function cellsIterator(callback) {
     }
 }
 
+function checkWidth() {
+    return (this.width >= 1 && this.width <= 50) && (Math.round(this.width) == this.width);
+}
+
+function checkHeight() {
+    return (this.height >= 1 && this.height <= 50) && (Math.round(this.height) == this.height);
+}
+
+function checkNumberOfBombs() {
+    return game.numberOfBombs == Math.round(game.numberOfBombs) && game.numberOfBombs >= 0 && game.numberOfBombs < this.height * this.width;
+}
+
 function startGame() {
     if (game.isBoardGenerated) {
         var gameDiv = document.getElementById("gameDiv");
         gameDiv.parentNode.removeChild(gameDiv);
     }
-    game.numberOfBombs = document.getElementById("bombs").value;//TODO add conditions to max and min size and bombs
     gameBoard.width = document.getElementById("width").value;
     gameBoard.height = document.getElementById("height").value;
-    gameBoard.numberOfFlaggedFields = 0;
-    game.isGameDone = false;
-    game.isFirstClick = true;
-    gameBoard.cells = fillTwoDimensionalArray();
-    createBorderTable();
-    plantBombs();
-    game.isBoardGenerated = true;
+    game.numberOfBombs = document.getElementById("bombs").value;
+    if (gameBoard.isWidthRight()) {
+        if (gameBoard.isHeightRight()) {
+            if (gameBoard.isNumberOfBombsRight()) {
+                gameBoard.numberOfFlaggedFields = 0;
+                game.isGameDone = false;
+                game.isFirstClick = true;
+                gameBoard.cells = fillTwoDimensionalArray();
+                createBorderTable();
+                plantBombs();
+                game.isBoardGenerated = true;
 
-    createMessageBox();
+                createMessageBox();
+            }
+            else {
+                alert("Podałeś niepoprawną liczbę bomb!");
+                game.isBoardGenerated = false;
+            }
+        }
+        else {
+            alert("Wysokość niepoprawna (Powinna być wartość od 1 do 50)!");
+            game.isBoardGenerated = false;
+        }
+    }
+    else {
+        alert("Szerokość niepoprawna (Powinna być wartość od 1 do 50)!");
+        game.isBoardGenerated = false;
+    }
 }
 
 function fillTwoDimensionalArray() {
