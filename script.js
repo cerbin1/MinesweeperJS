@@ -41,12 +41,12 @@ function checkNumberOfBombs() {
 
 function generateBoard() {
     gameBoard.numberOfFlaggedFields = 0;
-    game.isGameDone = false;
-    game.isFirstClick = true;
+    this.isGameDone = false;
+    this.isFirstClick = true;
     gameBoard.cells = fillTwoDimensionalArray();
     createBorderTable();
     plantBombs();
-    game.isBoardGenerated = true;
+    this.isBoardGenerated = true;
 }
 function startGame() {
     if (game.isBoardGenerated) {
@@ -59,7 +59,7 @@ function startGame() {
     if (gameBoard.isWidthRight()) {
         if (gameBoard.isHeightRight()) {
             if (gameBoard.isNumberOfBombsRight()) {
-                generateBoard();
+                game.createBoard();
                 createMessageBox();//TODO extract creating div with game and fix this code
             }
             else {
