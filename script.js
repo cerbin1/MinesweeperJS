@@ -3,10 +3,23 @@ var gameBoard = {
     height: 0,
     cells: null,
     numberOfFlaggedFields: 0,
-    iterateCells: cellsIterator,
-    isWidthRight: checkWidth,
-    isHeightRight: checkHeight,
-    isNumberOfBombsRight: checkNumberOfBombs
+    iterateCells: function (callback) {
+        for (var i = 0; i < gameBoard.height; i++) {
+            for (var j = 0; j < gameBoard.width; j++) {
+                var cell = gameBoard.cells[i][j];
+                callback(cell);
+            }
+        }
+    },
+    isWidthRight: function () {
+        return (this.width >= 1 && this.width <= 50) && (Math.round(this.width) == this.width);
+    },
+    isHeightRight: function () {
+        return (this.height >= 1 && this.height <= 50) && (Math.round(this.height) == this.height);
+    },
+    isNumberOfBombsRight: function () {
+        return game.numberOfBombs == Math.round(game.numberOfBombs) && game.numberOfBombs >= 0 && game.numberOfBombs < this.height * this.width;
+    }
 };
 var game = {
     numberOfBombs: 0,
@@ -20,30 +33,10 @@ var game = {
 }; //TODO add gameBoard to game
 var colorsOfNumberOfBombsAdjacentToField = ["blue", "green", "red", "purple", "orange", "yellow", "brown", "pink"];
 
-function cellsIterator(callback) {
-    for (var i = 0; i < gameBoard.height; i++) {
-        for (var j = 0; j < gameBoard.width; j++) {
-            var cell = gameBoard.cells[i][j];
-            callback(cell);
-        }
-    }
-}
 
 function clearGameField() {
     this.messageBox.innerHTML = "";
     this.gameField.innerHTML = "";
-}
-
-function checkWidth() {
-    return (this.width >= 1 && this.width <= 50) && (Math.round(this.width) == this.width);
-}
-
-function checkHeight() {
-    return (this.height >= 1 && this.height <= 50) && (Math.round(this.height) == this.height);
-}
-
-function checkNumberOfBombs() {
-    return game.numberOfBombs == Math.round(game.numberOfBombs) && game.numberOfBombs >= 0 && game.numberOfBombs < this.height * this.width;
 }
 
 function generateBoard() {
@@ -64,7 +57,7 @@ function generateGameDiv() {
 }
 
 function startGame() {
-    if(game.gameField != null) {
+    if (game.gameField != null) {
         game.clearBoard();
     }
 
