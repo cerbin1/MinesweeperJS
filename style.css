@@ -7,7 +7,7 @@ table {
     margin: 0 auto;
 }
 
-td{
+td {
     text-align: center;
     border: 1px solid black;
     width: 30px;
@@ -24,6 +24,7 @@ td{
     float: left;
     margin: 0 auto;
 }
+
 td:hover {
     background-color: darkgrey;
 }
