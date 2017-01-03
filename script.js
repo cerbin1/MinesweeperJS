@@ -12,9 +12,11 @@ var game = {
     numberOfBombs: 0,
     isGameDone: false,
     isFirstClick: true,
-    isBoardGenerated: false,
     messageBox: null,
-    createBoard: generateBoard
+    createBoard: generateBoard,
+    gameField: null,
+    createGameDiv: generateGameDiv,
+    clearBoard: clearGameField
 }; //TODO add gameBoard to game
 var colorsOfNumberOfBombsAdjacentToField = ["blue", "green", "red", "purple", "orange", "yellow", "brown", "pink"];
 
@@ -25,6 +27,11 @@ function cellsIterator(callback) {
             callback(cell);
         }
     }
+}
+
+function clearGameField() {
+    this.messageBox.innerHTML = "";
+    this.gameField.innerHTML = "";
 }
 
 function checkWidth() {
@@ -40,41 +47,47 @@ function checkNumberOfBombs() {
 }
 
 function generateBoard() {
+    console.log(this);
     gameBoard.numberOfFlaggedFields = 0;
     this.isGameDone = false;
     this.isFirstClick = true;
     gameBoard.cells = fillTwoDimensionalArray();
     createBorderTable();
     plantBombs();
-    this.isBoardGenerated = true;
 }
+
+function generateGameDiv() {
+    this.gameField = document.createElement("div");
+    this.gameField.setAttribute("id", "gameDiv");
+    this.gameField.setAttribute("oncontextmenu", "return false");
+    document.body.appendChild(this.gameField);
+}
+
 function startGame() {
-    if (game.isBoardGenerated) {
-        var gameDiv = document.getElementById("gameDiv");
-        gameDiv.parentNode.removeChild(gameDiv);
+    if(game.gameField != null) {
+        game.clearBoard();
     }
+
     gameBoard.width = document.getElementById("width").value;
     gameBoard.height = document.getElementById("height").value;
     game.numberOfBombs = document.getElementById("bombs").value;
     if (gameBoard.isWidthRight()) {
         if (gameBoard.isHeightRight()) {
             if (gameBoard.isNumberOfBombsRight()) {
+                game.createGameDiv();
                 game.createBoard();
                 createMessageBox();//TODO extract creating div with game and fix this code
             }
             else {
                 alert("Podałeś niepoprawną liczbę bomb!");
-                game.isBoardGenerated = false;
             }
         }
         else {
             alert("Wysokość niepoprawna (Powinna być wartość od 1 do 50)!");
-            game.isBoardGenerated = false;
         }
     }
     else {
         alert("Szerokość niepoprawna (Powinna być wartość od 1 do 50)!");
-        game.isBoardGenerated = false;
     }
 }
 
@@ -106,14 +119,9 @@ function getDefaultFieldObject() {
 }
 
 function createBorderTable() {
-    var gameDiv = document.createElement("div");
-    gameDiv.setAttribute("id", "gameDiv");
-    gameDiv.setAttribute("oncontextmenu", "return false");
-    document.body.appendChild(gameDiv);
-
     var table = document.createElement("table");
     table.setAttribute("id", "gameBoard");
-    gameDiv.appendChild(table);
+    game.gameField.appendChild(table);
 
     for (var i = 0; i < gameBoard.height; i++) {
         var row = document.createElement("tr");
