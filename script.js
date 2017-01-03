@@ -62,7 +62,7 @@ function startGame() {
             if (game.board.isNumberOfBombsRight()) {
                 game.createGameDiv();
                 game.createBoard();
-                createMessageBox();//TODO extract creating div with game and fix this code
+                createMessageBox();
             }
             else {
                 alert("Podałeś niepoprawną liczbę bomb!");
