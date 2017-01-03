@@ -356,7 +356,7 @@ function allFieldsDiscovered() {
     return allDiscovered;
 }
 
-function countFieldsUndiscovered() {
+function countFieldsUndiscovered() { // TODO tu też możesz użyć iteratora
     var numberOfUndiscoveredFields = 0;
     for (var i = 0; i < gameBoard.height; i++) {
         for (var j = 0; j < gameBoard.width; j++) {
