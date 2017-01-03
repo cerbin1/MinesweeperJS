@@ -3,10 +3,25 @@ var game = {
     isGameDone: false,
     isFirstClick: true,
     messageBox: null,
-    createBoard: generateBoard,
+    createBoard: function () {
+        this.board.numberOfFlaggedFields = 0;
+        this.isGameDone = false;
+        this.isFirstClick = true;
+        this.board.cells = fillTwoDimensionalArray();
+        createBorderTable();
+        plantBombs();
+    },
     gameField: null,
-    createGameDiv: generateGameDiv,
-    clearBoard: clearGameField,
+    createGameDiv: function () {
+        this.gameField = document.createElement("div");
+        this.gameField.setAttribute("id", "gameDiv");
+        this.gameField.setAttribute("oncontextmenu", "return false");
+        document.body.appendChild(this.gameField);
+    },
+    clearBoard: function () {
+        this.messageBox.innerHTML = "";
+        this.gameField.innerHTML = "";
+    },
     board: {
         width: 0,
         height: 0,
@@ -33,28 +48,6 @@ var game = {
 };
 var colorsOfNumberOfBombsAdjacentToField = ["blue", "green", "red", "purple", "orange", "yellow", "brown", "pink"];
 
-
-function clearGameField() {
-    this.messageBox.innerHTML = "";
-    this.gameField.innerHTML = "";
-}
-
-function generateBoard() {
-    console.log(this);
-    game.board.numberOfFlaggedFields = 0;
-    this.isGameDone = false;
-    this.isFirstClick = true;
-    game.board.cells = fillTwoDimensionalArray();
-    createBorderTable();
-    plantBombs();
-}
-
-function generateGameDiv() {
-    this.gameField = document.createElement("div");
-    this.gameField.setAttribute("id", "gameDiv");
-    this.gameField.setAttribute("oncontextmenu", "return false");
-    document.body.appendChild(this.gameField);
-}
 
 function startGame() {
     if (game.gameField != null) {
