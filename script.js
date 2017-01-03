@@ -30,7 +30,7 @@ var game = {
             return game.numberOfBombs == Math.round(game.numberOfBombs) && game.numberOfBombs >= 0 && game.numberOfBombs < this.height * this.width;
         }
     }
-}; //TODO add board to game
+};
 var colorsOfNumberOfBombsAdjacentToField = ["blue", "green", "red", "purple", "orange", "yellow", "brown", "pink"];
 
 
