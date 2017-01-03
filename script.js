@@ -351,7 +351,7 @@ function allFieldsDiscovered() {
 }
 
 function countFieldsUndiscovered() { // TODO tu też możesz użyć iteratora
-    var numberOfUndiscoveredFields = 0;
+    var numberOfUndiscoveredFields = 0; // TODO i skoro to też operuje na board, to czmeu nie jest w board?
     for (var i = 0; i < game.board.height; i++) {
         for (var j = 0; j < game.board.width; j++) {
             var cell = game.board.cells[i][j];
