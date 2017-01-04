@@ -7,7 +7,7 @@ var game = {
         this.board.numberOfFlaggedFields = 0;
         this.isGameDone = false;
         this.isFirstClick = true;
-        this.board.cells = fillTwoDimensionalArray();
+        this.board.cells = getGameBoardWithDefaultValues();
         createBorderTable();
         plantBombs();
     },
@@ -77,7 +77,7 @@ function startGame() {
     }
 }
 
-function fillTwoDimensionalArray() { // TODO trzeba to lepiej nazwać, bo jest chujowo
+function getGameBoardWithDefaultValues() { // TODO trzeba to lepiej nazwać, bo jest chujowo
     var array = [];
     for (var i = 0; i < game.board.height; i++) {
         array[i] = [];
