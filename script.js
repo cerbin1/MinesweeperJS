@@ -48,7 +48,6 @@ var game = {
 };
 var colorsOfNumberOfBombsAdjacentToField = ["blue", "green", "red", "purple", "orange", "yellow", "brown", "pink"];
 
-
 function startGame() {
     if (game.gameField != null) {
         game.clearBoard();
@@ -311,18 +310,18 @@ function recursiveFloodFill(x, y) {
 }
 
 function checkIfPlayerWins() {
-    if (isThereEnoughPointsForWin()) {
+    if (winCondition()) {
         displayAllBombs();
         game.messageBox.innerHTML = "Wygrałeś!!!";
         game.isGameDone = true;
     }
 }
 
-function isThereEnoughPointsForWin() {
-    return countPointsFromFlags() == game.numberOfBombs || countFieldsUndiscovered() == 0;
+function winCondition() {
+    return countFlagPoints() == game.numberOfBombs || countUndiscoveredFields() == 0;
 }
 
-function countPointsFromFlags() {
+function countFlagPoints() {
     var numberOfPoints = 0;
     game.board.iterateCells(function (cell) {
         if (cell.isFlag) {
@@ -350,7 +349,7 @@ function allFieldsDiscovered() {
     return allDiscovered;
 }
 
-function countFieldsUndiscovered() { // TODO tu też możesz użyć iteratora
+function countUndiscoveredFields() { // TODO tu też możesz użyć iteratora
     var numberOfUndiscoveredFields = 0; // TODO i skoro to też operuje na board, to czmeu nie jest w board?
     for (var i = 0; i < game.board.height; i++) {
         for (var j = 0; j < game.board.width; j++) {
