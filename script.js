@@ -18,6 +18,13 @@ var game = {
         this.gameField.setAttribute("oncontextmenu", "return false");
         document.body.appendChild(this.gameField);
     },
+
+    createMessageBox: function () {
+        var divToDisplayMessages = document.createElement("div");
+        divToDisplayMessages.setAttribute("id", "messageBox");
+        document.getElementById("gameDiv").appendChild(divToDisplayMessages);
+        this.messageBox = document.getElementById("messageBox");
+    },
     clearBoard: function () {
         this.messageBox.innerHTML = "";
         this.gameField.innerHTML = "";
@@ -54,7 +61,7 @@ var game = {
         isBombAdjacentToField: function (x, y) {
             for (var i = -1; i < 2; i++) {
                 for (var j = -1; j < 2; j++) {
-                    if (isFieldInBoard(x + i, y + j)) {
+                    if (this.isFieldInBoard(x + i, y + j)) {
                         if (this.cells[x + i][y + j].isBomb) {
                             this.incrementNumberOfBombsAdjacentToField(x, y);
                         }
@@ -62,8 +69,23 @@ var game = {
                 }
             }
         },
+        isFieldInBoard: function (x, y) {  // skoro to operuje na board, to czemu nie jest w board?
+            return (0 <= x && x < this.height) && (0 <= y && y < this.width);
+        },
         incrementNumberOfBombsAdjacentToField: function (x, y) {
             this.cells[x][y].numberOfBombsAdjacent++;
+        },
+
+        countUndiscoveredFields: function () { // TODO tu też możesz użyć iteratora
+            var numberOfUndiscoveredFields = 0; // TODO i skoro to też operuje na board, to czmeu nie jest w board?
+
+            this.iterateCells(function (cell) {
+                if (!cell.isBomb && !cell.isDiscovered) {
+                    numberOfUndiscoveredFields++;
+                }
+            });
+
+            return numberOfUndiscoveredFields;
         }
     }
 };
@@ -82,7 +104,7 @@ function startGame() {
             if (game.board.bombsConditions()) {
                 game.createGameDiv();
                 game.createBoard();
-                createMessageBox();
+                game.createMessageBox();
             }
             else {
                 alert("Podałeś niepoprawną liczbę bomb!");
@@ -165,11 +187,6 @@ function plantRandomBomb() {
 }
 
 
-function isFieldInBoard(x, y) {  // skoro to operuje na board, to czemu nie jest w board?
-    return (0 <= x && x < game.board.height) && (0 <= y && y < game.board.width);
-}
-
-
 function displayAllBombs() {
     for (var i = 0; i < game.board.height; i++) {
         for (var j = 0; j < game.board.width; j++) {
@@ -188,12 +205,6 @@ function displayAllBombs() {
     }
 }
 
-function createMessageBox() {
-    var divToDisplayMessages = document.createElement("div");
-    divToDisplayMessages.setAttribute("id", "messageBox");
-    document.getElementById("gameDiv").appendChild(divToDisplayMessages);
-    game.messageBox = document.getElementById("messageBox");
-}
 
 function leftMouseClick() {
     if (game.isGameDone) {
@@ -317,7 +328,7 @@ function checkIfPlayerWins() {
 }
 
 function winCondition() {
-    return countFlagPoints() == game.numberOfBombs || countUndiscoveredFields() == 0;
+    return countFlagPoints() == game.numberOfBombs || game.board.countUndiscoveredFields() == 0;
 }
 
 function countFlagPoints() {
@@ -348,18 +359,6 @@ function allFieldsDiscovered() {
     return allDiscovered;
 }
 
-function countUndiscoveredFields() { // TODO tu też możesz użyć iteratora
-    var numberOfUndiscoveredFields = 0; // TODO i skoro to też operuje na board, to czmeu nie jest w board?
-    for (var i = 0; i < game.board.height; i++) {
-        for (var j = 0; j < game.board.width; j++) {
-            var cell = game.board.cells[i][j];
-            if (!cell.isBomb && !cell.isDiscovered) {
-                numberOfUndiscoveredFields++;
-            }
-        }
-    }
-    return numberOfUndiscoveredFields;
-}
 
 function setFlag(cellToSetFlag) {
     if (cellToSetFlag.isDiscovered) {
