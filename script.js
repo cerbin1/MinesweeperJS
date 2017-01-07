@@ -132,7 +132,7 @@ function plantBombs() {
     countBombsAdjacentToFields();
 }
 
-function plantRandomBomb() { // TODO to powinno się nazywać "plantRandomBomb"
+function plantRandomBomb() {
     while (true) {
         var x = Math.floor(Math.random() * game.board.height);
         var y = Math.floor(Math.random() * game.board.width);
