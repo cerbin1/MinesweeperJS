@@ -35,13 +35,13 @@ var game = {
                 }
             }
         },
-        isWidthRight: function () {
+        isWidthProperly: function () {
             return (this.width >= 1 && this.width <= 50) && (Math.round(this.width) == this.width);
         },
-        isHeightRight: function () {
+        isHeightProperly: function () {
             return (this.height >= 1 && this.height <= 50) && (Math.round(this.height) == this.height);
         },
-        isNumberOfBombsRight: function () {
+        bombsConditions: function () {
             return game.numberOfBombs == Math.round(game.numberOfBombs) && game.numberOfBombs >= 0 && game.numberOfBombs < this.height * this.width;
         }
     }
@@ -56,9 +56,9 @@ function startGame() {
     game.board.width = document.getElementById("width").value;
     game.board.height = document.getElementById("height").value;
     game.numberOfBombs = document.getElementById("bombs").value;
-    if (game.board.isWidthRight()) {
-        if (game.board.isHeightRight()) {
-            if (game.board.isNumberOfBombsRight()) {
+    if (game.board.isWidthProperly()) {
+        if (game.board.isHeightProperly()) {
+            if (game.board.bombsConditions()) {
                 game.createGameDiv();
                 game.createBoard();
                 createMessageBox();
