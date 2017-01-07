@@ -7,7 +7,7 @@ var game = {
         this.board.numberOfFlaggedFields = 0;
         this.isGameDone = false;
         this.isFirstClick = true;
-        this.board.cells = getGameBoardWithDefaultValues();
+        this.board.cells = createGameBoard();
         createBorderTable();
         plantBombs();
     },
@@ -76,7 +76,7 @@ function startGame() {
     }
 }
 
-function getGameBoardWithDefaultValues() { // TODO trzeba to lepiej nazwać, bo jest chujowo
+function createGameBoard() { // TODO trzeba to lepiej nazwać, bo jest chujowo
     var array = [];
     for (var i = 0; i < game.board.height; i++) {
         array[i] = [];
@@ -127,12 +127,12 @@ function createBorderTable() {
 
 function plantBombs() {
     for (var i = 0; i < game.numberOfBombs; i++) {
-        plantSingleBomb();
+        plantRandomBomb();
     }
     countBombsAdjacentToFields();
 }
 
-function plantSingleBomb() { // TODO to powinno się nazywać "plantRandomBomb"
+function plantRandomBomb() { // TODO to powinno się nazywać "plantRandomBomb"
     while (true) {
         var x = Math.floor(Math.random() * game.board.height);
         var y = Math.floor(Math.random() * game.board.width);
@@ -206,7 +206,7 @@ function leftMouseClick() {
         var cell = game.board.cells[x][y];
         if (game.isFirstClick) {
             if (cell.isBomb) {
-                plantSingleBomb();
+                plantRandomBomb();
                 cell.isBomb = false;
             }
             game.isFirstClick = false;
