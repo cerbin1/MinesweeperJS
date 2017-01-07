@@ -43,6 +43,27 @@ var game = {
         },
         bombsConditions: function () {
             return game.numberOfBombs == Math.round(game.numberOfBombs) && game.numberOfBombs >= 0 && game.numberOfBombs < this.height * this.width;
+        },
+        countBombsAdjacentToFields: function () {  // skoro to operuje na board, to czemu nie jest w board?
+            for (var i = 0; i < this.height; i++) {
+                for (var j = 0; j < this.width; j++) {
+                    this.isBombAdjacentToField(i, j);
+                }
+            }
+        },
+        isBombAdjacentToField: function (x, y) {  // skoro to operuje na board, to czemu nie jest w board?
+            for (var i = -1; i < 2; i++) {
+                for (var j = -1; j < 2; j++) {
+                    if (isFieldInBoard(x + i, y + j)) {
+                        if (this.cells[x + i][y + j].isBomb) {
+                            this.incrementNumberOfBombsAdjacentToField(x, y);  // skoro to operuje na board, to czemu nie jest w board?
+                        }
+                    }
+                }
+            }
+        },
+        incrementNumberOfBombsAdjacentToField: function (x, y) { // skoro to operuje na board, to czemu nie jest w board?
+            this.cells[x][y].numberOfBombsAdjacent++;
         }
     }
 };
@@ -129,7 +150,7 @@ function plantBombs() {
     for (var i = 0; i < game.numberOfBombs; i++) {
         plantRandomBomb();
     }
-    countBombsAdjacentToFields();
+    game.board.countBombsAdjacentToFields();
 }
 
 function plantRandomBomb() {
@@ -143,33 +164,11 @@ function plantRandomBomb() {
     }
 }
 
-function countBombsAdjacentToFields() {  // skoro to operuje na board, to czemu nie jest w board?
-    for (var i = 0; i < game.board.height; i++) {
-        for (var j = 0; j < game.board.width; j++) {
-            isBombAdjacentToField(i, j);
-        }
-    }
-}
-
-function isBombAdjacentToField(x, y) {  // skoro to operuje na board, to czemu nie jest w board?
-    for (var i = -1; i < 2; i++) {
-        for (var j = -1; j < 2; j++) {
-            if (isFieldInBoard(x + i, y + j)) {
-                if (game.board.cells[x + i][y + j].isBomb) {
-                    incrementNumberOfBombsAdjacentToField(x, y);  // skoro to operuje na board, to czemu nie jest w board?
-                }
-            }
-        }
-    }
-}
 
 function isFieldInBoard(x, y) {  // skoro to operuje na board, to czemu nie jest w board?
     return (0 <= x && x < game.board.height) && (0 <= y && y < game.board.width);
 }
 
-function incrementNumberOfBombsAdjacentToField(x, y) { // skoro to operuje na board, to czemu nie jest w board?
-    game.board.cells[x][y].numberOfBombsAdjacent++;
-}
 
 function displayAllBombs() {
     for (var i = 0; i < game.board.height; i++) {
