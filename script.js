@@ -44,25 +44,25 @@ var game = {
         bombsConditions: function () {
             return game.numberOfBombs == Math.round(game.numberOfBombs) && game.numberOfBombs >= 0 && game.numberOfBombs < this.height * this.width;
         },
-        countBombsAdjacentToFields: function () {  // skoro to operuje na board, to czemu nie jest w board?
+        countBombsAdjacentToFields: function () {
             for (var i = 0; i < this.height; i++) {
                 for (var j = 0; j < this.width; j++) {
                     this.isBombAdjacentToField(i, j);
                 }
             }
         },
-        isBombAdjacentToField: function (x, y) {  // skoro to operuje na board, to czemu nie jest w board?
+        isBombAdjacentToField: function (x, y) {
             for (var i = -1; i < 2; i++) {
                 for (var j = -1; j < 2; j++) {
                     if (isFieldInBoard(x + i, y + j)) {
                         if (this.cells[x + i][y + j].isBomb) {
-                            this.incrementNumberOfBombsAdjacentToField(x, y);  // skoro to operuje na board, to czemu nie jest w board?
+                            this.incrementNumberOfBombsAdjacentToField(x, y);
                         }
                     }
                 }
             }
         },
-        incrementNumberOfBombsAdjacentToField: function (x, y) { // skoro to operuje na board, to czemu nie jest w board?
+        incrementNumberOfBombsAdjacentToField: function (x, y) {
             this.cells[x][y].numberOfBombsAdjacent++;
         }
     }
