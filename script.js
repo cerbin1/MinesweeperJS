@@ -76,7 +76,7 @@ function startGame() {
     }
 }
 
-function createGameBoard() { // TODO trzeba to lepiej nazwać, bo jest chujowo
+function createGameBoard() {
     var array = [];
     for (var i = 0; i < game.board.height; i++) {
         array[i] = [];
