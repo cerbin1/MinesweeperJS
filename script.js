@@ -69,15 +69,15 @@ var game = {
                 }
             }
         },
-        isFieldInBoard: function (x, y) {  // skoro to operuje na board, to czemu nie jest w board?
+        isFieldInBoard: function (x, y) {
             return (0 <= x && x < this.height) && (0 <= y && y < this.width);
         },
         incrementNumberOfBombsAdjacentToField: function (x, y) {
             this.cells[x][y].numberOfBombsAdjacent++;
         },
 
-        countUndiscoveredFields: function () { // TODO tu też możesz użyć iteratora
-            var numberOfUndiscoveredFields = 0; // TODO i skoro to też operuje na board, to czmeu nie jest w board?
+        countUndiscoveredFields: function () {
+            var numberOfUndiscoveredFields = 0;
 
             this.iterateCells(function (cell) {
                 if (!cell.isBomb && !cell.isDiscovered) {
