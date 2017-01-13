@@ -172,7 +172,6 @@ function plantBombs() {
     for (var i = 0; i < game.numberOfBombs; i++) {
         plantRandomBomb();
     }
-    game.board.countBombsAdjacentToFields();
 }
 
 function plantRandomBomb() {
@@ -205,7 +204,6 @@ function displayAllBombs() {
     }
 }
 
-
 function leftMouseClick() {
     if (game.isGameDone) {
         game.messageBox.innerHTML = "Rozpocznij nową grę";
@@ -219,6 +217,7 @@ function leftMouseClick() {
                 plantRandomBomb();
                 cell.isBomb = false;
             }
+            game.board.countBombsAdjacentToFields();
             game.isFirstClick = false;
         }
 
